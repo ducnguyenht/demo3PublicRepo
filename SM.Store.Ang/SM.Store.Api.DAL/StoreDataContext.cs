@@ -12,16 +12,15 @@ namespace SM.Store.Api.DAL
 {
     public class StoreDataContext : DbContext
     {
-        //public StoreDataContext()
-        //    : base("name=StoreDataContext")
+        public StoreDataContext()
+            : base("name=StoreDataContext"){}
         public StoreDataContext(string connectionString)
             : base(connectionString)
         {
-            //this.Configuration.LazyLoadingEnabled = false;
-            //if (HttpContext.Current != null)
-            //{
-            //    Database.SetInitializer<StoreDataContext>(new StoreDataContextInitializer());
-            //}
+            this.Configuration.LazyLoadingEnabled = false;
+            if(HttpContext.Current != null) {
+                Database.SetInitializer<StoreDataContext>(new StoreDataContextInitializer());
+            }
         }
 
         public DbSet<Product> Products { get; set; }
