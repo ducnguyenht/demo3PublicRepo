@@ -34,7 +34,7 @@ namespace SM.Store.Api.DAL
         {
             return this.DbSet.ToList();
         }
-
+         
         public virtual TEntity GetById(object id)
         {
             return this.DbSet.Find(id);
