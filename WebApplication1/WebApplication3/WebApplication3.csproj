@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B40E8941-4BD6-4B78-90A3-F6E7E55630FC}</ProjectGuid>
+    <ProjectGuid>{03DC4A23-688A-4D63-BFA0-65DF89863942}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebApplication2</RootNamespace>
-    <AssemblyName>WebApplication2</AssemblyName>
+    <RootNamespace>WebApplication3</RootNamespace>
+    <AssemblyName>WebApplication3</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -57,29 +57,70 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.js" />
+    <Content Include="css\docs.css" />
+    <Content Include="css\social.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="index.html" />
+    <Content Include="js\angular-social.js" />
+    <Content Include="js\embed-codepen.min.js" />
+    <Content Include="js\embed-codepen.version.txt" />
+    <Content Include="views\columns\demo-reordering.html" />
+    <Content Include="views\columns\demo-visibility.html" />
+    <Content Include="views\editing\demo-batch.html" />
+    <Content Include="views\editing\demo-inline.html" />
+    <Content Include="views\events\demo-subscribe.html" />
+    <Content Include="views\events\demo-unsubscribe.html" />
+    <Content Include="views\filtering\demo-api.html" />
+    <Content Include="views\filtering\demo-custom-template.html" />
+    <Content Include="views\filtering\demo-customize-algorithm.html" />
+    <Content Include="views\filtering\demo-enabling.html" />
+    <Content Include="views\filtering\demo-filtering-basic.html" />
+    <Content Include="views\filtering\demo-multi-template.html" />
+    <Content Include="views\filtering\demo-nested-property.html" />
+    <Content Include="views\filtering\demo-select.html" />
+    <Content Include="views\formatting\demo-cell-values.html" />
+    <Content Include="views\formatting\demo-custom-header.html" />
+    <Content Include="views\formatting\demo-dynamic-html-values.html" />
+    <Content Include="views\formatting\demo-dynamic-js-values.html" />
+    <Content Include="views\formatting\demo-header-cell-basic.html" />
+    <Content Include="views\formatting\demo-header-cell-full.html" />
+    <Content Include="views\formatting\demo-row.html" />
+    <Content Include="views\global-customization\demo-defaults.html" />
+    <Content Include="views\global-customization\demo-response-interceptors.html" />
+    <Content Include="views\grouping\demo-api.html" />
+    <Content Include="views\grouping\demo-enabling.html" />
+    <Content Include="views\grouping\demo-grouping-basic.html" />
+    <Content Include="views\grouping\demo-grouping-fn.html" />
+    <Content Include="views\grouping\demo-summary.html" />
+    <Content Include="views\intro\demo-real-world.html" />
+    <Content Include="views\intro\overview.html" />
+    <Content Include="views\loading\demo-external-array.html" />
+    <Content Include="views\loading\demo-lazy-loaded.html" />
+    <Content Include="views\loading\demo-managed-array.html" />
+    <Content Include="views\loading\overview.html" />
+    <Content Include="views\pagination\demo-api.html" />
+    <Content Include="views\pagination\demo-pager-basic.html" />
+    <Content Include="views\sorting\demo-api.html" />
+    <Content Include="views\sorting\demo-enabling.html" />
+    <Content Include="views\sorting\demo-sorting-basic.html" />
+    <Content Include="views\todo.html" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CNAME" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\ng-table.css" />
-    <Content Include="Content\ng-table.min.css">
-      <DependentUpon>ng-table.css</DependentUpon>
-    </Content>
-    <Content Include="HtmlPage1 - Copy.html" />
-    <Content Include="HtmlPage1.html" />
-    <Content Include="intro\overview.html" />
-    <Content Include="Scripts\ng-table.js" />
-    <Content Include="Scripts\ng-table.min.js">
-      <DependentUpon>ng-table.js</DependentUpon>
-    </Content>
-    <Content Include="Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -94,9 +135,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2119</DevelopmentServerPort>
+          <DevelopmentServerPort>5394</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2119/</IISUrl>
+          <IISUrl>http://localhost:5394/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
