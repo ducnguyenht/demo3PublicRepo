@@ -15,27 +15,27 @@
     <div ng-view></div>
 <script>  
 angular.module('main', ['ngRoute', 'ngTable', 'ngSanitize'])
-.config(['$routeProvider',
-function ($routeProvider) {
-$routeProvider.
-    when('/', {
-        templateUrl: 'intro/overview.html',
-        controller: 'introController',
-        controllerAs: 'vm'
-    })
-;
+    .config(['$routeProvider',
+    function ($routeProvider) {
+    $routeProvider.
+        when('/', {
+            templateUrl: 'intro/overview.html',
+            controller: 'introController',
+            controllerAs: 'vm'
+        })
+    ;
 }])
 .controller('introController', function (NgTableParams) {
-var self = this;
-var data = [{ name: "Moroni", age: 50 },
-    { name: "Simon", age: 43 },
-    { name: "Jacob 1", age: 32 },
-    { name: "Nephi", age: 29 },
-    { name: "Christian", age: 34 },
-    { name: "Tiancum", age: 43 },
-    { name: "Jacob", age: 27 }
-];
-self.tableParams = new NgTableParams({ count: 5 }, { counts: [5, 10, 25], dataset: data });
+    var self = this;
+    var data = [{ name: "Moroni", age: 50 },
+        { name: "Simon", age: 43 },
+        { name: "Jacob 1", age: 32 },
+        { name: "Nephi", age: 29 },
+        { name: "Christian", age: 34 },
+        { name: "Tiancum", age: 43 },
+        { name: "Jacob", age: 27 }
+    ];
+    self.tableParams = new NgTableParams({ count: 5 }, { counts: [5, 10, 25], dataset: data });
 })
 </script>
 </body>
