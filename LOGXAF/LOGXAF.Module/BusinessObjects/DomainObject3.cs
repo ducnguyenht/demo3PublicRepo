@@ -7,6 +7,7 @@ using NASDMS.Module.Common.Helper;
 using System.Linq;
 using System.ComponentModel;
 using LOGXAF.Module.BusinessObjects;
+using System.Collections.Generic;
 namespace TestLogXAF.Module.BusinessObjects
 {
     [DefaultClassOptions]
@@ -118,19 +119,30 @@ namespace TestLogXAF.Module.BusinessObjects
             #region AuditTrail
             try
             {
+                bool IsNewObject = Session.IsNewObject(this);
                 if (this.DomainObject1 != null)
                 {
                     helper.Oid = this.Oid;
-                    helper.ToHistory(this.DomainObject1.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, Session.IsNewObject(this));
+                    helper.ToHistory(this.DomainObject1.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject);
                 }
-                if (helper.deleted.Count > 0 && IsDeleted)
+                if (helper.deleteds.Count > 0 && IsDeleted)
                 {
-                    foreach (var item in helper.deleted)
+                    foreach (var item in helper.deleteds)
                     {
-                        var deletedItem = item.ToObject<DomainObject3>();
-                        helper.ToHistory(helper.OidDeleted, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, Session.IsNewObject(this), deletedItem.ToString());
+                        if (item.Item2.Equals(NASDMS.Systems.CategoryAudit.DomainObject1))
+                        {
+                            var deletedItem = item.Item3.ToObject<DomainObject3>();
+                            helper.ToHistory(item.Item1, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject, deletedItem.ToString());
+                        }
+                        if (item.Item2.Equals(NASDMS.Systems.CategoryAudit.DomainObject2))
+                        {
+                            var deletedItem = item.Item3.ToObject<DomainObject3>();
+
+                            helper.ToHistory(item.Item1, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject2, IsNewObject, deletedItem.ToString());
+                        }
+
                     }
-                    helper.deleted.Clear();
+                    helper.deleteds.Clear();
                 }
             }
             catch (Exception)
@@ -141,11 +153,18 @@ namespace TestLogXAF.Module.BusinessObjects
         protected override void OnDeleting()
         {
             base.OnDeleting();
-            var find = helper.deleted.Find(x => x.ToObject<DomainObject3>().Oid == this.Oid);
-            if (find == null)
+
+            if (DomainObject1 != null)
             {
-                helper.deleted.Add(this);
-                helper.OidDeleted = this.DomainObject1.Oid;
+                //List<Tuple<Guid, Enum, object>> list = new List<Tuple<Guid, Enum, object>>();
+                //list.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
+                helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));// = list;
+            }
+            if (DomainObject2 != null)
+            {
+                //List<Tuple<Guid, Enum, object>> list = new List<Tuple<Guid, Enum, object>>();
+                //list.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
+                helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));// = list;
             }
         }
     }

@@ -12,9 +12,11 @@ namespace NASDMS.Module.Common.Helper
         {
             list = new List<Detail>();
             deleted = new List<object>();
+            deleteds = new List<Tuple<Guid, Enum, object>>();
         }
         public List<Detail> list { get; set; }
         public List<object> deleted { get; set; }
+        public List<Tuple<Guid, Enum, object>> deleteds { get; set; }
         public Guid Oid { get; set; }
         public Guid OidDeleted { get; set; }
         public void UpdateDetail(string propertyName, string oldValue, string newValue, bool IsNewObject)
