@@ -97,6 +97,12 @@ namespace TestLogXAF.Module.BusinessObjects
             }
         }
 
+        public override string ToString()
+        {
+            return "Test1".ToLocalization(this) + " : " + this.Test1 + " ; "
+                 + "Test2".ToLocalization(this) + " : " + this.Test2;
+        }
+
         protected override void OnSaving()
         {
             base.OnSaving();
@@ -105,11 +111,11 @@ namespace TestLogXAF.Module.BusinessObjects
             {
                 if (!IsDeleted)
                 {
-                    helper.ToHistory(this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, Session.IsNewObject(this));
+                    helper.ToHistory(this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, Session.IsNewObject(this));
                 }
                 else
                 {
-                    helper.ToHistory(this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, false, this.Test1);
+                    helper.ToHistory(this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, false, this.ToString());
                 }
                 OnChanged("History");
             }
