@@ -37,6 +37,21 @@ public static class DevexpressHelperExtension
         }
         return lstH;
     }
+    public static object GetPropValue(this object src, string propName)
+    {
+        return src.GetType().GetProperty(propName).GetValue(src, null);
+    }
+    public static void AddDeletedToHistory(this object obj,ref Master helper, CategoryAudit category, object currentObj)
+    {
+        if (obj != null)
+        {
+            var find = helper.deleteds.Find(x => x.Item1.ToString() == obj.GetPropValue("Oid").ToString());
+            if (find == null)
+            {
+                helper.deleteds.Add(new Tuple<Guid, Enum, object>(new Guid(obj.GetPropValue("Oid").ToString()), NASDMS.Systems.CategoryAudit.DomainObject1, currentObj));
+            }
+        }
+    }
 
     public static void ToHistory(this Master HistoryHelper, Guid Oid, string ObjToString, string ChangedBy, CategoryAudit Category, bool IsNewObject = false, string NameObjectDeleted = null)
     {
@@ -108,6 +123,8 @@ public static class DevexpressHelperExtension
         }
         return "";
     }
+
+
 
     public static string ToCustomString(this object obj)
     {

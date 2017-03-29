@@ -10,6 +10,7 @@ using LOGXAF.Module.BusinessObjects;
 using System.Collections.Generic;
 using NASDMS.Systems;
 using NASDMS.Module.Common.NonPersistents;
+using DevExpress.ExpressApp.Xpo;
 namespace TestLogXAF.Module.BusinessObjects
 {
     [DefaultClassOptions]
@@ -142,6 +143,7 @@ namespace TestLogXAF.Module.BusinessObjects
                 }
                 else
                 {
+
                     if (helper.deleteds.Count > 0)
                     {
                         foreach (var item in helper.deleteds)
@@ -161,25 +163,46 @@ namespace TestLogXAF.Module.BusinessObjects
             }
             #endregion AuditTrail
         }
+        static bool flag = true;
         protected override void OnDeleting()
         {
             base.OnDeleting();
+
+            //DomainObject1.AddDeletedToHistory(ref helper, NASDMS.Systems.CategoryAudit.DomainObject1, this);
+            //DomainObject2.AddDeletedToHistory(ref helper, NASDMS.Systems.CategoryAudit.DomainObject2, this);
+            if (flag)
+            {
+                var t = XPObjectSpace.FindObjectSpaceByObject(this);
+
+                //t.Refreshing -= t_Refreshing;
+                t.Refreshing += t_Refreshing;
+                flag = false;
+            }
+
             if (DomainObject1 != null)
             {
-                var find = helper.deleteds.Find(x => x.Item1 == DomainObject1.Oid);
-                if (find == null)
-                {
-                    helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
-                }
+
+
+                helper.deleteds.Add(new Tuple<Guid, Enum, object>(this.DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
+
             }
-            if (DomainObject2 != null)
-            {
-                var find = helper.deleteds.Find(x => x.Item1 == DomainObject2.Oid);
-                if (find == null)
-                {
-                    helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));
-                }
-            }
+            //if (DomainObject2 != null)
+            //{
+            //    var find = helper.deleteds.Find(x => x.Item1 == DomainObject2.Oid);
+            //    if (find == null)
+            //    {
+            //        helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));
+            //    }
+            //}
+        }
+
+        void t_Refreshing(object sender, CancelEventArgs e)
+        {
+
+            helper.deleteds.Clear();
+            var t = XPObjectSpace.FindObjectSpaceByObject(this);
+            t.Refreshing -= t_Refreshing;
+            flag = true;
         }
     }
 }
