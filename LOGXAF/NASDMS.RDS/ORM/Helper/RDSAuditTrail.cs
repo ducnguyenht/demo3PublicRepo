@@ -27,7 +27,20 @@ namespace NASDMS.RDS.ORM.Helper
             }
         }
 
-        internal static void AddAuditTrail(Guid Oid, string ChangedBy, string Data, CategoryAudit category, ActionAudit action)
+        internal static AuditTrail GetAuditTrailByGuid(Guid Myself)
+        {
+            try
+            {
+                var auditTrailDb = db.AuditTrails.All(where: "Myself=@0", parms: new object[] {Myself }).FirstOrDefault();
+                return auditTrailDb;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        internal static void AddAuditTrail(Guid Oid, Guid Myself, string ChangedBy, string Data, CategoryAudit category, ActionAudit action)
         {
             try
             {
@@ -38,7 +51,9 @@ namespace NASDMS.RDS.ORM.Helper
                 h.ChangedOn = DateTime.Now;
                 h.CategoryAudit = category;
                 h.ActionAudit = action;
+                h.Myself = Myself.ToString();
                 db.AuditTrails.Insert(h);
+                var tt = 1;
             }
             catch (Exception e)
             {

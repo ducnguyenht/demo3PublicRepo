@@ -32,6 +32,8 @@ namespace NASDMS.RDS
         public string ChangedBy { get; set; }
         public int Category { get; set; }
         public int Action { get; set; }
+        public string Myself { get; set; }
+
         public DateTime? ChangedOn { get; set; }
     }
 }

@@ -111,11 +111,11 @@ namespace TestLogXAF.Module.BusinessObjects
             {
                 if (!IsDeleted)
                 {
-                    helper.ToHistory(this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, Session.IsNewObject(this));
+                    //helper.ToHistory(this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, Session.IsNewObject(this));
                 }
                 else
                 {
-                    helper.ToHistory(this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, false, this.ToString());
+                    //helper.ToHistory(this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, false, this.ToString());
                 }
                 OnChanged("History");
             }

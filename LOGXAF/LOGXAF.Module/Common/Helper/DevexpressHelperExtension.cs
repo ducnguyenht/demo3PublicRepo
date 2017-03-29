@@ -1,6 +1,7 @@
 ﻿using DevExpress.Persistent.AuditTrail;
 using DevExpress.Xpo;
 using NASDMS.Module.Common.Helper;
+using NASDMS.RDS;
 using NASDMS.Systems;
 using System;
 using System.Collections.Generic;
@@ -53,23 +54,22 @@ public static class DevexpressHelperExtension
         }
     }
 
-    public static void ToHistory(this Master HistoryHelper, Guid Oid, string ObjToString, string ChangedBy, CategoryAudit Category, bool IsNewObject = false, string NameObjectDeleted = null)
+    public static AuditTrail GetAuditTrailByGuid(this Master HistoryHelper, ref AuditTrail audit, Guid Myself)
+    {
+        NASDMS.RDS.Services.AuditTrailServices.IAuditTrailService AuditTrailService = new NASDMS.RDS.Services.AuditTrailServices.AuditTrailService();
+        AuditTrailService.GetAuditTrailByGuid(ref audit, Myself);
+        return audit;
+    }
+
+    public static void ToHistory(this Master HistoryHelper, Guid Oid,  Guid Myself,string ObjToString, string ChangedBy, CategoryAudit Category, bool IsNewObject = false, string NameObjectDeleted = null)
     {
         NASDMS.RDS.Services.AuditTrailServices.IAuditTrailService AuditTrailService = new NASDMS.RDS.Services.AuditTrailServices.AuditTrailService();
         if (IsNewObject)
         {//ActionAudit.Created
             var groupNew = HistoryHelper.list.Where(o => o.action == NASDMS.Module.Common.Helper.Action.Created).GroupBy(o => o.Oid).ToDictionary(o => o.Key, o => o.ToList<Detail>());
-            foreach (var item in groupNew.Values)
-            {
-                AuditTrailService.AddAuditTrail(Oid, ChangedBy, item.ToDescriptionHistory(), Category, ActionAudit.Created);
-            }
-            foreach (var items in groupNew.Values)
-            {
-                foreach (var item in items)
-                {
-                    HistoryHelper.list.Remove(item);
-                }
-            }
+            var select1 = groupNew.Where(o => o.Key == Myself).FirstOrDefault();
+            AuditTrailService.AddAuditTrail(Oid, Myself, ChangedBy, select1.Value.ToDescriptionHistory(), Category, ActionAudit.Created);
+            groupNew.Remove(select1.Key);
         }
         else
         {
@@ -78,7 +78,7 @@ public static class DevexpressHelperExtension
                 var groupUpdate = HistoryHelper.list.Where(o => o.action == NASDMS.Module.Common.Helper.Action.Updated && o.Oid == HistoryHelper.Oid).GroupBy(o => o.Oid).ToDictionary(o => o.Key, o => o.ToList<Detail>());
                 foreach (var item in groupUpdate.Values)
                 {
-                    AuditTrailService.AddAuditTrail(Oid, ChangedBy, ObjToString + Environment.NewLine + item.ToDescriptionHistory(), Category, ActionAudit.Updated);
+                    AuditTrailService.AddAuditTrail(Oid, Myself, ChangedBy, ObjToString + Environment.NewLine + item.ToDescriptionHistory(), Category, ActionAudit.Updated);
                 }
                 foreach (var items in groupUpdate.Values)
                 {
@@ -90,7 +90,7 @@ public static class DevexpressHelperExtension
             }
             else
             {//ActionAudit.Deleted
-                AuditTrailService.AddAuditTrail(Oid, ChangedBy, NameObjectDeleted, Category, ActionAudit.Deleted);
+                AuditTrailService.AddAuditTrail(Oid, Myself, ChangedBy, NameObjectDeleted, Category, ActionAudit.Deleted);
             }
         }
         return;

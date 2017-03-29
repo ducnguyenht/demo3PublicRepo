@@ -11,6 +11,8 @@ namespace NASDMS.RDS.Services.AuditTrailServices
     {
 
         ErrorCode GetAuditTrails(ref List<AuditTrail> auditTrails, Guid Oid);
-        ErrorCode AddAuditTrail(Guid Oid, string ChangedBy, string Data, CategoryAudit category, ActionAudit action);
+        ErrorCode AddAuditTrail(Guid Oid, Guid MySelf,string ChangedBy, string Data, CategoryAudit category, ActionAudit action);
+
+        ErrorCode GetAuditTrailByGuid(ref AuditTrail AuditTrail, Guid MySelf);
     }
 }

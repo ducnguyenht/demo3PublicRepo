@@ -122,7 +122,7 @@ namespace TestLogXAF.Module.BusinessObjects
                  + "Name".ToLocalization(this) + " : " + this.Name;
         }
         protected override void OnSaving()
-        {
+         {
             base.OnSaving();
 
             #region AuditTrail
@@ -135,28 +135,32 @@ namespace TestLogXAF.Module.BusinessObjects
                     if (this.DomainObject1 != null)
                     {
                         helper.Oid = this.Oid;
-                        helper.ToHistory(this.DomainObject1.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject);
+                        helper.ToHistory(this.DomainObject1.Oid, this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject);
                     }
                     else
                     {
-                        helper.ToHistory(this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject3, IsNewObject);
+                        helper.ToHistory(this.Oid, this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject3, IsNewObject);
                     }
                 }
                 else
                 {
+                    NASDMS.RDS.AuditTrail au= new NASDMS.RDS.AuditTrail();
+                   var audit= helper.GetAuditTrailByGuid(ref au,this.Oid);
 
-                    if (helper.deleteds.Count > 0)
-                    {
-                        foreach (var item in helper.deleteds)
-                        {
-                            helper.ToHistory(item.Item1, "", "user A", item.Item2.ToObject<NASDMS.Systems.CategoryAudit>(), IsNewObject, item.Item3.ToObject<DomainObject3>().ToString());
-                        }
-                        helper.deleteds.Clear();
-                    }
-                    else
-                    {
-                        helper.ToHistory(this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject3, false, this.ToString());
-                    }
+
+                    helper.ToHistory(new Guid(audit.Oid) ,this.Oid, "", "user A", audit.CategoryAudit, IsNewObject,this.ToString());
+                    //if (helper.deleteds.Count > 0)
+                    //{
+                    //    foreach (var item in helper.deleteds)
+                    //    {
+                    //        helper.ToHistory(item.Item1, "", "user A", item.Item2.ToObject<NASDMS.Systems.CategoryAudit>(), IsNewObject, item.Item3.ToObject<DomainObject3>().ToString());
+                    //    }
+                    //    helper.deleteds.Clear();
+                    //}
+                    //else
+                    //{
+                    //    helper.ToHistory(this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject3, false, this.ToString());
+                    //}
                 }
             }
             catch (Exception)

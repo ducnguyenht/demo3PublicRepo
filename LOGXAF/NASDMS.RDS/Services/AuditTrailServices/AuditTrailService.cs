@@ -30,7 +30,7 @@ namespace NASDMS.RDS.Services.AuditTrailServices
         }
 
 
-        public ErrorCode AddAuditTrail(Guid Oid, string ChangedBy, string Data, CategoryAudit category, ActionAudit action)
+        public ErrorCode AddAuditTrail(Guid Oid, Guid MySelf, string ChangedBy, string Data, CategoryAudit category, ActionAudit action)
         {
             ErrorCode err = ErrorCode.ERROR_SUCCESS;
             if (IsReadyForLogging == false)
@@ -39,7 +39,26 @@ namespace NASDMS.RDS.Services.AuditTrailServices
             }
             try
             {
-                RDSAuditTrail.AddAuditTrail(Oid, ChangedBy, Data, category, action);
+                RDSAuditTrail.AddAuditTrail(Oid, MySelf, ChangedBy, Data, category, action);
+                return err;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        public ErrorCode GetAuditTrailByGuid(ref AuditTrail auditTrail, Guid MySelf)
+        {
+            ErrorCode err = ErrorCode.ERROR_SUCCESS;
+            if (IsReadyForLogging == false)
+            {
+                return err;
+            }
+            try
+            {
+                auditTrail = RDSAuditTrail.GetAuditTrailByGuid(MySelf);
                 return err;
             }
             catch (Exception e)
