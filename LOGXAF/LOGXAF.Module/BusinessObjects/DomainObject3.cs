@@ -166,11 +166,19 @@ namespace TestLogXAF.Module.BusinessObjects
             base.OnDeleting();
             if (DomainObject1 != null)
             {
-                helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
+                var find = helper.deleteds.Find(x => x.Item1 == DomainObject1.Oid);
+                if (find == null)
+                {
+                    helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
+                }
             }
             if (DomainObject2 != null)
             {
-                helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));
+                var find = helper.deleteds.Find(x => x.Item1 == DomainObject2.Oid);
+                if (find == null)
+                {
+                    helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));
+                }
             }
         }
     }
