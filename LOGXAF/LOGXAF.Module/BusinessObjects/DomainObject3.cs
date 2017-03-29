@@ -128,6 +128,7 @@ namespace TestLogXAF.Module.BusinessObjects
             #region AuditTrail
             try
             {
+                this.RemoveRefresh();
                 bool IsNewObject = Session.IsNewObject(this);
                 if (!IsDeleted)
                 {
@@ -163,6 +164,8 @@ namespace TestLogXAF.Module.BusinessObjects
             }
             #endregion AuditTrail
         }
+
+        
         static bool flag = true;
         protected override void OnDeleting()
         {
@@ -200,6 +203,12 @@ namespace TestLogXAF.Module.BusinessObjects
         {
 
             helper.deleteds.Clear();
+            this.RemoveRefresh();
+        }
+
+
+        private void RemoveRefresh()
+        {
             var t = XPObjectSpace.FindObjectSpaceByObject(this);
             t.Refreshing -= t_Refreshing;
             flag = true;
