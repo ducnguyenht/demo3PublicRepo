@@ -9,6 +9,7 @@ using System.ComponentModel;
 using LOGXAF.Module.BusinessObjects;
 using System.Collections.Generic;
 using NASDMS.Systems;
+using NASDMS.Module.Common.NonPersistents;
 namespace TestLogXAF.Module.BusinessObjects
 {
     [DefaultClassOptions]
@@ -87,8 +88,14 @@ namespace TestLogXAF.Module.BusinessObjects
             }
         }
 
-
-        private static Master helper = new Master();
+        public List<History> History
+        {
+            get
+            {
+                return DevexpressHelperExtension.LoadHistory(this.Oid, Session);
+            }
+        }
+        private Master helper = new Master();
         protected override void OnChanged(string propertyName, object oldValue, object newValue)
         {
             if (!IsSaving && !IsLoading)
@@ -96,7 +103,7 @@ namespace TestLogXAF.Module.BusinessObjects
                 base.OnChanged(propertyName, oldValue, newValue);
                 try
                 {
-                    string[] IgnoreProperty = { "DomainObject1", "GCRecord", "OptimisticLockField", "OptimisticLockFieldInDataLayer" };
+                    string[] IgnoreProperty = { "DomainObject1", "DomainObject2", "GCRecord", "OptimisticLockField", "OptimisticLockFieldInDataLayer" };
                     if (oldValue != newValue && !IgnoreProperty.Contains(propertyName))
                     {
                         helper.Oid = this.Oid;
@@ -128,6 +135,10 @@ namespace TestLogXAF.Module.BusinessObjects
                         helper.Oid = this.Oid;
                         helper.ToHistory(this.DomainObject1.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject);
                     }
+                    else
+                    {
+                        helper.ToHistory(this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject3, IsNewObject);
+                    }
                 }
                 else
                 {
@@ -135,10 +146,7 @@ namespace TestLogXAF.Module.BusinessObjects
                     {
                         foreach (var item in helper.deleteds)
                         {
-
-                            var deletedItem = item.Item3.ToObject<DomainObject3>();
-                            helper.ToHistory(item.Item1, "", "user A", item.Item2.ToObject<NASDMS.Systems.CategoryAudit>(), IsNewObject, deletedItem.ToString());
-
+                            helper.ToHistory(item.Item1, "", "user A", item.Item2.ToObject<NASDMS.Systems.CategoryAudit>(), IsNewObject, item.Item3.ToObject<DomainObject3>().ToString());
                         }
                         helper.deleteds.Clear();
                     }
@@ -156,18 +164,13 @@ namespace TestLogXAF.Module.BusinessObjects
         protected override void OnDeleting()
         {
             base.OnDeleting();
-
             if (DomainObject1 != null)
             {
-                //List<Tuple<Guid, Enum, object>> list = new List<Tuple<Guid, Enum, object>>();
-                //list.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
-                helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));// = list;
+                helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
             }
             if (DomainObject2 != null)
             {
-                //List<Tuple<Guid, Enum, object>> list = new List<Tuple<Guid, Enum, object>>();
-                //list.Add(new Tuple<Guid, Enum, object>(DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
-                helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));// = list;
+                helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));
             }
         }
     }
