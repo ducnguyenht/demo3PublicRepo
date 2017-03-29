@@ -8,6 +8,7 @@ using System.Linq;
 using System.ComponentModel;
 using LOGXAF.Module.BusinessObjects;
 using System.Collections.Generic;
+using NASDMS.Systems;
 namespace TestLogXAF.Module.BusinessObjects
 {
     [DefaultClassOptions]
@@ -120,29 +121,31 @@ namespace TestLogXAF.Module.BusinessObjects
             try
             {
                 bool IsNewObject = Session.IsNewObject(this);
-                if (this.DomainObject1 != null)
+                if (!IsDeleted)
                 {
-                    helper.Oid = this.Oid;
-                    helper.ToHistory(this.DomainObject1.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject);
-                }
-                if (helper.deleteds.Count > 0 && IsDeleted)
-                {
-                    foreach (var item in helper.deleteds)
+                    if (this.DomainObject1 != null)
                     {
-                        if (item.Item2.Equals(NASDMS.Systems.CategoryAudit.DomainObject1))
-                        {
-                            var deletedItem = item.Item3.ToObject<DomainObject3>();
-                            helper.ToHistory(item.Item1, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject, deletedItem.ToString());
-                        }
-                        if (item.Item2.Equals(NASDMS.Systems.CategoryAudit.DomainObject2))
-                        {
-                            var deletedItem = item.Item3.ToObject<DomainObject3>();
-
-                            helper.ToHistory(item.Item1, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject2, IsNewObject, deletedItem.ToString());
-                        }
-
+                        helper.Oid = this.Oid;
+                        helper.ToHistory(this.DomainObject1.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject);
                     }
-                    helper.deleteds.Clear();
+                }
+                else
+                {
+                    if (helper.deleteds.Count > 0)
+                    {
+                        foreach (var item in helper.deleteds)
+                        {
+
+                            var deletedItem = item.Item3.ToObject<DomainObject3>();
+                            helper.ToHistory(item.Item1, "", "user A", item.Item2.ToObject<NASDMS.Systems.CategoryAudit>(), IsNewObject, deletedItem.ToString());
+
+                        }
+                        helper.deleteds.Clear();
+                    }
+                    else
+                    {
+                        helper.ToHistory(this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject3, false, this.ToString());
+                    }
                 }
             }
             catch (Exception)
