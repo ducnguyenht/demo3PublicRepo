@@ -95,7 +95,7 @@ namespace TestLogXAF.Module.BusinessObjects
                 return DevexpressHelperExtension.LoadHistory(this.Oid, Session);
             }
         }
-        private Master helper = new Master();
+        private static Master helper = new Master();
         protected override void OnChanged(string propertyName, object oldValue, object newValue)
         {
             if (!IsSaving && !IsLoading)
