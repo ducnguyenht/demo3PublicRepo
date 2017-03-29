@@ -67,26 +67,29 @@ public static class DevexpressHelperExtension
         if (IsNewObject)
         {//ActionAudit.Created
             var groupNew = HistoryHelper.list.Where(o => o.action == NASDMS.Module.Common.Helper.Action.Created).GroupBy(o => o.Oid).ToDictionary(o => o.Key, o => o.ToList<Detail>());
-            var select1 = groupNew.Where(o => o.Key == Myself).FirstOrDefault();
-            AuditTrailService.AddAuditTrail(Oid, Myself, ChangedBy, select1.Value.ToDescriptionHistory(), Category, ActionAudit.Created);
-            groupNew.Remove(select1.Key);
+            var select = groupNew.Where(o => o.Key == Myself).FirstOrDefault();
+            AuditTrailService.AddAuditTrail(Oid, Myself, ChangedBy, select.Value.ToDescriptionHistory(), Category, ActionAudit.Created);
+            groupNew.Remove(select.Key);
         }
         else
         {
             if (NameObjectDeleted == null)
             {//ActionAudit.Updated             
                 var groupUpdate = HistoryHelper.list.Where(o => o.action == NASDMS.Module.Common.Helper.Action.Updated && o.Oid == HistoryHelper.Oid).GroupBy(o => o.Oid).ToDictionary(o => o.Key, o => o.ToList<Detail>());
-                foreach (var item in groupUpdate.Values)
-                {
-                    AuditTrailService.AddAuditTrail(Oid, Myself, ChangedBy, ObjToString + Environment.NewLine + item.ToDescriptionHistory(), Category, ActionAudit.Updated);
-                }
-                foreach (var items in groupUpdate.Values)
-                {
-                    foreach (var item in items)
-                    {
-                        HistoryHelper.list.Remove(item);
-                    }
-                }
+                var select = groupUpdate.Where(o => o.Key == Myself).FirstOrDefault();
+                AuditTrailService.AddAuditTrail(Oid, Myself, ChangedBy, ObjToString + Environment.NewLine + select.Value.ToDescriptionHistory(), Category, ActionAudit.Updated);
+                groupUpdate.Remove(select.Key);
+                //foreach (var item in groupUpdate.Values)
+                //{
+                //    AuditTrailService.AddAuditTrail(Oid, Myself, ChangedBy, ObjToString + Environment.NewLine + item.ToDescriptionHistory(), Category, ActionAudit.Updated);
+                //}
+                //foreach (var items in groupUpdate.Values)
+                //{
+                //    foreach (var item in items)
+                //    {
+                //        HistoryHelper.list.Remove(item);
+                //    }
+                //}
             }
             else
             {//ActionAudit.Deleted
