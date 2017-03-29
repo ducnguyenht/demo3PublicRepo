@@ -128,7 +128,7 @@ namespace TestLogXAF.Module.BusinessObjects
             #region AuditTrail
             try
             {
-                this.RemoveRefresh();
+                //this.RemoveRefresh();
                 bool IsNewObject = Session.IsNewObject(this);
                 if (!IsDeleted)
                 {
@@ -165,54 +165,54 @@ namespace TestLogXAF.Module.BusinessObjects
             #endregion AuditTrail
         }
 
-        
-        static bool flag = true;
-        protected override void OnDeleting()
-        {
-            base.OnDeleting();
 
-            //DomainObject1.AddDeletedToHistory(ref helper, NASDMS.Systems.CategoryAudit.DomainObject1, this);
-            //DomainObject2.AddDeletedToHistory(ref helper, NASDMS.Systems.CategoryAudit.DomainObject2, this);
-            if (flag)
-            {
-                var t = XPObjectSpace.FindObjectSpaceByObject(this);
+        //static bool flag = true;
+        //protected override void OnDeleting()
+        //{
+        //    base.OnDeleting();
 
-                //t.Refreshing -= t_Refreshing;
-                t.Refreshing += t_Refreshing;
-                flag = false;
-            }
+        //    //DomainObject1.AddDeletedToHistory(ref helper, NASDMS.Systems.CategoryAudit.DomainObject1, this);
+        //    //DomainObject2.AddDeletedToHistory(ref helper, NASDMS.Systems.CategoryAudit.DomainObject2, this);
+        //    if (flag)
+        //    {
+        //        var t = XPObjectSpace.FindObjectSpaceByObject(this);
 
-            if (DomainObject1 != null)
-            {
+        //        //t.Refreshing -= t_Refreshing;
+        //        t.Refreshing += t_Refreshing;
+        //        flag = false;
+        //    }
 
-
-                helper.deleteds.Add(new Tuple<Guid, Enum, object>(this.DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
-
-            }
-            //if (DomainObject2 != null)
-            //{
-            //    var find = helper.deleteds.Find(x => x.Item1 == DomainObject2.Oid);
-            //    if (find == null)
-            //    {
-            //        helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));
-            //    }
-            //}
-        }
-
-        void t_Refreshing(object sender, CancelEventArgs e)
-        {
-
-            helper.deleteds.Clear();
-            this.RemoveRefresh();
-        }
+        //    if (DomainObject1 != null)
+        //    {
 
 
-        private void RemoveRefresh()
-        {
-            var t = XPObjectSpace.FindObjectSpaceByObject(this);
-            t.Refreshing -= t_Refreshing;
-            flag = true;
-        }
+        //        helper.deleteds.Add(new Tuple<Guid, Enum, object>(this.DomainObject1.Oid, NASDMS.Systems.CategoryAudit.DomainObject1, this));
+
+        //    }
+        //    //if (DomainObject2 != null)
+        //    //{
+        //    //    var find = helper.deleteds.Find(x => x.Item1 == DomainObject2.Oid);
+        //    //    if (find == null)
+        //    //    {
+        //    //        helper.deleteds.Add(new Tuple<Guid, Enum, object>(DomainObject2.Oid, NASDMS.Systems.CategoryAudit.DomainObject2, this));
+        //    //    }
+        //    //}
+        //}
+
+        //void t_Refreshing(object sender, CancelEventArgs e)
+        //{
+
+        //    helper.deleteds.Clear();
+        //    this.RemoveRefresh();
+        //}
+
+
+        //private void RemoveRefresh()
+        //{
+        //    var t = XPObjectSpace.FindObjectSpaceByObject(this);
+        //    t.Refreshing -= t_Refreshing;
+        //    flag = true;
+        //}
     }
 }
 //private string _PersistentProperty;
