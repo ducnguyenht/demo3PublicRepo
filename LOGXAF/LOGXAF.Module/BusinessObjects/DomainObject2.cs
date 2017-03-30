@@ -86,6 +86,7 @@ namespace LOGXAF.Module.BusinessObjects
                     string[] IgnoreProperty = { "OptimisticLockField", "OptimisticLockFieldInDataLayer" };
                     if (oldValue != newValue && !IgnoreProperty.Contains(propertyName))
                     {
+                        helper.Oid = this.Oid;
                         helper.UpdateDetail(propertyName.ToLocalization(this), oldValue.ToCustomString(), newValue.ToCustomString(), this.Session.IsNewObject(this));
                     }
                 }
@@ -105,11 +106,11 @@ namespace LOGXAF.Module.BusinessObjects
             {
                 if (!IsDeleted)
                 {
-                    helper.ToHistory(this.Oid,this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, Session.IsNewObject(this));
+                    helper.ToHistory(this.Oid, this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject2, Session.IsNewObject(this));
                 }
                 else
                 {
-                    helper.ToHistory(this.Oid, this.Oid,"", "user A", NASDMS.Systems.CategoryAudit.DomainObject1, false, this.ToString());
+                    helper.ToHistory(this.Oid, this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject2, false, this.ToString());
                 }
                 OnChanged("History");
             }

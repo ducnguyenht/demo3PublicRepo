@@ -96,7 +96,7 @@ namespace TestLogXAF.Module.BusinessObjects
                 return DevexpressHelperExtension.LoadHistory(this.Oid, Session);
             }
         }
-        private static Master helper = new Master();
+        private Master helper = new Master();
         protected override void OnChanged(string propertyName, object oldValue, object newValue)
         {
             if (!IsSaving && !IsLoading)
@@ -122,13 +122,12 @@ namespace TestLogXAF.Module.BusinessObjects
                  + "Name".ToLocalization(this) + " : " + this.Name;
         }
         protected override void OnSaving()
-         {
+        {
             base.OnSaving();
 
             #region AuditTrail
             try
             {
-                //this.RemoveRefresh();
                 bool IsNewObject = Session.IsNewObject(this);
                 if (!IsDeleted)
                 {
@@ -137,6 +136,11 @@ namespace TestLogXAF.Module.BusinessObjects
                         helper.Oid = this.Oid;
                         helper.ToHistory(this.DomainObject1.Oid, this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject);
                     }
+                    else if (this.DomainObject2 != null)
+                    {
+                        helper.Oid = this.Oid;
+                        helper.ToHistory(this.DomainObject2.Oid, this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject2, IsNewObject);
+                    }
                     else
                     {
                         helper.ToHistory(this.Oid, this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject3, IsNewObject);
@@ -144,16 +148,16 @@ namespace TestLogXAF.Module.BusinessObjects
                 }
                 else
                 {
-                    NASDMS.RDS.AuditTrail au= new NASDMS.RDS.AuditTrail();
-                   var audit= helper.GetAuditTrailByGuid(ref au,this.Oid);
-                   if (audit.Oid != this.Oid.ToString())
-                   {
-                       helper.ToHistory(new Guid(audit.Oid), this.Oid, "", "user A", audit.CategoryAudit, IsNewObject, this.ToString());
-                   }
-                   else
-                   {
-                       helper.ToHistory(this.Oid, this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject3, false, this.ToString());
-                   }
+                    NASDMS.RDS.AuditTrail au = new NASDMS.RDS.AuditTrail();
+                    var audit = helper.GetAuditTrailByGuid(ref au, this.Oid);
+                    if (audit.Oid != this.Oid.ToString())
+                    {
+                        helper.ToHistory(new Guid(audit.Oid), this.Oid, "", "user A", audit.CategoryAudit, IsNewObject, this.ToString());
+                    }
+                    else
+                    {
+                        helper.ToHistory(this.Oid, this.Oid, "", "user A", NASDMS.Systems.CategoryAudit.DomainObject3, false, this.ToString());
+                    }
                 }
             }
             catch (Exception)
