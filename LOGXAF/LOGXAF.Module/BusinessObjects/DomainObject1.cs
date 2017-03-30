@@ -90,8 +90,7 @@ namespace TestLogXAF.Module.BusinessObjects
                     string[] IgnoreProperty = { "OptimisticLockField", "OptimisticLockFieldInDataLayer" };
                     if (oldValue != newValue && !IgnoreProperty.Contains(propertyName))
                     {
-                        helper.Oid = this.Oid;
-                        helper.UpdateDetail(propertyName.ToLocalization(this), oldValue.ToCustomString(), newValue.ToCustomString(), this.Session.IsNewObject(this));
+                        helper.UpdateDetail(propertyName.ToLocalization(this), oldValue.ToCustomString(), newValue.ToCustomString(), this.Session.IsNewObject(this), this.Oid);
                     }
                 }
                 catch (Exception) { }

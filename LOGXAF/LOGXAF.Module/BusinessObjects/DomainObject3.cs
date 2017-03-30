@@ -107,8 +107,7 @@ namespace TestLogXAF.Module.BusinessObjects
                     string[] IgnoreProperty = { "DomainObject1", "DomainObject2", "GCRecord", "OptimisticLockField", "OptimisticLockFieldInDataLayer" };
                     if (oldValue != newValue && !IgnoreProperty.Contains(propertyName))
                     {
-                        helper.Oid = this.Oid;
-                        helper.UpdateDetail(propertyName.ToLocalization(this).ToChildHistory(), oldValue.ToCustomString(), newValue.ToCustomString(), this.Session.IsNewObject(this));
+                        helper.UpdateDetail(propertyName.ToLocalization(this).ToChildHistory(), oldValue.ToCustomString(), newValue.ToCustomString(), this.Session.IsNewObject(this), this.Oid);
 
                     }
                 }
@@ -133,12 +132,10 @@ namespace TestLogXAF.Module.BusinessObjects
                 {
                     if (this.DomainObject1 != null)
                     {
-                        helper.Oid = this.Oid;
                         helper.ToHistory(this.DomainObject1.Oid, this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject1, IsNewObject);
                     }
                     else if (this.DomainObject2 != null)
                     {
-                        helper.Oid = this.Oid;
                         helper.ToHistory(this.DomainObject2.Oid, this.Oid, this.ToString(), "user A", NASDMS.Systems.CategoryAudit.DomainObject2, IsNewObject);
                     }
                     else

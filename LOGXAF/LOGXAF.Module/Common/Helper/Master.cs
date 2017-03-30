@@ -11,15 +11,9 @@ namespace NASDMS.Module.Common.Helper
         public Master()
         {
             list = new List<Detail>();
-            deleted = new List<object>();
-            deleteds = new List<Tuple<Guid, Enum, object>>();
         }
         public List<Detail> list { get; set; }
-        public List<object> deleted { get; set; }
-        public List<Tuple<Guid, Enum, object>> deleteds { get; set; }
-        public Guid Oid { get; set; }
-        public Guid OidDeleted { get; set; }
-        public void UpdateDetail(string propertyName, string oldValue, string newValue, bool IsNewObject)
+        public void UpdateDetail(string propertyName, string oldValue, string newValue, bool IsNewObject, Guid Oid)
         {
             if (IsNewObject)
             {
@@ -27,7 +21,7 @@ namespace NASDMS.Module.Common.Helper
                 detail.propertyName = propertyName;
                 detail.oldValue = oldValue;
                 detail.newValue = newValue;
-                detail.Oid = this.Oid;
+                detail.Oid = Oid;
                 detail.action = Action.Created;
                 list.Add(detail);
             }
@@ -37,7 +31,7 @@ namespace NASDMS.Module.Common.Helper
                 detail.propertyName = propertyName;
                 detail.oldValue = oldValue;
                 detail.newValue = newValue;
-                detail.Oid = this.Oid;
+                detail.Oid = Oid;
                 detail.action = Action.Updated;
                 list.Add(detail);
             }
