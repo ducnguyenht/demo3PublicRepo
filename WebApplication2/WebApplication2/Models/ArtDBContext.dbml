@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BenThanhArt" Class="ArtDBContextDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=BenThanhArt;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="BenThanhArtConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Artist" Member="Artists">
+    <Type Name="Artist">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Image" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
+      <Column Name="Event" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Create_date" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="Routing_Languages" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Routing" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Relate_routing" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="MetaKeyword" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="MetaDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Valid_Flag" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>
