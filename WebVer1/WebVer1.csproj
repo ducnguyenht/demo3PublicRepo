@@ -277,17 +277,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="css\bootstrap.min.css" />
-    <Content Include="css\captions.css" />
     <Content Include="css\custom.css" />
     <Content Include="css\demo.css" />
     <Content Include="css\font-awesome.min.css" />
-    <Content Include="css\freeow.css" />
     <Content Include="css\grabbing.png" />
-    <Content Include="css\magnific-popup.css" />
     <Content Include="css\reset.css" />
     <Content Include="css\settings.css" />
-    <Content Include="css\slider.css" />
-    <Content Include="css\style-responsive.css" />
     <Content Include="css\style.css" />
     <Content Include="css\style\freeow\images\close.png" />
     <Content Include="css\style\freeow\images\error.png" />
@@ -296,7 +291,6 @@
     <Content Include="css\style\freeow\images\osx\close.png" />
     <Content Include="css\style\freeow\images\pushpin.png" />
     <Content Include="css\style\freeow\images\slide.png" />
-    <Content Include="css\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\bootstrap.min.js" />
