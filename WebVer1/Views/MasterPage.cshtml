@@ -15,13 +15,16 @@
 
 
     @{
-        string seo1 = ""; string desc = ""; string urler = ""; string keyword = "";
+        var seo1 = "";
+        var desc = "";
+        var urler = "";
+        var keyword = "";
 
         var id = (Request.QueryString["pt"] == null) ? 0 : Convert.ToInt32(Request.QueryString["pt"]);
         SEO seo = new SEOBLL().SEO(id);
         if (Model.Content.Id == 2057)
         {
-            seo1 = "PHỤ KIỆN PHAN THIẾT";
+            seo1 = Model.Content.GetPropertyValue("titlePage").ToString();
         }
         else
         {
@@ -32,7 +35,7 @@
                 }
                 else
                 {
-                    seo1 = seo.Name + " - PHỤ KIỆN PHAN THIẾT";
+                    seo1 = seo.Name + " - " + Model.Content.GetPropertyValue("titlePage").ToString();
                 }
             }
         }
@@ -72,36 +75,40 @@
     <meta http-equiv="content-language" content="vi" />
 
     <!--end facebook-->
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Font Awesome -->
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" ></script>
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <!-- Style -->
-    <link href="css/reset.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="~/css/reset.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
     <!-- Style Responsive -->
-    <link href="css/style-responsive.css" rel="stylesheet">
+    <link href="~/css/style-responsive.css" rel="stylesheet">
     <!-- owl Slider -->
-    <link href="css/slider.css" rel="stylesheet">
+    <link href="~/css/slider.css" rel="stylesheet">
     <!-- SLIDER REVOLUTION Main Slider -->
-    <link href="css/settings.css" rel="stylesheet">
-    <link href="css/magnific-popup.css" rel="stylesheet">
+    <link href="~/css/settings.css" rel="stylesheet">
+    <link href="~/css/magnific-popup.css" rel="stylesheet">
     <!-- Load jQuery Library -->
-    <script src="js/jquery-1.11.min.js"></script>
+    <script src="~/js/jquery-1.11.min.js"></script>
 
-    <script src="js/owl.carousel.js"></script>
+    <script src="~/js/owl.carousel.js"></script>
 
     <!--popup cart-->
-    <link rel="stylesheet" type="text/css" href="css/style/freeow/freeow.css">
-    <link rel="stylesheet" type="text/css" href="css/demo.css">
-    <script type="text/javascript" src="js/jquery.freeow.min.js"></script>
-    <script type="text/javascript" src="js/demo.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/style/freeow/freeow.css">
+    <link rel="stylesheet" type="text/css" href="~/css/demo.css">
 
 
+    <script type="text/javascript" src="~/js/jquery.freeow.min.js"></script>
+    <script type="text/javascript" src="~/js/demo.js"></script>
 
-    <script src="js/jquery.validate.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="~/js/main.js"></script>
+
+    <script src="~/js/jquery.validate.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -143,7 +150,7 @@
             });
         </script>*@
 </head>
-<body style="background-image: url(/media/14758/bg1.jpg);background-repeat: no-repeat;background-position: top center;">
+<body style="">
     <form action="/" method="post" runat="server">
         <div id="st-container" class="st-container">
             <div class="st-pusher">
@@ -226,6 +233,10 @@
                                     </div>
                                 </section>
                             </section>
+
+
+
+
                             <!--search table -->
                             <script>
                                 $(document).ready(function () {
@@ -278,11 +289,6 @@
                                     $("#suggesstion-box").hide();
                                 }
                             </script>
-
-
-
-
-
                             <!--end search table-->
 
                             <section class="row-section top-logo top-search top-html " style=''>
@@ -515,61 +521,61 @@
                     </div>
                     <!-- /st-content-inner -->
                 </div><!-- /st-content -->
+
             </div>
             <!-- /st-pusher -->
 
         </div>
         <!-- /st-container -->
         <!-- Load main.js-->
-        <script src="js/main.js"></script>
         <!-- OWL Carousel jquery -->
         <!--end id=page-->
         <div id="freeow-tr" class="freeow freeow-top-right"></div>
         <div id="fb-root"></div>
-        <script>
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.0";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        @*<script>
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.0";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+            <script src="https://apis.google.com/js/platform.js" async defer></script>*@
 
 
-        <style>
-            #bttop {
-                text-align: center;
-                padding: 5px;
-                position: fixed;
-                bottom: 5px;
-                right: 30px;
-                cursor: pointer;
-                display: none;
-                color: #fff;
-                font-size: 11px;
-                font-weight: 900;
-                border-radius: 30px;
-            }
-
-                #bttop:hover {
-                    border: 1px solid #009AE2;
+        @*<style>
+                #bttop {
+                    text-align: center;
+                    padding: 5px;
+                    position: fixed;
+                    bottom: 5px;
+                    right: 30px;
+                    cursor: pointer;
+                    display: none;
+                    color: #fff;
+                    font-size: 11px;
+                    font-weight: 900;
+                    border-radius: 30px;
                 }
-        </style>
-        <script type="text/javascript">$(function () { $(window).scroll(function () { if ($(this).scrollTop() != 0) { $('#bttop').fadeIn(); } else { $('#bttop').fadeOut(); } }); $('#bttop').click(function () { $('body,html').animate({ scrollTop: 0 }, 800); }); });</script>
-        <div id="bttop" style="z-index: 9999; display: block;"><img src="/media/5362/gototop.png" alt="lên đầu trang" alt="len dau trang" title="lên đầu trang"></div>
-        <script>
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-            ga('create', 'UA-80560430-1', 'auto');
-            ga('send', 'pageview');
+                    #bttop:hover {
+                        border: 1px solid #009AE2;
+                    }
+            </style>
+            <script type="text/javascript">$(function () { $(window).scroll(function () { if ($(this).scrollTop() != 0) { $('#bttop').fadeIn(); } else { $('#bttop').fadeOut(); } }); $('#bttop').click(function () { $('body,html').animate({ scrollTop: 0 }, 800); }); });</script>
+            <div id="bttop" style="z-index: 9999; display: block;"><img src="/media/5362/gototop.png" alt="lên đầu trang" alt="len dau trang" title="lên đầu trang"></div>*@
+        @*<script>
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-        </script>
+                ga('create', 'UA-80560430-1', 'auto');
+                ga('send', 'pageview');
+
+            </script>*@
 
 
     </form>
