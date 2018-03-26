@@ -1,0 +1,5 @@
+C:\Users\Administrator\Downloads\1223\phukienphanthiet.com\KiotVietBO\bin\Release\KiotVietBO.dll
+C:\Users\Administrator\Downloads\1223\phukienphanthiet.com\KiotVietBO\bin\Release\KiotVietBO.pdb
+C:\Users\Administrator\Downloads\1223\phukienphanthiet.com\KiotVietBO\obj\Release\KiotVietBO.dll
+C:\Users\Administrator\Downloads\1223\phukienphanthiet.com\KiotVietBO\obj\Release\KiotVietBO.pdb
+C:\Users\Administrator\Downloads\1223\phukienphanthiet.com\KiotVietBO\obj\Release\KiotVietBO.csproj.CoreCompileInputs.cache
