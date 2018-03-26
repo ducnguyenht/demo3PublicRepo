@@ -18,7 +18,6 @@ public class NhomHangBLL
         // TODO: Add constructor logic here
         //
     }
-
     public RootNhomHangBO DanhSachNhomHangCache()
     {
         if (MemoryCacheKiot.dsNhomHang == null)
@@ -28,26 +27,9 @@ public class NhomHangBLL
             requestConfig.AddHeader(KiotVietConst.propNameRetailer, KiotVietConst.Retailer);
             requestConfig.AddHeader("Authorization", "Bearer " + KiotVietConst.kiot_token);
             MemoryCacheKiot.dsNhomHang = clientRequest.Execute<RootNhomHangBO>(requestConfig).Data;
-            foreach (var item in MemoryCacheKiot.dsNhomHang.data)
-            {
-                ApplyNestingLevel(item, 0);
-            }
         }
         return MemoryCacheKiot.dsNhomHang;
     }
-    public void ApplyNestingLevel(NhomHangBO bo, int level)
-    {
-        if (bo == null) { return; }
-        bo.level = level;
-        if (bo.hasChild)
-        {
-            foreach (var child in bo.children)
-            {
-                ApplyNestingLevel(child, level + 1);
-            }
-        }
-    }
-
     public List<NhomHangBO> DanhNhomHangPlane()
     {
         var ds = new List<NhomHangBO>();

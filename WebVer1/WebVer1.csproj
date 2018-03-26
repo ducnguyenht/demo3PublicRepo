@@ -16,7 +16,7 @@
     <RootNamespace>WebVer1</RootNamespace>
     <AssemblyName>WebVer1</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -92,10 +93,6 @@
     </Reference>
     <Reference Include="interfaces, Version=1.0.6634.25783, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.9.2\lib\net45\interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="KiotVietBO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\1223\phukienphanthiet.com\KiotVietBO\bin\Release\KiotVietBO.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.9.2\lib\net45\log4net.dll</HintPath>
@@ -276,6 +273,45 @@
     <Content Include="config\imageprocessor\processing.config" />
     <Content Include="config\imageprocessor\cache.config" />
     <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\captions.css" />
+    <Content Include="css\custom.css" />
+    <Content Include="css\demo.css" />
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\freeow.css" />
+    <Content Include="css\grabbing.png" />
+    <Content Include="css\magnific-popup.css" />
+    <Content Include="css\reset.css" />
+    <Content Include="css\settings.css" />
+    <Content Include="css\slider.css" />
+    <Content Include="css\style-responsive.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\style\freeow\images\close.png" />
+    <Content Include="css\style\freeow\images\error.png" />
+    <Content Include="css\style\freeow\images\notice.png" />
+    <Content Include="css\style\freeow\images\osx\background.png" />
+    <Content Include="css\style\freeow\images\osx\close.png" />
+    <Content Include="css\style\freeow\images\pushpin.png" />
+    <Content Include="css\style\freeow\images\slide.png" />
+    <Content Include="css\w3.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\custom.js" />
+    <Content Include="js\demo.js" />
+    <Content Include="js\jquery-1.11.min.js" />
+    <Content Include="js\jquery-1.8.3.min.js" />
+    <Content Include="js\jquery.elevateZoom-3.0.8.min.js" />
+    <Content Include="js\jquery.freeow.min.js" />
+    <Content Include="js\jquery.magnific-popup.min.js" />
+    <Content Include="js\jquery.validate.js" />
+    <Content Include="js\main.js" />
+    <Content Include="js\owl.carousel.js" />
+    <Content Include="js\platform.js" />
+    <Content Include="Media\1001\logo.png" />
     <Content Include="Media\Web.config" />
     <Content Include="config\umbracoSettings.config" />
     <Content Include="config\trees.config" />
@@ -295,7 +331,16 @@
     <Content Include="config\BackOfficeTours\getting-started.json" />
     <Content Include="config\applications.config" />
     <Content Include="config\404handlers.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Rte.cshtml" />
@@ -307,9 +352,12 @@
     <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2-Fluid.cshtml" />
-    <Content Include="Views\HomePage.cshtml" />
     <Content Include="Views\MasterPage.cshtml" />
     <Content Include="Views\SampleRenderMvc.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Partials\default\Menu.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -347,11 +395,26 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\CartBLL.cs" />
+    <Compile Include="BLL\CartBO.cs" />
     <Compile Include="BLL\ChiNhanhBLL.cs" />
+    <Compile Include="BLL\CustomerBLL.cs" />
     <Compile Include="BLL\CustomGobal.cs" />
+    <Compile Include="BLL\Extension.cs" />
+    <Compile Include="BLL\GZipWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="BLL\HangHoaBLL.cs" />
+    <Compile Include="BLL\KiotException.cs" />
     <Compile Include="BLL\MemoryCacheKiot.cs" />
     <Compile Include="BLL\NhomHangBLL.cs" />
+    <Compile Include="BLL\PKTestService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BLL\RestClientExtensions.cs" />
+    <Compile Include="BLL\RootCardBO.cs" />
+    <Compile Include="BLL\SEOBLL.cs" />
+    <Compile Include="BLL\XemNhieu.cs" />
     <Compile Include="Controllers\Api\SampleWebApiController.cs" />
     <Compile Include="Controllers\RenderMVC\SampleRenderMvcController.cs" />
     <Compile Include="Events\ApplicationEvents.cs" />
@@ -363,6 +426,12 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KiotVietBO\KiotVietBO.csproj">
+      <Project>{29e098ad-982c-4dff-8219-e9b31d08aac4}</Project>
+      <Name>KiotVietBO</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
@@ -380,7 +449,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>24179</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/WebVer1</IISUrl>
+          <IISUrl>http://localhost:24179/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

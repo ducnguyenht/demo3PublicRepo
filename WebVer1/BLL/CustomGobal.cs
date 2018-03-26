@@ -9,6 +9,9 @@ using System.Threading;
 using System.Web;
 using umbraco.cms.businesslogic.web;
 using Umbraco.Web;
+using Umbraco.Core.Models;
+using Umbraco.Core.Services;
+using Umbraco.Core;
 /// <summary>
 /// Summary description for CustomGobal
 /// </summary>
@@ -53,12 +56,20 @@ public class CustomGlobal : UmbracoApplication
                     switch (responseRestSharp.StatusCode)
                     {
                         case 0:
-                            //Document get = new Document(5628);
+                            var contentService = ApplicationContext.Current.Services.ContentService;
+                            var content = contentService.GetById(2057);
+                            //Content get = new Content(();
+                            KiotVietConst.kiot_token = content.GetValue("token").ToString();
                             //KiotVietConst.kiot_token = get.getProperty("token").Value.ToString();
                             break;
                         case HttpStatusCode.OK:
                             KiotVietConst.kiot_token = responseRestSharp.Data.access_token;
-                            //Document post = new Document(5628);
+                            contentService = ApplicationContext.Current.Services.ContentService;
+                            content = contentService.GetById(2057);
+                            content.SetValue("token", KiotVietConst.kiot_token);
+                            //contentService.Save(content);
+                            contentService.SaveAndPublishWithStatus(content);
+                            //Content post = new Content(2057);
                             //post.getProperty("token").Value = responseRestSharp.Data.access_token;
                             //post.Save();
                             //post.Publish(post.User);
