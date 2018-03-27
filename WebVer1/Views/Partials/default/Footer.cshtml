@@ -13,11 +13,11 @@
 
                         <ul>
                             @foreach (var item in u.GetPropertyValue("address"))
-                {
-                    <li>
-                        <i class="fas fa-map-marker"></i> @item
-                    </li>
-    }
+                            {
+                                <li>
+                                    <i class="fas fa-map-marker"></i> @item
+                                </li>
+                            }
                             <li>
 
                             <li>
@@ -60,7 +60,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                     <div id="email-newsletter" class="clearfix">
                         <h3>Google Map</h3>
-                        <div id='map-canvas' >
+                        <div id='map-canvas'>
                             @Html.Raw(@u.GetPropertyValue("linkGoogleMap"))
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                             <li><img alt="icon 3" src="images/icon 3.png" style="width: 48px; height: 30px;"></li>
                             <li><img alt="icon 2" src="images/icon 2.png" style="width: 48px; height: 30px;"></li>
                             <li><img alt="icon 1" src="images/icon 1.png" style="width: 48px; height: 30px;"></li>
-                        </ul>*@
+                    </ul>*@
                 </div>
             </div>
         </div>
@@ -111,7 +111,7 @@
 
 
 
-<script>       
+<script>
     //Start thong ke Google
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
@@ -122,5 +122,5 @@
 
     ga('create', 'UA-80560430-1', 'auto');
     ga('send', 'pageview');
-    //End 
+    //End
 </script>

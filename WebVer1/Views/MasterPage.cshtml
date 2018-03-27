@@ -151,25 +151,18 @@
             });
         </script>*@
 </head>
-<body style="">
+
+<body style="background-image: url(@Umbraco.TypedMedia(Model.Content.GetPropertyValue<string>("backgroundBanner")).Url.ToString());">
     <form action="/" method="post" runat="server">
         <div id="st-container" class="st-container">
             <div class="st-pusher">
-
-                @*Start Menu Page*@
-                <div class="Navigation">
-                    @Html.Partial("default/Menu")
-                </div>
-                @*End Menu Page*@
-
-
                 <div class="st-content">
-
-                    @RenderBody()
-
 
                     <!-- this is the wrapper for the content -->
                     <div class="st-content-inner">
+
+
+
                         <div class="main clearfix">
                             <!--begin top-->
                             <!--icon menu su dụng trong giao diện mobile-->
@@ -191,7 +184,11 @@
                                         <div class="row">
                                             <!-- start col -->
                                             <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
-
+                                                @*Start Menu Mobile Page*@
+                                                <div class="Navigation">
+                                                    @Html.Partial("default/Menu")
+                                                </div>
+                                                @*End Menu Page*@
                                             </div>
 
 
@@ -366,7 +363,37 @@
                                     <div class="hidden-sm hidden-xs">
                                         <nav id="nav">
                                             <ul class="nav navbar-nav">
-                                                <umbraco:Macro Alias="Menu2" runat="server" />
+                                                @using KiotVietBO;
+                                                @{
+                                                    if (Model.Content.Id == 1047)
+                                                    {
+                                                        <li><a level='1' href="@Model.Content.Url" class="active" target="_self">@Model.Content.Name</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li><a level='1' href="@Model.Content.Url" target="_self">@Model.Content.Name</a></li>
+                                                    }
+                                                    var dsnhomhang = MemoryCacheKiot.dsNhomHang; //new NhomHangBLL().DanhSachNhomHang();
+                                                    foreach (var item in dsnhomhang.data)
+                                                    {
+                                                        <li class="dropdown">
+                                                            <a level='1' href="/danh-muc?pt=@item.categoryId" target="_self" class="dropdown-toggle" data-toggle="">@item.categoryName<i class="fa fa-angle-down"></i></a>
+                                                            <ul class="dropdown-menu">
+                                                                @{
+                                                                    if (item.hasChild)
+                                                                    {
+                                                                        foreach (var item1 in item.children)
+                                                                        {
+                                                                            <li><a href="/danh-muc?pt=@item1.categoryId" target="_self">@item1.categoryName</a></li>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </ul>
+                                                        </li>
+                                                    }
+                                                    <li><a level='1' href="/huong-dan" tile="Hướng dẫn" target="_self">Hướng dẫn</a></li>
+                                                    <li><a level='1' href="/lien-he" tile="Liên hệ" target="_self">Liên hệ</a></li>
+                                                }
                                             </ul>
                                         </nav>
                                     </div>
@@ -384,6 +411,8 @@
                             @*ENd Menu 2*@
 
                             @*start Body*@
+
+                            @RenderBody()
                             <asp:ContentPlaceHolder Id="Content" runat="server">
                                 <!-- Insert default "Content" markup here -->
                             </asp:ContentPlaceHolder>
@@ -405,17 +434,8 @@
 
         </div>
         <!-- /st-container -->
-        <!-- Load main.js-->
-        <!-- OWL Carousel jquery -->
-        <!--end id=page-->
         <div id="freeow-tr" class="freeow freeow-top-right"></div>
         <div id="fb-root"></div>
-
-
-
-
-
-
     </form>
 </body>
 </html>

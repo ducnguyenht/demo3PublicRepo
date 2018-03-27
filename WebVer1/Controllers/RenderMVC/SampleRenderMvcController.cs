@@ -33,4 +33,6 @@ namespace WebVer1.Controllers.RenderMVC
 
         public IList<string> Items { get; set; }
     }
+
+    
 }
