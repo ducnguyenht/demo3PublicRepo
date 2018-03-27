@@ -173,7 +173,12 @@
                             <!--begin top-->
                             <!--icon menu su dụng trong giao diện mobile-->
                             <div id="st-trigger-effects" class="column hidden-lg hidden-md" style="z-index: 9999;">
-                                <button data-effect="st-effect-3" type="button" style="background-color: black;position: fixed;border-bottom-width: 0 !important;left: 0;;box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);top: 0;z-index: 1000;">
+                                <button data-effect="st-effect-3" type="button"
+                                        style="background-color: black;
+                                                position: fixed;
+                                                border-bottom-width: 0 !important;
+                                                left: 0;box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+                                                top: 0;z-index: 1000;">
                                     <i class="fa fa-bars fa-lg"></i>
                                 </button>
                             </div>
@@ -289,7 +294,6 @@
                                     $("#suggesstion-box").hide();
                                 }
                             </script>
-                            <!--end search table-->
 
                             <section class="row-section top-logo top-search top-html " style=''>
                                 <div class="container">
@@ -354,6 +358,10 @@
                                     </div>
                                 </div>
                             </section>
+                            <!--end search table-->
+
+
+                            @*Start Menu 2*@
                             <section class="row-section top-menu " style=''>
                                 <div class="container">
                                     <div class="hidden-sm hidden-xs">
@@ -374,10 +382,15 @@
 
                                 </div>
                             </section>
+                            @*ENd Menu 2*@
 
+                            @*start Body*@
                             <asp:ContentPlaceHolder Id="Content" runat="server">
                                 <!-- Insert default "Content" markup here -->
                             </asp:ContentPlaceHolder>
+                            @*End Body*@
+
+
                             <footer>
                                 <section class="row-section footer-html footer-newsletters footer-html  row_2" style='background:#1f1f1f !important; padding:25px 0px !important; '>
                                     <div class="container">
@@ -387,28 +400,27 @@
                                                 <div class="box">
                                                     <h3>Thông tin liên hệ</h3>
 
-                                                    @*<umbraco:Macro runat="server" language="cshtml">
-                                                            @{
-                                                                var item = Model.NodeById(1078).Mota;
-                                                                @Html.Raw(item.ToString());
+                                    @*@{
+                                        var item = Model.NodeById(1078).Mota;
+                                        @Html.Raw(item.ToString());
 
-                                                                <ul class="address">
-                                                                    <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 1: </strong> @Html.Raw(Model.NodeById(1078).Diachi.ToString())
-                                                                    <li>
-                                                                    <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 2: </strong> 02 Lê Hồng Phong, Phan Thiết, Bình Thuận
-                                                                    <li>
-                                                                    <li><i class="fa fa-phone"></i> <strong>Điện thoại: </strong> @Html.Raw(Model.NodeById(1078).Dienthoai.ToString())</li>
-                                                                    <li><strong>Email:</strong> <a href="#" title="">@Html.Raw(Model.NodeById(1078).Email.ToString())</a></li>
-                                                                    <li><i class="fa fa-facebook"></i> <strong>Fanpage: </strong> <a href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Facebook.ToString())</a>
-                                                                    <li>
+                                        <ul class="address">
+                                            <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 1: </strong> @Html.Raw(Model.NodeById(1078).Diachi.ToString())
+                                            <li>
+                                            <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 2: </strong> 02 Lê Hồng Phong, Phan Thiết, Bình Thuận
+                                            <li>
+                                            <li><i class="fa fa-phone"></i> <strong>Điện thoại: </strong> @Html.Raw(Model.NodeById(1078).Dienthoai.ToString())</li>
+                                            <li><strong>Email:</strong> <a href="#" title="">@Html.Raw(Model.NodeById(1078).Email.ToString())</a></li>
+                                            <li><i class="fa fa-facebook"></i> <strong>Fanpage: </strong> <a href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Facebook.ToString())</a>
+                                            <li>
 
-                                                                    <li><i class="fa fa-home"></i> <strong>website: </strong> <a href="@Html.Raw(Model.NodeById(1078).Website.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Website.ToString())</a>
-                                                                    <li>
+                                            <li><i class="fa fa-home"></i> <strong>website: </strong> <a href="@Html.Raw(Model.NodeById(1078).Website.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Website.ToString())</a>
+                                            <li>
 
-                                                                </ul>
+                                        </ul>
 
-                                                            }
-                                                        </umbraco:Macro>*@
+                                    }*@
+             
 
 
                                                 </div>
@@ -490,8 +502,8 @@
                                                     <h3>Fanpage shop</h3>
 
                                                     @*<umbraco:Macro runat="server" language="cshtml">
-                                                            <div class="fb-like-box" data-colorscheme="light" data-header="true" data-href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" data-show-border="true" data-show-faces="true" data-stream="false"> </div>
-                                                        </umbraco:Macro>*@
+                                    <div class="fb-like-box" data-colorscheme="light" data-header="true" data-href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" data-show-border="true" data-show-faces="true" data-stream="false"> </div>
+                                </umbraco:Macro>*@
 
 
                                                 </div>
