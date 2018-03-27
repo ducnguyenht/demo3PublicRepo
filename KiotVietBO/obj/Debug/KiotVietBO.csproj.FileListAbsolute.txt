@@ -19,3 +19,9 @@ D:\Project\GiftHub\trunk\KiotVietBO\obj\Debug\KiotVietBO.csproj.CoreCompileInput
 D:\Project\GiftHub\trunk\KiotVietBO\obj\Debug\KiotVietBO.dll
 D:\Project\GiftHub\trunk\KiotVietBO\obj\Debug\KiotVietBO.pdb
 D:\Project\GiftHub\trunk\KiotVietBO\obj\Debug\KiotVietBO.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\GitRepo5\trunk\KiotVietBO\bin\Debug\KiotVietBO.dll
+C:\Users\Administrator\Desktop\GitRepo5\trunk\KiotVietBO\bin\Debug\KiotVietBO.pdb
+C:\Users\Administrator\Desktop\GitRepo5\trunk\KiotVietBO\obj\Debug\KiotVietBO.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\GitRepo5\trunk\KiotVietBO\obj\Debug\KiotVietBO.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\GitRepo5\trunk\KiotVietBO\obj\Debug\KiotVietBO.dll
+C:\Users\Administrator\Desktop\GitRepo5\trunk\KiotVietBO\obj\Debug\KiotVietBO.pdb
