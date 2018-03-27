@@ -360,6 +360,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\TrangChu.cshtml" />
     <Content Include="Views\Partials\default\Header.cshtml" />
+    <Content Include="Views\Partials\default\Footer.cshtml" />
+    <Content Include="Views\Partials\default\ButtonTop.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

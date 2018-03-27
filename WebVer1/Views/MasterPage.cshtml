@@ -1,5 +1,6 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="vn" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
@@ -390,161 +391,14 @@
 
 
                             <footer>
-                                <section class="row-section footer-html footer-newsletters footer-html  row_2" style='background:#1f1f1f !important; padding:25px 0px !important; '>
-                                    <div class="container">
-                                        <div class="row">
-
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                                <div class="box">
-                                                    <h3>Thông tin liên hệ</h3>
-
-                                                    @{
-                                                        var u = Umbraco.Content(2057);
-                                                        var t = 1;
-                                                        @*var item = Model.NodeById(1078).Mota;
-                                                            @Html.Raw(item.ToString());
-
-                                                            <ul class="address">
-                                                                <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 1: </strong> @Html.Raw(Model.Content.Id(2057).Diachi.ToString())
-                                                                <li>
-                                                                <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 2: </strong> 02 Lê Hồng Phong, Phan Thiết, Bình Thuận
-                                                                <li>
-                                                                <li><i class="fa fa-phone"></i> <strong>Điện thoại: </strong> @Html.Raw(Model.NodeById(1078).Dienthoai.ToString())</li>
-                                                                <li><strong>Email:</strong> <a href="#" title="">@Html.Raw(Model.NodeById(1078).Email.ToString())</a></li>
-                                                                <li><i class="fa fa-facebook"></i> <strong>Fanpage: </strong> <a href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Facebook.ToString())</a>
-                                                                <li>
-
-                                                                <li><i class="fa fa-home"></i> <strong>website: </strong> <a href="@Html.Raw(Model.NodeById(1078).Website.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Website.ToString())</a>
-                                                                <li>
-
-                                                            </ul>*@
-
-                                                        <ul>
-                                                            @{var i = 1;}
-                                                            @foreach (var item in u.GetPropertyValue("address"))
-                                                            {
-
-                                                                <li>
-                                                                    <strong>Địa chỉ @Html.Raw(i++): </strong> @item
-                                                                </li>
-                                                            }
-                                                        </ul>
-
-                                                    }
-
-
-
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                                <div class="box">
-                                                    <h3>DỊCH VỤ KHÁCH HÀNG</h3>
-
-                                                    <ul class="address">
-                                                        @*<umbraco:Macro Alias="DICHVUKHACHHANG" runat="server"></umbraco:Macro>*@
-                                                    </ul>
-
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-
-
-
-                                                <!--footer-->
-                                                <section id="email-newsletter" class="clearfix">
-                                                    <h3>Google Map</h3>
-                                                    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>	<!-- Google Maps API -->
-                                                    <script>
-                                                        var map; // Google map object
-
-                                                        // Initialize and display a google map
-                                                        function Init() {
-                                                            ShowLocation(10.9397546, 108.1013938, "PHỤ KIỆN PHAN THIẾT<br/>Đc: 12 Phạm Ngọc Thạch, P.Phú Trinh, TP.Phan Thiết");
-                                                        }
-
-                                                        // Display a map centered at the specified coordinate with a marker and InfoWindow.
-                                                        function ShowLocation(lat, lng, title) {
-                                                            // Create a Google coordinate object for where to center the map
-                                                            var latlng = new google.maps.LatLng(lat, lng);
-
-                                                            // Map options for how to display the Google map
-                                                            var mapOptions = { zoom: 15, center: latlng };
-
-                                                            // Show the Google map in the div with the attribute id 'map-canvas'.
-                                                            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-                                                            // Place a Google Marker at the same location as the map center
-                                                            // When you hover over the marker, it will display the title
-                                                            var marker = new google.maps.Marker({
-                                                                position: latlng,
-                                                                map: map,
-                                                                title: title
-                                                            });
-
-                                                            // Create an InfoWindow for the marker
-                                                            var contentString = "<b>" + title + "</b>"; // HTML text to display in the InfoWindow
-                                                            var infowindow = new google.maps.InfoWindow({ content: contentString });
-
-                                                            // Set event to display the InfoWindow anchored to the marker when the marker is clicked.
-                                                            google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); });
-                                                        }
-
-                                                        // Call the method 'Init()' to display the google map when the web page is displayed ( load event )
-                                                        google.maps.event.addDomListener(window, 'load', Init);
-
-                                                    </script>
-
-                                                    <div id='map-canvas' style="height:215px;border-radius: 5px;"></div>
-                                                </section>
-
-                                                <!--footer-->
-
-
-
-
-
-
-
-
-
-                                            </div><div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                                <div class="box">
-                                                    <h3>Fanpage shop</h3>
-
-                                                    @*<umbraco:Macro runat="server" language="cshtml">
-                                                            <div class="fb-like-box" data-colorscheme="light" data-header="true" data-href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" data-show-border="true" data-show-faces="true" data-stream="false"> </div>
-                                                        </umbraco:Macro>*@
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>    <section class="row-section footer-html footer-html  row_3" style='background:#131313 !important; padding:10px 0px !important; '>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                                                <div class="copyright">
-                                                    <p>PHUKIENPHANTHIET.COM © 2016. All Rights Reserved. Design by <a href="http://itphanthiet.com" title=""> <strong>ITPhanThiet</strong> </a>.</p>
-                                                </div>
-                                            </div><div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                                <ul class="payment">
-                                                    <li><img alt="icon 3" src="images/icon 3.png" style="width: 48px; height: 30px;"></li>
-                                                    <li><img alt="icon 2" src="images/icon 2.png" style="width: 48px; height: 30px;"></li>
-                                                    <li><img alt="icon 1" src="images/icon 1.png" style="width: 48px; height: 30px;"></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
+                                @Html.Partial("default/Footer")
                             </footer>
                         </div>
                         <!-- /main -->
                     </div>
                     <!-- /st-content-inner -->
-                </div><!-- /st-content -->
+                </div>
+                <!-- /st-content -->
 
             </div>
             <!-- /st-pusher -->
@@ -556,50 +410,10 @@
         <!--end id=page-->
         <div id="freeow-tr" class="freeow freeow-top-right"></div>
         <div id="fb-root"></div>
-        @*<script>
-                (function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.0";
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
-            <script src="https://apis.google.com/js/platform.js" async defer></script>*@
 
 
-        @*<style>
-                #bttop {
-                    text-align: center;
-                    padding: 5px;
-                    position: fixed;
-                    bottom: 5px;
-                    right: 30px;
-                    cursor: pointer;
-                    display: none;
-                    color: #fff;
-                    font-size: 11px;
-                    font-weight: 900;
-                    border-radius: 30px;
-                }
 
-                    #bttop:hover {
-                        border: 1px solid #009AE2;
-                    }
-            </style>
-            <script type="text/javascript">$(function () { $(window).scroll(function () { if ($(this).scrollTop() != 0) { $('#bttop').fadeIn(); } else { $('#bttop').fadeOut(); } }); $('#bttop').click(function () { $('body,html').animate({ scrollTop: 0 }, 800); }); });</script>
-            <div id="bttop" style="z-index: 9999; display: block;"><img src="/media/5362/gototop.png" alt="lên đầu trang" alt="len dau trang" title="lên đầu trang"></div>*@
-        @*<script>
-                (function (i, s, o, g, r, a, m) {
-                    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                        (i[r].q = i[r].q || []).push(arguments)
-                    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-                ga('create', 'UA-80560430-1', 'auto');
-                ga('send', 'pageview');
-
-            </script>*@
 
 
     </form>

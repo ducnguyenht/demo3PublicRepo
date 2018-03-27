@@ -1,0 +1,126 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+@{
+    var u = Umbraco.Content(2057);
+    <section class="row-section footer-html footer-newsletters footer-html  row_2" style='background:#1f1f1f !important; padding:25px 0px !important; '>
+        <div class="container">
+            <div class="row">
+
+                @*Start Col 1*@
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="box">
+                        <h3>Thông tin liên hệ</h3>
+
+                        <ul>
+                            @foreach (var item in u.GetPropertyValue("address"))
+                {
+                    <li>
+                        <i class="fas fa-map-marker"></i> @item
+                    </li>
+    }
+                            <li>
+
+                            <li>
+                                <i class="fas fa-mobile-alt"></i> @Html.Raw(u.GetPropertyValue("mobile"))
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope-square"></i>
+                                <a href="mailto:@Html.Raw(u.GetPropertyValue("email"))" title="">@Html.Raw(u.GetPropertyValue("email"))</a>
+                            </li>
+                            <li>
+                                <i class="fab fa-facebook-f"></i>
+                                <a href="@Html.Raw(u.GetPropertyValue("fanPage"))" target="_blank">@Html.Raw(u.GetPropertyValue("fanPage"))</a>
+                            <li>
+                            <li>
+                                <i class="fas fa-globe"></i>
+                                <a href="@Html.Raw(u.GetPropertyValue("linkWebsite"))" target="_blank">@Html.Raw(u.GetPropertyValue("linkWebsite"))</a>
+                            <li>
+
+                        </ul>
+                    </div>
+                </div>
+                @*End Col 1*@
+
+
+                @*Start Col 2*@
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="box">
+                        <h3>DỊCH VỤ KHÁCH HÀNG</h3>
+
+
+                        @u.GetPropertyValue("descriptionFooter")
+
+
+                    </div>
+                </div>
+                @*End Col 2*@
+
+
+                @*Star col 3*@
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div id="email-newsletter" class="clearfix">
+                        <h3>Google Map</h3>
+                        <div id='map-canvas' >
+                            @Html.Raw(@u.GetPropertyValue("linkGoogleMap"))
+                        </div>
+                    </div>
+                </div>
+                @*End Col 3*@
+
+
+                @*Start Col 4*@
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="box">
+                        <h3>Fanpage shop</h3>
+                        <div class="fb-like-box" data-colorscheme="light" data-header="true" data-href="@Html.Raw(u.GetPropertyValue("fanPage"))" data-show-border="true" data-show-faces="true" data-stream="false"> </div>
+                    </div>
+                </div>
+                @*End Col 4*@
+
+
+            </div>
+        </div>
+    </section>
+    <section class="row-section footer-html footer-html  row_3" style='background:#131313 !important; padding:10px 0px !important; '>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <div class="copyright">
+                        <p>
+                            @u.GetPropertyValue("copyrightCompany")
+                        </p>
+                    </div>
+                </div><div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    @*<ul class="payment">
+                            <li><img alt="icon 3" src="images/icon 3.png" style="width: 48px; height: 30px;"></li>
+                            <li><img alt="icon 2" src="images/icon 2.png" style="width: 48px; height: 30px;"></li>
+                            <li><img alt="icon 1" src="images/icon 1.png" style="width: 48px; height: 30px;"></li>
+                        </ul>*@
+                </div>
+            </div>
+        </div>
+    </section>
+
+    //Start button Scroll top
+    <section>
+        @Html.Partial("default/ButtonTop")
+    </section>
+    //End button Scroll top
+
+}
+
+
+
+<script>       
+    //Start thong ke Google
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-80560430-1', 'auto');
+    ga('send', 'pageview');
+    //End 
+</script>

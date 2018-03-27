@@ -89,6 +89,7 @@ public class CustomGlobal : UmbracoApplication
                 {
                     new NhomHangBLL().DanhSachNhomHangCache();
                     new HangHoaBLL().DanhSachHangHoaCache();
+                    new ChiNhanhBLL().DanhSachChiNhanh();
                     HttpContext.Current.Cache.Insert(
                          "CacheDB",
                          "Cache1hour",
