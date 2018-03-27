@@ -359,8 +359,6 @@
                                 </div>
                             </section>
                             <!--end search table-->
-
-
                             @*Start Menu 2*@
                             <section class="row-section top-menu " style=''>
                                 <div class="container">
@@ -400,27 +398,41 @@
                                                 <div class="box">
                                                     <h3>Thông tin liên hệ</h3>
 
-                                    @*@{
-                                        var item = Model.NodeById(1078).Mota;
-                                        @Html.Raw(item.ToString());
+                                                    @{
+                                                        var u = Umbraco.Content(2057);
+                                                        var t = 1;
+                                                        @*var item = Model.NodeById(1078).Mota;
+                                                            @Html.Raw(item.ToString());
 
-                                        <ul class="address">
-                                            <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 1: </strong> @Html.Raw(Model.NodeById(1078).Diachi.ToString())
-                                            <li>
-                                            <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 2: </strong> 02 Lê Hồng Phong, Phan Thiết, Bình Thuận
-                                            <li>
-                                            <li><i class="fa fa-phone"></i> <strong>Điện thoại: </strong> @Html.Raw(Model.NodeById(1078).Dienthoai.ToString())</li>
-                                            <li><strong>Email:</strong> <a href="#" title="">@Html.Raw(Model.NodeById(1078).Email.ToString())</a></li>
-                                            <li><i class="fa fa-facebook"></i> <strong>Fanpage: </strong> <a href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Facebook.ToString())</a>
-                                            <li>
+                                                            <ul class="address">
+                                                                <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 1: </strong> @Html.Raw(Model.Content.Id(2057).Diachi.ToString())
+                                                                <li>
+                                                                <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 2: </strong> 02 Lê Hồng Phong, Phan Thiết, Bình Thuận
+                                                                <li>
+                                                                <li><i class="fa fa-phone"></i> <strong>Điện thoại: </strong> @Html.Raw(Model.NodeById(1078).Dienthoai.ToString())</li>
+                                                                <li><strong>Email:</strong> <a href="#" title="">@Html.Raw(Model.NodeById(1078).Email.ToString())</a></li>
+                                                                <li><i class="fa fa-facebook"></i> <strong>Fanpage: </strong> <a href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Facebook.ToString())</a>
+                                                                <li>
 
-                                            <li><i class="fa fa-home"></i> <strong>website: </strong> <a href="@Html.Raw(Model.NodeById(1078).Website.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Website.ToString())</a>
-                                            <li>
+                                                                <li><i class="fa fa-home"></i> <strong>website: </strong> <a href="@Html.Raw(Model.NodeById(1078).Website.ToString())" target="_blank">@Html.Raw(Model.NodeById(1078).Website.ToString())</a>
+                                                                <li>
 
-                                        </ul>
+                                                            </ul>*@
 
-                                    }*@
-             
+                                                        <ul>
+                                                            @{var i = 1;}
+                                                            @foreach (var item in u.GetPropertyValue("address"))
+                                                            {
+
+                                                                <li>
+                                                                    <strong>Địa chỉ @Html.Raw(i++): </strong> @item
+                                                                </li>
+                                                            }
+                                                        </ul>
+
+                                                    }
+
+
 
 
                                                 </div>
@@ -502,8 +514,8 @@
                                                     <h3>Fanpage shop</h3>
 
                                                     @*<umbraco:Macro runat="server" language="cshtml">
-                                    <div class="fb-like-box" data-colorscheme="light" data-header="true" data-href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" data-show-border="true" data-show-faces="true" data-stream="false"> </div>
-                                </umbraco:Macro>*@
+                                                            <div class="fb-like-box" data-colorscheme="light" data-header="true" data-href="@Html.Raw(Model.NodeById(1078).Facebook.ToString())" data-show-border="true" data-show-faces="true" data-stream="false"> </div>
+                                                        </umbraco:Macro>*@
 
 
                                                 </div>
