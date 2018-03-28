@@ -167,13 +167,9 @@
                                                 </div>
                                                 @*End Menu Page*@
                                             </div>
-
-
-
-
                                             <!-- end col -->
                                             <!-- start Gio hang col -->
-                                            @*<script type="text/javascript">
+                                            <script type="text/javascript">
 
                                                     $().ready(function () {
                                                         $('body').click(function () {
@@ -181,14 +177,19 @@
                                                         });
                                                         $.ajax({
                                                             type: "GET",
-                                                            url: "/Umbraco/webservices/PKTestService.asmx/CartCount",
+                                                            url: "/umbraco/api/CartsAPI/CartCount",
                                                             contentType: "application/json",
                                                             dataType: "json",
-                                                            success: function (data) { $('.count').html(JSON.parse(data.d)); },
+                                                            success: function (result) {
+                                                                //$('.count').html(JSON.parse(data.data.d));
+
+                                                                result.Data.d;
+                                                                console.log(data);
+                                                            },
                                                             error: function (data) { alert("error"); }
                                                         });
                                                     });
-                                                </script>*@
+                                            </script>
                                             <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 hidden-xs hidden-sm header-right">
                                                 <i class="thead checkError"></i>
                                                 <ul class="hidden-sm hidden-xs links pull-right" style="z-index: 9999;">
@@ -220,6 +221,7 @@
                                                 <!-- end quick-user -->
 
                                                 <div class="quick-access pull-left">
+
                                                 </div>
                                                 <!-- end quick-access -->
 
@@ -234,57 +236,7 @@
 
 
                             <!--search table -->
-                            <script>
-                                $(document).ready(function () {
-                                    $.makeTable = function (mydata) {
-                                        var table = $('<table id="dynamictb" style="z-index: 9999;font-size: 13px;width: 100%;">');
-                                        //<thead><tr><th>sản phẩm</th><th>tình trạng</th><th>danh mục</th></tr></thead>
-
-
-
-                                        $.each(mydata, function (index, value) {
-                                            var TableRow = '<tr style="border-bottom: 1px solid #dedede;">';
-                                            $.each(value, function (key, val) {
-                                                TableRow += "<td style='width:auto;padding: 5px'>" + val + "</td>";
-                                            });
-                                            TableRow += "</tr>";
-                                            $(table).append(TableRow);
-                                        });
-                                        return ($(table));
-                                    };
-                                    $(document).on("click", "#dynamictb tr", function () {
-                                        var $name = $(this).children(":first").text();
-                                        $('#ctrlSearch_3_search').val($name);
-                                        $('#ctrlSearch_3_btnSearch').click();
-                                        $("#dynamictb").remove();
-                                    });
-                                    $("#ctrlSearch_3_search").keyup(function () {
-                                        $.ajax({
-                                            type: "GET",
-                                            url: "/Umbraco/webservices/PKTestService.asmx/SearchProduct",
-                                            contentType: "application/json",
-                                            dataType: "json",
-                                            data: { "pk": "'" + $(this).val() + "'" },
-                                            beforeSend: function () {
-                                                $("#search-box").css("background", "#FFF url(LoaderIcon.gif) no-repeat 165px");
-                                            },
-                                            success: function (resp) {
-                                                $("#dynamictb").remove();
-                                                var res = JSON.parse(resp.d);
-                                                var mydata = eval(res);
-                                                var table = $.makeTable(mydata);
-                                                $(table).appendTo("#TableCont");
-                                                $("#search-box").css("background", "#FFF url() no-repeat 165px");
-                                            }
-                                        });
-                                    });
-                                });
-
-                                function selectCountry(val) {
-                                    $("#search-box").val(val);
-                                    $("#suggesstion-box").hide();
-                                }
-                            </script>
+                            
 
                             <section class="row-section top-logo top-search top-html " style=''>
                                 <div class="container">
@@ -312,7 +264,7 @@
                                                     border-left: 0px;
                                                     border-right: 0px;
                                                     border-top: 0px;z-index: 9999;
-                                                    background-color: #fff;;
+                                                    background-color: #fff;
                                                     display: table;
                                                     position: absolute;"></table>
                                         </div>
