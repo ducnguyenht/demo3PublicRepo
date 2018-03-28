@@ -134,22 +134,7 @@
         }(document, 'script', 'facebook-jssdk'));
     </script>
 
-    @*<script type="text/javascript">
 
-            $().ready(function () {
-                $('body').click(function () {
-                    $("#dynamictb").remove();
-                });
-                $.ajax({
-                    type: "GET",
-                    url: "/Umbraco/webservices/PKTestService.asmx/CartCount",
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (data) { $('.count').html(JSON.parse(data.d)); },
-                    error: function (data) { alert("error"); }
-                });
-            });
-        </script>*@
 </head>
 
 <body style="background-image: url(@Umbraco.TypedMedia(Model.Content.GetPropertyValue<string>("backgroundBanner")).Url.ToString());">
@@ -160,22 +145,14 @@
 
                     <!-- this is the wrapper for the content -->
                     <div class="st-content-inner">
-
-
-
                         <div class="main clearfix">
                             <!--begin top-->
                             <!--icon menu su dụng trong giao diện mobile-->
-                            <div id="st-trigger-effects" class="column hidden-lg hidden-md" style="z-index: 9999;">
-                                <button data-effect="st-effect-3" type="button"
-                                        style="background-color: black;
-                                                position: fixed;
-                                                border-bottom-width: 0 !important;
-                                                left: 0;box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
-                                                top: 0;z-index: 1000;">
+                            <section id="st-trigger-effects" class="column hidden-lg hidden-md" style="z-index: 9999;">
+                                <button data-effect="st-effect-3" type="button" class="btn-top-mobile">
                                     <i class="fa fa-bars fa-lg"></i>
                                 </button>
-                            </div>
+                            </section>
                             <!--icon menu su dụng trong giao diện mobile-->
 
                             <section id="topheader" style="height: 40px;">
@@ -186,7 +163,7 @@
                                             <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
                                                 @*Start Menu Mobile Page*@
                                                 <div class="Navigation">
-                                                    @Html.Partial("default/Menu")
+                                                    @Html.Partial("default/MenuMobile")
                                                 </div>
                                                 @*End Menu Page*@
                                             </div>
@@ -195,7 +172,23 @@
 
 
                                             <!-- end col -->
-                                            <!-- start col -->
+                                            <!-- start Gio hang col -->
+                                            @*<script type="text/javascript">
+
+                                                    $().ready(function () {
+                                                        $('body').click(function () {
+                                                            $("#dynamictb").remove();
+                                                        });
+                                                        $.ajax({
+                                                            type: "GET",
+                                                            url: "/Umbraco/webservices/PKTestService.asmx/CartCount",
+                                                            contentType: "application/json",
+                                                            dataType: "json",
+                                                            success: function (data) { $('.count').html(JSON.parse(data.d)); },
+                                                            error: function (data) { alert("error"); }
+                                                        });
+                                                    });
+                                                </script>*@
                                             <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 hidden-xs hidden-sm header-right">
                                                 <i class="thead checkError"></i>
                                                 <ul class="hidden-sm hidden-xs links pull-right" style="z-index: 9999;">
@@ -299,14 +292,14 @@
                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                             <h1 class="logo">
                                                 <a title="" href="/">
-                                                    <img alt="" style="max-width: 100%; max-height: 100%" src="logo.png" />
+                                                    <img src="@Umbraco.TypedMedia(Model.Content.GetPropertyValue<string>("LogoPage")).Url.ToString()" alt="@Html.Raw(seo1)" />
                                                 </a>
                                             </h1>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                             <div class="header-right">
 
-                                                <umbraco:Macro Alias="searchbox" runat="server"></umbraco:Macro>
+                                                @Html.Partial("default/CtrlSearchPartial")
 
                                             </div>
                                             <table id="TableCont" style="font-family: 'Arial';
@@ -327,22 +320,22 @@
                                             <ul class="social">
                                                 <li>
                                                     <a href="https://www.facebook.com/pkpt01" title="Phu Kiện Phan Thiết Page" class="fb hover" target="_blank">
-                                                        <i class="fa fa-facebook"></i>
+                                                        <i class="fab fa-facebook-f"></i>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a href="" title="" class="tw hover" target="_blank">
-                                                        <i class="fa fa-twitter"></i>
+                                                        <i class="fab fa-twitter-square"></i>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a href="https://www.youtube.com/playlist?list=PL9Kbj26vhVPZvrHuGpMsTaW3xfpn8-lAe" title="PhuKienPhanThiet Channel" class="yt hover" target="_blank">
-                                                        <i class="fa fa-youtube-play"></i>
+                                                        <i class="fab fa-youtube-square"></i>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a href="" title="" class="gg hover" target="_blank">
-                                                        <i class="fa fa-google-plus"></i>
+                                                        <i class="fab fa-google-plus"></i>
                                                     </a>
                                                 </li>
                                                 <li>
@@ -357,58 +350,14 @@
                                 </div>
                             </section>
                             <!--end search table-->
-                            @*Start Menu 2*@
+                            @*Start Menu Desktop*@
                             <section class="row-section top-menu " style=''>
                                 <div class="container">
-                                    <div class="hidden-sm hidden-xs">
-                                        <nav id="nav">
-                                            <ul class="nav navbar-nav">
-                                                @using KiotVietBO;
-                                                @{
-                                                    if (Model.Content.Id == 1047)
-                                                    {
-                                                        <li><a level='1' href="@Model.Content.Url" class="active" target="_self">@Model.Content.Name</a></li>
-                                                    }
-                                                    else
-                                                    {
-                                                        <li><a level='1' href="@Model.Content.Url" target="_self">@Model.Content.Name</a></li>
-                                                    }
-                                                    var dsnhomhang = MemoryCacheKiot.dsNhomHang; //new NhomHangBLL().DanhSachNhomHang();
-                                                    foreach (var item in dsnhomhang.data)
-                                                    {
-                                                        <li class="dropdown">
-                                                            <a level='1' href="/danh-muc?pt=@item.categoryId" target="_self" class="dropdown-toggle" data-toggle="">@item.categoryName<i class="fa fa-angle-down"></i></a>
-                                                            <ul class="dropdown-menu">
-                                                                @{
-                                                                    if (item.hasChild)
-                                                                    {
-                                                                        foreach (var item1 in item.children)
-                                                                        {
-                                                                            <li><a href="/danh-muc?pt=@item1.categoryId" target="_self">@item1.categoryName</a></li>
-                                                                        }
-                                                                    }
-                                                                }
-                                                            </ul>
-                                                        </li>
-                                                    }
-                                                    <li><a level='1' href="/huong-dan" tile="Hướng dẫn" target="_self">Hướng dẫn</a></li>
-                                                    <li><a level='1' href="/lien-he" tile="Liên hệ" target="_self">Liên hệ</a></li>
-                                                }
-                                            </ul>
-                                        </nav>
-                                    </div>
-
-                                    <script>
-                                        $(document).ready(function () {
-                                            var url = document.URL;
-
-                                            $("a[href='" + url + "'][level='" + 1 + "']").addClass('active');
-                                        });
-                                    </script>
-
+                                   
+                                           @Html.Partial("default/MenuDesktop")
                                 </div>
                             </section>
-                            @*ENd Menu 2*@
+                            @*ENd Menu Desktop*@
 
                             @*start Body*@
 

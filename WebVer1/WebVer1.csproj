@@ -356,12 +356,14 @@
     <Content Include="Views\SampleRenderMvc.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Partials\default\Menu.cshtml" />
+    <Content Include="Views\Partials\default\MenuMobile.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\TrangChu.cshtml" />
     <Content Include="Views\Partials\default\Header.cshtml" />
     <Content Include="Views\Partials\default\Footer.cshtml" />
     <Content Include="Views\Partials\default\ButtonTop.cshtml" />
+    <Content Include="Views\Partials\default\CtrlSearchPartial.cshtml" />
+    <Content Include="Views\Partials\default\MenuDesktop.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

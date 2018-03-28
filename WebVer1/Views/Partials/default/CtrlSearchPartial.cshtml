@@ -1,0 +1,17 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.btnSearch').keydown(function (event) {
+            if (event.keyCode == 13) {
+                this.form.submit();
+                return false;
+            }
+        });
+    });
+</script>
+<input id="search" style="width: 85%" type="text" autocomplete="off" name="search" class="search_query" placeholder="Từ khóa tìm kiếm..." value="" runat="server" />
+<button id="btnSearch" class="btnSearch" runat="server" hidefocus="true" style="border: 0 none; background-color: rgba(255, 255, 255, 0)" onserverclick="btnSearch_Click"><i class="fa fa-search fa-lg"></i></button>
+

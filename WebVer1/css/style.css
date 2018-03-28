@@ -587,9 +587,14 @@ ul.links {
     padding: 10px 0 5px 0px
 }
 
-.search {
-    padding-top: 5px;
-}
+    .top-logo .logo img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .search {
+        padding-top: 5px;
+    }
 
 .main-wrap .search {
     padding: 15px 0px
@@ -644,7 +649,7 @@ ul.social {
             display: block;
             background: #cdcdcd;
             color: #fff;
-            padding: 5px 10px;
+            padding: 5px;
             -webkit-border-radius: 70px;
             -moz-border-radius: 70px;
             border-radius: 70px;
@@ -652,7 +657,7 @@ ul.social {
             height: 35px;
             text-align: center;
             font-size: 20px;
-            line-height: 23px
+            line-height: 24px
         }
 
             ul.social li a i {
@@ -5835,3 +5840,12 @@ a.btn-big {
 /*print*/
 
 
+.main .btn-top-mobile {
+    background-color: black;
+    position: fixed;
+    border-bottom-width: 0 !important;
+    left: 0;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+    top: 0;
+    z-index: 1000;
+}
