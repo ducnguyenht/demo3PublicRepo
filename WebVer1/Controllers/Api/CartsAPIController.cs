@@ -1,35 +1,29 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Results;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using Umbraco.Web.WebApi;
+using Umbraco.Web.Mvc;
 
 namespace WebVer1.Controllers.Api
 {
-    public class CartsAPIController :  UmbracoApiController
+    public class CartsAPIController : SurfaceController
     {
-        [System.Web.Http.HttpGet]
+
+        [HttpGet]
         public JsonResult CartCount()
         {//string id
             List<string> dsIdHangHoa = null;
-            if (HttpContext.Current.Session!=null && HttpContext.Current.Session["dsIdHangHoa"] != null)
+            if (HttpContext.Session != null && HttpContext.Session["dsIdHangHoa"] != null)
             {
-                dsIdHangHoa = HttpContext.Current.Session["dsIdHangHoa"] as List<string>;
+                dsIdHangHoa = HttpContext.Session["dsIdHangHoa"] as List<string>;
             }
             else
             {
                 dsIdHangHoa = new List<string>();
             }
 
-            return new JsonResult() { Data = new { d = dsIdHangHoa.Count }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            return Json(dsIdHangHoa.Count, JsonRequestBehavior.AllowGet);
             //return JsonConvert.SerializeObject(dsIdHangHoa.Count);
         }
+
 
     }
 }

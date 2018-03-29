@@ -1,0 +1,38 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+
+
+<i class="thead checkError"></i>
+<ul class="hidden-sm hidden-xs links pull-right" style="z-index: 9999;">
+
+
+    <li>
+        <a href="/gio-hang">
+            <i class="fa fa-shopping-cart"></i><span class="cart-total-items">
+                <span> Giỏ hàng</span> ( <span id="count" class="count"></span> )
+            </span>
+        </a>
+    </li>
+
+</ul>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('body').click(function () {
+            $("#dynamictb").remove();
+        });
+        $.ajax({
+            type: "GET",
+            url: "umbraco/surface/CartsAPI/CartCount",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (result) {
+                $('.count').html(JSON.parse(result));
+            },
+            error: function (data) { alert("error"); }
+        });
+    });
+</script>

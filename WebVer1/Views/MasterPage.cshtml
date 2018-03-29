@@ -6,6 +6,7 @@
 <head>
 
     <base href="/" />
+    <link rel="shortcut icon" href="../favicon.ico">
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -58,7 +59,7 @@
     <!--Facebook-->
     <link rel="image_src" href="" / >
     <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.ico">
+
     <meta http-equiv="content-language" content="vi-VN">
     <meta property="og:title" content="@seo1" />
     <meta property="og:description" content="@desc" />
@@ -155,55 +156,26 @@
                             </section>
                             <!--icon menu su dụng trong giao diện mobile-->
 
-                            <section id="topheader" style="height: 40px;">
-                                <section id="topbar" style="background-color: black;position: fixed;border-bottom-width: 0 !important;left: 0;right: 0;width: 100%;box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);top: 0;z-index: 1000;adding: 7px 0;">
+                            <section id="topheader" class="topHeader-home" >
+                                <section id="topbar" class="topbar-home" >
                                     <div class="container" style="position: relative;">
                                         <div class="row">
                                             <!-- start col -->
                                             <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
                                                 @*Start Menu Mobile Page*@
                                                 <div class="Navigation">
-                                                    @Html.Partial("default/MenuMobile")
+                                                    @Html.Partial("default/MenuMobilePartial")
                                                 </div>
                                                 @*End Menu Page*@
                                             </div>
                                             <!-- end col -->
                                             <!-- start Gio hang col -->
-                                            <script type="text/javascript">
-
-                                                    $().ready(function () {
-                                                        $('body').click(function () {
-                                                            $("#dynamictb").remove();
-                                                        });
-                                                        $.ajax({
-                                                            type: "GET",
-                                                            url: "/umbraco/api/CartsAPI/CartCount",
-                                                            contentType: "application/json",
-                                                            dataType: "json",
-                                                            success: function (result) {
-                                                                //$('.count').html(JSON.parse(data.data.d));
-
-                                                                result.Data.d;
-                                                                console.log(data);
-                                                            },
-                                                            error: function (data) { alert("error"); }
-                                                        });
-                                                    });
-                                            </script>
+                                            
+                               
                                             <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 hidden-xs hidden-sm header-right">
-                                                <i class="thead checkError"></i>
-                                                <ul class="hidden-sm hidden-xs links pull-right" style="z-index: 9999;">
 
-
-                                                    <li>
-                                                        <a href="/gio-hang">
-                                                            <i class="fa fa-shopping-cart"></i><span class="cart-total-items">
-                                                                <span> Giỏ hàng</span> ( <span id="count" class="count"></span> )
-                                                            </span>
-                                                        </a>
-                                                    </li>
-
-                                                </ul>
+                                                @Html.Partial("default/GioHangPartial")
+                                              
                                             </div>
                                             <!-- end col -->
                                             <!-- start col -->
@@ -236,8 +208,6 @@
 
 
                             <!--search table -->
-                            
-
                             <section class="row-section top-logo top-search top-html " style=''>
                                 <div class="container">
                                     <div class="row">
@@ -254,19 +224,7 @@
                                                 @Html.Partial("default/CtrlSearchPartial")
 
                                             </div>
-                                            <table id="TableCont" style="font-family: 'Arial';
-                                                    border-collapse: collapse;
-                                                    border-bottom: 2px solid #00cccc;
-                                                    border-spacing: 0px;
-                                                    color: #999;
-                                                    cursor: default;
-                                                    width: 400px;
-                                                    border-left: 0px;
-                                                    border-right: 0px;
-                                                    border-top: 0px;z-index: 9999;
-                                                    background-color: #fff;
-                                                    display: table;
-                                                    position: absolute;"></table>
+                                            
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                             <ul class="social">
@@ -302,26 +260,26 @@
                                 </div>
                             </section>
                             <!--end search table-->
+
+
                             @*Start Menu Desktop*@
                             <section class="row-section top-menu " style=''>
                                 <div class="container">
-                                   
-                                           @Html.Partial("default/MenuDesktop")
+
+                                    @Html.Partial("default/MenuDesktopPartial")
                                 </div>
                             </section>
                             @*ENd Menu Desktop*@
 
                             @*start Body*@
-
-                            @RenderBody()
-                            <asp:ContentPlaceHolder Id="Content" runat="server">
-                                <!-- Insert default "Content" markup here -->
-                            </asp:ContentPlaceHolder>
+                            <section class="row ">
+                                @RenderBody()
+                            </section>
                             @*End Body*@
 
 
                             <footer>
-                                @Html.Partial("default/Footer")
+                                @Html.Partial("default/FooterPartial")
                             </footer>
                         </div>
                         <!-- /main -->

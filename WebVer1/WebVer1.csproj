@@ -356,14 +356,15 @@
     <Content Include="Views\SampleRenderMvc.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Partials\default\MenuMobile.cshtml" />
+    <Content Include="Views\Partials\default\MenuMobilePartial.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\TrangChu.cshtml" />
     <Content Include="Views\Partials\default\Header.cshtml" />
-    <Content Include="Views\Partials\default\Footer.cshtml" />
+    <Content Include="Views\Partials\default\FooterPartial.cshtml" />
     <Content Include="Views\Partials\default\ButtonTop.cshtml" />
     <Content Include="Views\Partials\default\CtrlSearchPartial.cshtml" />
-    <Content Include="Views\Partials\default\MenuDesktop.cshtml" />
+    <Content Include="Views\Partials\default\MenuDesktopPartial.cshtml" />
+    <Content Include="Views\Partials\default\GioHangPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -421,6 +422,8 @@
     <Compile Include="BLL\RootCardBO.cs" />
     <Compile Include="BLL\SEOBLL.cs" />
     <Compile Include="BLL\XemNhieu.cs" />
+    <Compile Include="Controllers\AjaxSurfaceController\CartsSurfaceController.cs" />
+    <Compile Include="Controllers\AjaxSurfaceController\JobSearchController.cs" />
     <Compile Include="Controllers\Api\BranchesApiController.cs" />
     <Compile Include="Controllers\Api\CartsAPIController.cs" />
     <Compile Include="Controllers\Api\CategoriesApiController.cs" />
