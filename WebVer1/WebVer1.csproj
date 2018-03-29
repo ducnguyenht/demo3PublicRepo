@@ -425,7 +425,6 @@
     <Compile Include="Controllers\AjaxSurfaceController\CartsSurfaceController.cs" />
     <Compile Include="Controllers\AjaxSurfaceController\JobSearchController.cs" />
     <Compile Include="Controllers\Api\BranchesApiController.cs" />
-    <Compile Include="Controllers\Api\CartsAPIController.cs" />
     <Compile Include="Controllers\Api\CategoriesApiController.cs" />
     <Compile Include="Controllers\Api\ProductsApiController.cs" />
     <Compile Include="Controllers\Api\SampleWebApiController.cs" />
