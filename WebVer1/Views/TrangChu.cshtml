@@ -45,24 +45,181 @@
             <a class="right carousel-control" href="#myCarousel_3746231448880828" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
         </div>
         <!-- /.carousel -->
-        <script>
-            //script de chạy slide
-            $(document).ready(function () {
-                var owl = $("#slide_3746231448880828");
-                owl.owlCarousel({
-                    items: 6, //man hinh rong
-                    itemsDesktop: [1000, 4], //desktop
-                    itemsDesktopSmall: [900, 3], //table ngang
-                    itemsTablet: [600, 2], //
-                    itemsMobile: false
-                });
-                // Custom Navigation Events
-                $(".next_3746231448880828").click(function () {
-                    owl.trigger('owl.next');
-                })
-                $(".prev_3746231448880828").click(function () {
-                    owl.trigger('owl.prev');
-                })
-            });</script>
+
     </div>
 </section>
+
+
+<div class="main-wrap">
+    <section class="row_section" style=''>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <script language="javascript">
+                                $(document).ready(function () {
+                                    var owl64687824281448880828 = $('#xxxxxxxxxxxx-64687824281448880828');
+                                    owl64687824281448880828.owlCarousel({
+                                        items: 4,
+                                        itemsDesktop: [1024, 3],
+                                        itemsDesktopSmall: [960, 3],
+                                        itemsTablet: [640, 2],
+                                    });
+                                    $("#next64687824281448880828").click(function () {
+                                        owl64687824281448880828.trigger('owl.next');
+                                    })
+                                    $("#prev64687824281448880828").click(function () {
+                                        owl64687824281448880828.trigger('owl.prev');
+                                    })
+                                });
+                            </script>
+                            <section id="products-featured">
+                                <div class="itemfeatured">
+                                    <h2><span>Sản phẩm bán chạy</span></h2>
+                                    <div class="row">
+                                        <!-- Navigation -->
+                                        <div class="featuredNavigation">
+                                            <a class="prev" title="Prev" id="prev64687824281448880828"><i class="fa fa-angle-left fa-3x"></i></a>
+                                            <a class="next" title="Next" id="next64687824281448880828"><i class="fa fa-angle-right fa-3x"></i></a>
+                                        </div>
+                                        <!-- Products -->
+                                        <div id="xxxxxxxxxxxx-64687824281448880828" class="owl-carousel">
+                                            <!-- Products 1-->
+                                            <umbraco:Macro Alias="Sanphamnoibat_home" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <umbraco:Macro Alias="Sanphammoi_home" runat="server" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div>
+                        <section class="box-category">
+                            <div class="heading">
+                                <h2><span>Hỗ trợ</span></h2>
+                            </div>
+                            <div class="main">
+                                <ul class="support-html">
+                                    <umbraco:Macro Alias="MenuHotroRight" runat="server"></umbraco:Macro>
+
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                    <div>
+                        <section class="box-category">
+                            <div class="banner-small">
+                                <umbraco:Macro Alias="Bannerquangcao" runat="server"></umbraco:Macro>
+                            </div>
+                        </section>
+                    </div>
+                    <div>
+                        <!-- Vertical Menu -->
+                        <section class="box-category">
+                            <div class="heading">
+                                <h2><span>Danh mục sản phẩm</span></h2>
+                            </div>
+                            <div class="list-group panelvmenu">
+                                <umbraco:Macro Alias="Menuleft" runat="server"></umbraco:Macro>
+                            </div>
+                        </section>
+                        <script>
+                            var url_cat = document.URL;
+                            $(".panelvmenu a[href='" + url_cat + "']").addClass('active');
+                        </script>
+                    </div>
+                    <div>
+                        <!-- Product silder -->
+
+                        <section id="typical" class="box-category">
+                            <div class="heading">
+                                <h2><span>Bán chạy</span></h2>
+                            </div>
+                            <div class="main">
+                                <div class="typicalNavigation">
+                                    <a class="prev" id="prev80381448880828"><i class="fa fa-chevron-circle-left"></i></a>
+                                    <a class="next" id="next80381448880828"><i class="fa fa-chevron-circle-right"></i></a>
+                                </div>
+                                <div id="typical-products-80381448880828" class="typical-products owl-carousel">
+                                    <umbraco:Macro Alias="Sanphambanchay" runat="server"></umbraco:Macro>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div>
+                        <section class="box-category">
+                            <div class="heading">
+                                <h2><span>Dịch vụ khách hàng</span></h2>
+                            </div>
+                            <div class="main">
+                                <ul class="dv-html">
+                                    <umbraco:Macro Alias="Tintuc_left" runat="server"></umbraco:Macro>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                    <div>
+                        <section class="box-category">
+                            <div class="heading">
+                                <h2><span>Tag</span></h2>
+                            </div>
+                            <div class="main">
+                                <ul class="tags-footer">
+                                    <umbraco:Macro Alias="TAG" runat="server" />
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        //Start script de chạy slide
+        var owl = $("#slide_3746231448880828");
+        owl.owlCarousel({
+            items: 6, //man hinh rong
+            itemsDesktop: [1000, 4], //desktop
+            itemsDesktopSmall: [900, 3], //table ngang
+            itemsTablet: [600, 2], //
+            itemsMobile: false
+        });
+        // Custom Navigation Events
+        $(".next_3746231448880828").click(function () {
+            owl.trigger('owl.next');
+        })
+        $(".prev_3746231448880828").click(function () {
+            owl.trigger('owl.prev');
+        })
+        //End Slider
+
+
+        var owl80381448880828 = $('#typical-products-80381448880828');
+        owl80381448880828.owlCarousel({
+            items: 1,
+            itemsDesktop: [1024, 1],
+            itemsDesktopSmall: [960, 3],
+            itemsTablet: [640, 2],
+        });
+        $("#next80381448880828").click(function () {
+            owl80381448880828.trigger('owl.next');
+        })
+        $("#prev80381448880828").click(function () {
+            owl80381448880828.trigger('owl.prev');
+        })
+    });
+</script>
+
+<script language="javascript">
+    $(document).ready(function () {
+
+    });
+</script>
