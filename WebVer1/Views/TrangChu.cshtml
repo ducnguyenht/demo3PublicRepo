@@ -1,6 +1,68 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@inherits umbraco.MacroEngines.DynamicNodeContext
 @{
-	Layout = "MasterPage.cshtml";
+    Layout = "MasterPage.cshtml";
 }
 
 
+
+<section class="row-section top-slideshow " style='padding: 15px 0px !important;'>
+    <div class="container">
+        <!-----Slider------>
+        <div id="myCarousel_3746231448880828" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+
+
+            @{
+                int mediaFolderId = 1143;
+                umbraco.MacroEngines.DynamicMedia folder = new umbraco.MacroEngines.DynamicMedia(mediaFolderId);
+                if (folder != null && folder.Children.Items.Count() > 0)
+                {
+                    var a = 0;
+                    var g = 0;
+                    var strr = "";
+                    <ol class="carousel-indicators">
+                        @foreach (dynamic media in folder.Children.Items)
+                        {
+                            strr = g == 0 ? "active" : "";
+                            <li data-target="#myCarousel_3746231448880828" data-slide-to="@g" class="@strr"></li>
+                            g++;
+                        }
+                    </ol>
+                    <div class="carousel-inner">
+                        @foreach (dynamic media in folder.Children.Items)
+                        {
+                            var b = a <= 0 ? "active" : "";
+                            a++;
+                            <div class="item @b">
+                                <a href="javascript:{}"><img src="@media.umbracoFile" data-thumb="@media.umbracoFile" alt="@media.Name" /></a>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            <a class="left carousel-control" href="#myCarousel_3746231448880828" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+            <a class="right carousel-control" href="#myCarousel_3746231448880828" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
+        </div>
+        <!-- /.carousel -->
+        <script>
+            //script de chạy slide
+            $(document).ready(function () {
+                var owl = $("#slide_3746231448880828");
+                owl.owlCarousel({
+                    items: 6, //man hinh rong
+                    itemsDesktop: [1000, 4], //desktop
+                    itemsDesktopSmall: [900, 3], //table ngang
+                    itemsTablet: [600, 2], //
+                    itemsMobile: false
+                });
+                // Custom Navigation Events
+                $(".next_3746231448880828").click(function () {
+                    owl.trigger('owl.next');
+                })
+                $(".prev_3746231448880828").click(function () {
+                    owl.trigger('owl.prev');
+                })
+            });</script>
+    </div>
+</section>
