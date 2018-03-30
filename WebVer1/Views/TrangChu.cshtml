@@ -11,8 +11,6 @@
         <!-----Slider------>
         <div id="myCarousel_3746231448880828" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
-
-
             @{
                 int mediaFolderId = 1143;
                 umbraco.MacroEngines.DynamicMedia folder = new umbraco.MacroEngines.DynamicMedia(mediaFolderId);
@@ -58,21 +56,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <script language="javascript">
-                                $(document).ready(function () {
-                                    var owl64687824281448880828 = $('#xxxxxxxxxxxx-64687824281448880828');
-                                    owl64687824281448880828.owlCarousel({
-                                        items: 4,
-                                        itemsDesktop: [1024, 3],
-                                        itemsDesktopSmall: [960, 3],
-                                        itemsTablet: [640, 2],
-                                    });
-                                    $("#next64687824281448880828").click(function () {
-                                        owl64687824281448880828.trigger('owl.next');
-                                    })
-                                    $("#prev64687824281448880828").click(function () {
-                                        owl64687824281448880828.trigger('owl.prev');
-                                    })
-                                });
+
                             </script>
                             <section id="products-featured">
                                 <div class="itemfeatured">
@@ -86,7 +70,74 @@
                                         <!-- Products -->
                                         <div id="xxxxxxxxxxxx-64687824281448880828" class="owl-carousel">
                                             <!-- Products 1-->
-                                            <umbraco:Macro Alias="Sanphamnoibat_home" runat="server" />
+
+                                            @using HtmlAgilityPack;
+                                            @{
+                                                var pr = new HangHoaBLL().SanPhamNoiBat();
+                                                foreach (var item in pr.data)
+                                                {
+                                                    var idsp = @item.id;
+                                                    var idd = "addToCartButtonA" + @item.id;
+                                                    var image = item.images != null ? item.images[0] : "media/4728/noimageb.png";
+                                                    <div class="col94 item col-lg-12">
+                                                        <!--product-->
+                                                        <div class="product">
+                                                            <a href="/danh-muc/chung-loai/san-pham.aspx?pt=@item.id" title="@item.fullName">
+                                                                <div class="image">
+                                                                    <div class="img-overflow">
+                                                                        <div style="background-image:url(@image);height:190px;background-position: center center;background-repeat: no-repeat;background-size: cover;"></div>
+
+                                                                        <div class="ImageOverlayBe"></div>
+                                                                    </div>
+
+                                                                    <span class="product product-label-special-right">@Html.Raw(item.ConHang > 0 ? "Còn hàng" : "Hết hàng")</span>
+                                                                </div>
+                                                                <p>@item.name</p>
+                                                                <div class="price">
+                                                                    <span class="price-new">
+                                                                        @try
+                                                                        {
+                                                                            @Html.Raw(string.Format("{0:#,##0}", Int32.Parse(item.basePrice.ToString())))
+                                                                        }
+                                                                        catch
+                                                                        {
+                                                                            @Html.Raw(item.basePrice.ToString());
+                                                                        } đ
+                                                                    </span>
+                                                                </div>
+                                                            </a>
+                                                            <ul class="function">
+                                                                <li>
+
+                                                                    @{
+                                                                        var t = item.inventories.Where(o => o.branchId == 13933).FirstOrDefault();
+                                                                        if (t != null && t.onHand > 0)
+                                                                        {
+                                                                            <button type="button" id="@idd" class="btn btnitem addToCartButton">
+                                                                                <i class="fa fa-shopping-cart"></i>
+                                                                            </button>
+                                                                        }
+
+                                                                    }
+                                                                </li>
+                                                                <li>
+                                                                    <a href="/danh-muc/chung-loai/san-pham.aspx?pt=@item.id" title="">
+                                                                        <button type="button" class="btn btnitem">
+                                                                            <i class="fa fa-eye"></i>
+                                                                        </button>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <!--product-->
+
+                                                    </div>
+                                                }
+                                            }
+
+
+                                            <!--end Produtcs 1-->
+
                                         </div>
                                     </div>
                                 </div>
@@ -127,8 +178,7 @@
                             </div>
                         </section>
                         <script>
-                            var url_cat = document.URL;
-                            $(".panelvmenu a[href='" + url_cat + "']").addClass('active');
+
                         </script>
                     </div>
                     <div>
@@ -183,7 +233,7 @@
 
     $(document).ready(function () {
 
-        //Start script de chạy slide
+        //Start  slider top
         var owl = $("#slide_3746231448880828");
         owl.owlCarousel({
             items: 6, //man hinh rong
@@ -199,9 +249,9 @@
         $(".prev_3746231448880828").click(function () {
             owl.trigger('owl.prev');
         })
-        //End Slider
+        //End slider top
 
-
+        //Start slider right
         var owl80381448880828 = $('#typical-products-80381448880828');
         owl80381448880828.owlCarousel({
             items: 1,
@@ -215,11 +265,44 @@
         $("#prev80381448880828").click(function () {
             owl80381448880828.trigger('owl.prev');
         })
+        //end slider right
+
+        //Start Slider meo biet
+        $(document).ready(function () {
+            var owl64687824281448880828 = $('#xxxxxxxxxxxx-64687824281448880828');
+            owl64687824281448880828.owlCarousel({
+                items: 4,
+                itemsDesktop: [1024, 3],
+                itemsDesktopSmall: [960, 3],
+                itemsTablet: [640, 2],
+            });
+            $("#next64687824281448880828").click(function () {
+                owl64687824281448880828.trigger('owl.next');
+            })
+            $("#prev64687824281448880828").click(function () {
+                owl64687824281448880828.trigger('owl.prev');
+            })
+        });
+        //End Slider meo biet
+
+        //add class active
+        var url_cat = document.URL;
+        $(".panelvmenu a[href='" + url_cat + "']").addClass('active');
+
+
+        //Bind data san pham(product 1)
+         $('#@idd').click(function () {
+            $.ajax({
+                type: "GET",
+                url: "/Umbraco/webservices/PKTestService.asmx/AddToCart",
+                contentType: "application/json",
+                dataType: "json",
+                data: { "pk": "@idsp" },
+                success: function (data) {$('.count').html(JSON.parse(data.d));},
+                error: function (data) {alert("error");}
+            });
+        });
+
     });
 </script>
 
-<script language="javascript">
-    $(document).ready(function () {
-
-    });
-</script>
