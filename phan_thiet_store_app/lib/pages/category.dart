@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-import './product_card.dart';
+import '../widgets/product_card.dart';
 
-class WidgetHomepageCategory extends StatelessWidget {
+class PageCategory extends StatelessWidget {
+  PageCategory({this.title});
+
+  final title;
+
   @override
   Widget build(BuildContext context) {
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+    return new ListView(
         children: <Widget>[
-          new Text('Tai nghe'),
+          new Text(this.title),
           new GridView.count(
               primary: false,
               shrinkWrap: true,
@@ -20,8 +22,14 @@ class WidgetHomepageCategory extends StatelessWidget {
                 new WidgetProductCard(),
                 new WidgetProductCard(),
                 new WidgetProductCard(),
+                new WidgetProductCard(),
+                new WidgetProductCard(),
+                new WidgetProductCard(),
+                new WidgetProductCard(),
+                new WidgetProductCard(),
                 new WidgetProductCard()
-              ]),
+              ]
+          )
         ]);
   }
 }

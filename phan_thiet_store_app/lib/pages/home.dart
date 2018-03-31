@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/homepage_category.dart';
+import '../widgets/home_category.dart';
 
 class PageHome extends StatelessWidget {
   @override
@@ -8,10 +8,11 @@ class PageHome extends StatelessWidget {
       appBar: new AppBar(
         title: const Text('Trang chính')
       ),
-      body: new Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: new WidgetHomepageCategory(),
-      ),
+      body: new ListView(children: <Widget>[
+          new WidgetHomeCategory(title: 'Tai nghe'),
+          new WidgetHomeCategory(title: 'Ốp lưng'),
+          new WidgetHomeCategory(title: 'Bao da')
+        ])
     );
   }
 }
