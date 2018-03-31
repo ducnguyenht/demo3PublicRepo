@@ -18,10 +18,7 @@ class WidgetHomeCategoryState extends State<WidgetHomeCategory> {
   void navigateToCategoryPage() {
     Navigator.of(context).push(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
-        return new Scaffold(
-          appBar: new AppBar(title: new Text('Tai nghe')),
-          body: new PageCategory(title: 'Tai nghe')
-        );
+        return new PageCategory();
       },
     ));
   }
