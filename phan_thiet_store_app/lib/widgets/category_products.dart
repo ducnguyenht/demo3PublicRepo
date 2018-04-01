@@ -11,7 +11,10 @@ class WidgetCategoryProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return new ListView(
         children: <Widget>[
-          new Text(this.title),
+          new Container(
+              child: new Text(this.title,
+                  style: new TextStyle(fontWeight: FontWeight.bold)),
+              padding: new EdgeInsets.only(left: 5.0)),
           new GridView.count(
               primary: false,
               shrinkWrap: true,
