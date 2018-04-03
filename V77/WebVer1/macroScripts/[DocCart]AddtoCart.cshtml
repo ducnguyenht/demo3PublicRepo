@@ -1,0 +1,19 @@
+﻿@*
+  Just link to the page with this macro on using a link like:
+    /mypage.aspx?docId=1098&amp;action=addToCartRazor
+  
+*@
+
+@using FergusonMoriyama.DocCart.Helper;
+
+@{ 
+  var helper = ServiceHelper.Instance.CartService;
+  var docId = Request.QueryString["docId"];
+  var action = Request.QueryString["action"];
+          
+  if(!String.IsNullOrEmpty(docId) && !String.IsNullOrEmpty(action)) {
+    if(action == "addToCartRazor") {                                                           
+     helper.AddItemToCart(Convert.ToInt32(docId), 1);
+    }
+  }
+}

@@ -1,0 +1,171 @@
+﻿@{
+    var rootCartBO = new CartBLL().GetCartItems(HttpContext.Current.Session["dsIdHangHoa"] as List<string>);
+    float sumprice = 0;
+    var items = rootCartBO.carts;
+    var itemsInBasket = rootCartBO.totalQuantity;
+    if (itemsInBasket == 0)
+    {
+        Response.Redirect("/");
+    }
+    <script type="text/javascript">
+        $().ready(function () {
+            updateCartDisplay = function (totalPrice, itemsInCart) {
+                itemsInCart == 0 ? $('.razorEmptyCart').show() : $('.razorEmptyCart').hide();
+                $('.tongtien').html(totalPrice);
+                $('.tongthanhtien').html(totalPrice);
+                $('.count').html(itemsInCart);
+            };
+            $('.erazorDeleteCartItem').click(function () {
+                var id = $(this).parent().find('input#nodeId');
+                var pk=$(id).attr('value');
+                $.ajax({
+                    type: "GET",
+                    url: "/umbraco/surface/CartsSurface/RemoveFromCart",
+                    contentType: "application/json",
+                    data:{"pk": pk},
+                    dataType: "json",
+                    success: function (data) {
+                        $.get('/giohangload', function (json) {
+                            $('.count').html(JSON.parse(data.d));
+                            $('.cart-list').html(json);
+                        });
+                    },
+                    error: function (data) {
+                        alert("error");
+                    }
+                });
+                return false;
+            });
+        });
+        function updateval(qty,id) {
+            $.ajax({
+                type: "GET",
+                url: "/umbraco/surface/CartsSurface/UpdateQuantity",
+                contentType: "application/json",
+                dataType: "json",
+                data: { "pk": id, "sl": qty },
+                success: function (data) {
+                    var res=JSON.parse(data.d);
+                    $.get('/giohangload', function (json) {
+                        $('.count').html(JSON.parse(res.count));
+                        $('.cart-list').html(json);
+                    });
+                    if (res.message) {
+                        title = "Lỗi !";
+                        message = res.product +" còn: "+res.stock+" ,vui lòng chỉnh lại số lượng hợp lý.";
+                        opts = {};
+                        opts.classes = ["gray"];
+                        container = "#freeow-tr";
+                        opts.hideStyle = {
+                            opacity: 0,
+                            left: "400px"
+                        };
+                        opts.showStyle = {
+                            opacity: 1,
+                            left: 0
+                        };
+                        opts.showStyle = {
+                            opacity: 1,
+                            left: 0
+                        };
+                        $(container).freeow(title, message, opts);
+                    } else {
+                        $('.checkError').hide();
+                        var title, message, opts, container;
+                        title = "Đã cập nhật giỏ hàng !";
+                        message = "Hãy kiểm tra chi tiết lại giỏ hàng.";
+                        opts = {};
+                        opts.classes = ["gray"];
+                        container = "#freeow-tr";
+                        opts.hideStyle = {
+                            top: "37px",
+                            opacity: 0,
+                            left: "400px"
+                        };
+                        opts.showStyle = {
+                            opacity: 1,
+                            left: 0
+                        };
+                        $(container).freeow(title, message, opts);
+                    }
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            });
+            return false;
+        }
+    </script>
+    foreach (var item in items)
+    {
+        var noidung = "";
+        var urlitem = "";
+        var idss = item.id;
+        var nameitem = item.name;
+        if (!string.IsNullOrEmpty(item.description))
+        {
+            noidung = Extension.RemoveAllHTMLTags(item.description).Length > 250 ? Extension.RemoveAllHTMLTags(item.description).Substring(0, 250) + " ..." : Extension.RemoveAllHTMLTags(item.description);
+        }
+        var giathanhtien = rootCartBO.totalPrice;
+        var image = item.image != "" ? item.image : "Images/noimageb.png";
+        <li class="tbody">
+            <div class="action td">
+                <span>Xóa</span><a href="/" title="Xóa sản phẩm này" class="del-pd erazorDeleteCartItem deleteCartButton"><i class="fa fa-times"></i></a>
+                <input type="hidden" id="nodeId" value="@item.id" />
+            </div>
+            <div class="name">
+                <div class="frame-img">
+                    <a href="@urlitem">
+                        <img style="width: 100px;" src="@image" alt="@nameitem" class="img-responsive">
+                    </a>
+                </div>
+                <div class="cart-product-info">
+                    <b>@nameitem </b> <br />
+                    @Html.Raw(noidung.Trim())
+                </div>
+            </div>
+            <div class="unit-price td">
+                @*   
+                    *@
+                <input type="number" onchange="updateval(this.value,@item.id)" id="quantity" style="width: 60px;" class="erazorUpdateCartItem" value="@item.quantity" name="quantity" />
+            </div>
+            <div class="price td"><span>Đơn giá</span>@string.Format("{0:#,##0 đ}", @item.basePrice)</div>
+            <div class="total td" style="border:none;"><span>Thành tiền</span>@string.Format("{0:#,##0 đ}", @item.total)</div>
+        </li>
+    }
+    var sumpriced = sumprice >= 2000000 ? "* Đã giảm 5% tổng hoá đơn" : "";
+    sumprice = rootCartBO.totalPrice;             
+    var soLuong = rootCartBO.totalQuantity.ToString();
+    <li class="tbody all-total">
+        <div class="note-cart td" style="padding:5px">
+            <div class="coupon" style="padding:0; border-right: none;display: block;text-align: left;">
+                <span>Mã khuyến mãi</span><input type="text" name="coupon_code" placeholder="Mã khuyến mãi" id="coupon_code" style="width:auto;text-align: left;"><a class="cart-continue" href="javascript:void(0)" title="Thêm" onclick="coupon_code();" style="margin-left: 10px; padding: 7px; border:1px solid #eee; border-radius: 3px;font-weight: bold;">Thêm</a>
+            </div>
+        </div>
+    </li>
+    <li class="tbody all-total">      
+        <div class="price td hidden-xs ">Tổng tiền</div>
+        <div class="total td" style="border:none;"><span>Tổng tiền:</span><b style="    display: initial;" id="tongthanhtien" class="tongthanhtien">@string.Format("{0:#,##0 VNĐ}", sumprice)</b> </div>
+    </li>
+    <li class="tbody bot-cart">
+        <div class="col-lg-7">
+            <i class="fa fa-shopping-cart hidden-xs"></i>
+            <div class="bot-info">
+                <p><b style="    display: initial;">@Html.Raw(soLuong)</b> sản phẩm - <strong>Tổng tiền:</strong> <b style="    display: initial;" id="tongthanhtien" class="tongthanhtien"> @string.Format("{0:#,##0 VNĐ}", sumprice)</b></p>
+                <p style="color:#999">Phí giao hàng (nếu có) sẽ được tính khi khách hàng nhập địa chỉ giao hàng</p>
+                @if (sumprice < 100000)
+                {
+                    <p style="color:red">Chức năng đặt hàng chỉ hỗ trợ với đơn hàng trên 100k.</p>
+                    <p style="color:red">Vui lòng đặt thêm số lượng.</p>
+                }
+            </div>
+        </div>
+        <div class="col-lg-5">
+            @if (sumprice >= 100000)
+            {
+                <a href="/dat-hang" class="cont-cart">Đặt hàng</a>
+            }
+            <a href="/" class="back-web">Tiếp tục chọn mua hàng</a>
+        </div>
+    </li>
+}
