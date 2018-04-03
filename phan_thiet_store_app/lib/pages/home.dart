@@ -23,7 +23,7 @@ class PageHomeState extends State<PageHome> {
   void navigateToSearchResultPage(searchStr) {
     Navigator.of(context).push(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
-        return new PageSearchResult();
+        return new PageSearchResult(searchStr: searchStr);
       },
     ));
   }
