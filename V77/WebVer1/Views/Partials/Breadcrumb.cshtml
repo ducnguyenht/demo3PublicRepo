@@ -1,0 +1,83 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<section class="breadcrumbs clearfix">
+    <a href="/" title="Trang chủ">Trang chủ</a> @Html.Raw("&nbsp;&nbsp;&gt;&nbsp;&nbsp;")
+    @{
+        var idStr = Request["pt"] as string;
+        var idInt = Convert.ToInt32(idStr);
+        var category = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == idInt).FirstOrDefault();
+        var hanghoa = MemoryCacheKiot.dsHangHoa.data.Where(o => o.id == idInt).FirstOrDefault();
+        if (category != null)
+        {
+            switch (category.level)
+            {
+                case 0:
+                    @category.categoryName
+                    break;
+                case 1:
+                    var categoryParent = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == category.parentId).FirstOrDefault();
+                    <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a> @(" > ")
+                    @category.categoryName
+                    break;
+                case 2:
+                    categoryParent = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == category.parentId).FirstOrDefault();
+                    var categoryRoot = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == categoryParent.parentId).FirstOrDefault();
+                    <a href="/danh-muc?pt=@categoryRoot.categoryId" title="@categoryRoot.categoryName">@categoryRoot.categoryName</a>
+                    @(" > ")
+                    <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a>
+                    @(" > ")
+                    @category.categoryName
+                    break;
+            }
+        }
+        else
+        {
+            if (hanghoa != null)
+            {
+                category = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == hanghoa.categoryId).FirstOrDefault();
+                if (category != null)
+                {
+                    switch (category.level)
+                    {
+                        case 0:
+                            @category.categoryName
+                            break;
+                        case 1:
+                            var categoryParent = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == category.parentId).FirstOrDefault();
+                            <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a> @(" > ")
+                            @category.categoryName
+                            break;
+                        case 2:
+                            categoryParent = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == category.parentId).FirstOrDefault();
+                            var categoryRoot = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == categoryParent.parentId).FirstOrDefault();
+                            <a href="/danh-muc?pt=@categoryRoot.categoryId" title="@categoryRoot.categoryName">@categoryRoot.categoryName</a>
+                            @(" > ")
+                            <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a>
+                            @(" > ")
+                            @category.categoryName
+                            break;
+                    }
+                }
+            }
+        }
+        if (category == null && hanghoa == null)
+        {
+            var selection = CurrentPage.Ancestors();
+            if (selection.Any())
+            {
+                foreach (var page in selection.OrderBy("Level"))
+                {
+                    if (page.Level == 1)
+                    {
+
+                    }
+                    else
+                    {
+                        <a href="@page.Url" title="@page.Name">@page.Name</a>@Html.Raw("&nbsp;&nbsp;&gt;&nbsp;&nbsp;")
+                    }
+                }
+                @CurrentPage.Name
+            }
+        }
+    }
+
+</section>

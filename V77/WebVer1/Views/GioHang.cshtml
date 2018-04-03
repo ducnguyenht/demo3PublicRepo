@@ -1,0 +1,26 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "MasterPage.cshtml";
+}
+<div class="main-wrap">
+    <section class="row_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="new-cart">
+                        <ul class="cart-list" style="overflow: hidden; background-color: #fff; clear: both">
+                            <li class="thead">
+                                <div class="action"></div>
+                                <div class="name">Sản phẩm</div>
+                                <div class="unit-price">Số lượng</div>
+                                <div class="price">Đơn giá</div>
+                                <div class="total">Thành tiền</div>
+                            </li>
+                            @Html.Partial("ViewCartAjax")
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

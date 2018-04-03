@@ -1,0 +1,37 @@
+﻿@using System.Text;
+@using umbraco.MacroEngines;
+@*@inherits umbraco.MacroEngines.DynamicNodeContext*@
+@using umbraco.cms.businesslogic.media;
+@using RestSharp;
+@using Newtonsoft.Json;
+@using KiotVietBO;
+@using System.Web;
+@using Umbraco.Core;
+@{
+    int mediaFolderId = 1143;
+    DynamicMedia folder = new DynamicMedia(mediaFolderId);
+    if (folder != null && folder.Children.Items.Count() > 0)
+    {
+        var a = 0;
+        var g = 0;
+        var strr = "";
+        <ol class="carousel-indicators">
+            @foreach (dynamic media in folder.Children.Items)
+            {
+                strr = g == 0 ? "active" : "";
+                <li data-target="#myCarousel_3746231448880828" data-slide-to="@g" class="@strr"></li>
+                g++;
+            }
+        </ol>
+        <div class="carousel-inner">
+            @foreach (dynamic media in folder.Children.Items)
+            {
+                var b = a <= 0 ? "active" : "";
+                a++;
+                <div class="item @b">
+                    <a href="javascript:{}"><img src="@media.umbracoFile" data-thumb="@media.umbracoFile" alt="@media.Name" /></a>
+                </div>
+            }
+        </div>
+    }
+}

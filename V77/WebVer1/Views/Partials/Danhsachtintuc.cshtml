@@ -1,0 +1,97 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+ @using HtmlAgilityPack;
+@{
+    var pr = Model.Content.Children().OrderByDescending(o => o.UpdateDate);
+    if (pr.Count() != 0)
+    {
+        var itemsPerPage = 12;
+        //var previousLabel = String.IsNullOrEmpty(Parameter.PreviousLabel) ? "Trang Trước" : Parameter.PreviousLabel;
+        //var nextLabel = String.IsNullOrEmpty(Parameter.NextLabel) ? "Trang Kế" : Parameter.NextLabel;
+
+        // paging calculations
+        var numberOfItems = pr.Count();
+        int currentPage = 1;
+        if (!int.TryParse(HttpContext.Current.Request.QueryString["Trang"], out currentPage))
+        {
+            currentPage = 1;
+        }
+        currentPage--;
+        var numberOfPages = numberOfItems % itemsPerPage == 0 ? Math.Ceiling((decimal)(numberOfItems / itemsPerPage)) : Math.Ceiling((decimal)(numberOfItems / itemsPerPage)) + 1;
+        int vala = currentPage * itemsPerPage;
+        int valb = itemsPerPage;
+
+        foreach (dynamic item in pr.Skip(vala).Take(valb))
+        {
+            var urlget = "Images/noimageb.png";
+            try
+            {
+                var doc = new HtmlDocument();
+
+                doc.LoadHtml(HttpUtility.HtmlEncode(@item.Mota));
+                HtmlNode imgnoidung = doc.DocumentNode.SelectSingleNode("//*/img");
+                urlget = imgnoidung.Attributes["src"].Value;
+            }
+            catch (Exception e)
+            {
+
+            }
+
+                <article class="itemblog">
+                    <div class="row">
+                        <div class="img-blog col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <a href="@item.Url" title="@item.Name">
+                                <img src="@urlget" alt="@item.Name">
+                            </a>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                            <a href="@item.Url" title="@item.Name">
+                                <h2>@item.Name</h2>
+                            </a>
+                            <div class="date">
+                                <i class="fa fa-calendar"></i>&nbsp;&nbsp;@Html.Raw(item.CreateDate.ToString("dd/MM/yyyy"))
+                            </div>
+                            <p>
+                                @{
+                                    var mota = item.MoTa.ToString();
+                                    var tennoidung = Extension.RemoveAllHTMLTags(mota).Length > 250 ? Extension.RemoveAllHTMLTags(mota).Substring(0, 250) + " ..." : Extension.RemoveAllHTMLTags(mota);
+                                }
+                                @Html.Raw(tennoidung.Trim())
+                            </p>
+                            <a href="@item.Url" title="@item.Name" class="read-more">Xem thêm</a>
+
+                        </div>
+                    </div>
+                </article>
+
+            }
+            <ul class="pagination pull-right">
+                @{
+                    var Pages = Enumerable.Range(1, (int)numberOfPages);
+                    if (currentPage > 0)
+                    {
+                        <li><a href="@Model.Content.Url?Trang=@(currentPage)" title="">...</a></li>
+                    }
+
+                    foreach (var number in Pages)
+                    {
+                        if (currentPage - 2 <= number && currentPage + 4 >= number)
+                        {
+                            if (number - 1 != currentPage)
+                            {
+                                <li><a href="@Model.Content.Url?Trang=@number">@number</a></li>
+                            }
+                            else
+                            {
+                                <li class="active"><a href="javascript:{}">@number</a></li>
+                            }
+                        }
+                    }
+                    if (currentPage < Pages.Count() - 1)
+                    {
+                        <li><a href="@Model.Content.Url?Trang=@(currentPage + 2)">...</a></li>
+                    }
+                }
+
+            </ul>
+        }
+}

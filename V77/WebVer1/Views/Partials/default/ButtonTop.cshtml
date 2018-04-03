@@ -1,0 +1,45 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using Umbraco.Core.Models;
+@using Umbraco.Core.Services;
+
+<style>
+    #bttop {
+        text-align: center;
+        padding: 5px;
+        position: fixed;
+        bottom: 5px;
+        right: 30px;
+        cursor: pointer;
+        display: none;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 900;
+        border-radius: 30px;
+    }
+
+        #bttop:hover {
+            border: 1px solid #009AE2;
+        }
+</style>
+
+<div id="bttop" style="z-index: 9999; display: block;">
+
+    <img src="/WebVer1/media/1002/gototop.png" alt="lên đầu trang" alt="len dau trang" title="lên đầu trang">
+
+</div>
+
+
+<script>
+    $(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() != 0) {
+                $('#bttop').fadeIn();
+            } else {
+                $('#bttop').fadeOut();
+            }
+        });
+        $('#bttop').click(function () {
+            $('body,html').animate({ scrollTop: 0 }, 800);
+        });
+    });
+</script>

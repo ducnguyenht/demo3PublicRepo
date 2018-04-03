@@ -1,0 +1,27 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = null;
+}
+
+<!--popup cart-->
+<link rel="stylesheet" type="text/css" href="css/style/freeow/freeow.css">
+<link rel="stylesheet" type="text/css" href="css/demo.css">
+<script type="text/javascript" src="js/jquery.freeow.min.js"></script>
+<script type="text/javascript" src="js/demo.js"></script>
+
+<li class="thead">
+    <div class="action"></div>
+    <div class="name">Sản phẩm</div>
+    <!--div class="color">Màu/Size</div-->
+    <div class="unit-price">Số lượng</div>
+    <div class="price">Đơn giá</div>
+    <div class="total">Thành tiền</div>
+</li>
+
+@Html.Partial("ViewCartAjax")
+
+<!--===================row item cart========================-->
+<!--<umbraco:Macro Alias="[DocCart]ViewCartAJAX" runat="server" />-->
+<!--=================end row item cart======================-->
+
+

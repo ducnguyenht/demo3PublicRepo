@@ -1,0 +1,101 @@
+﻿@using KiotVietBO;
+@{
+    var pr1 = MemoryCacheKiot.dsNhomHang.data;
+    foreach (var item in pr1)
+    {
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <section id="product-listitem" class="clearfix">
+                    <div class="listitem">
+                        <h2>
+                            <span>@item.categoryName</span>
+                            <a href="/danh-muc?pt=@item.categoryId" title="Xem tất cả" class="all">Xem tất cả</a>
+                        </h2>
+                        <div class="row">
+                            @{
+                                if (item.children != null && item.children.Count > 0)
+                                {
+                                    var chiTietHangHoas = new List<ChiTietHangHoaBO>();
+                                    foreach (var itemChild in item.children)
+                                    {
+                                        var pr = MemoryCacheKiot.dsHangHoa.data.Where(o => o.categoryId == itemChild.categoryId);
+                                        chiTietHangHoas.AddRange(pr);
+                                    }
+                                    Random rnd = new Random();
+                                    chiTietHangHoas = chiTietHangHoas.OrderBy(o => rnd.Next(chiTietHangHoas.Count())).Take(8).ToList();
+                                    foreach (var item1 in chiTietHangHoas)
+                                    {
+                                        var idsp = item1.id;
+                                        var idd = "addToCartButton" + item1.id;
+                                        var image = item1.images != null ? item1.images[0] : "Images/noimageb.png";
+                                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col94 mg">
+                                            <div class="product">
+                                                <a href="/danh-muc/san-pham?pt=@item1.id" title="@item1.fullName">
+                                                    <div class="image">
+                                                        <div class="img-overflow">
+                                                            <div style="background-image:url(@image);height:190px;background-position: center center;background-repeat: no-repeat;background-size: cover;"></div>
+                                                            <div class="ImageOverlayBe"></div>
+                                                        </div>
+                                                        <span class="product product-label-special-right">@Html.Raw(item1.ConHang > 0 ? "Còn hàng" : "Hết hàng")</span>
+                                                    </div>
+                                                    <p>@item1.name</p>
+                                                    <div class="price">
+                                                        <span class="price-new">
+                                                            @try
+                                                            {
+                                                                @Html.Raw(string.Format("{0:#,##0}", Int32.Parse(item1.basePrice.ToString())));
+                                                            }
+                                                            catch
+                                                            {
+                                                                @Html.Raw(item1.basePrice.ToString());
+                                                            } đ
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                                <ul class="function">
+                                                    <li>
+                                                        <script type="text/javascript">
+                                    $().ready(function () {
+                                        $('#@idd').click(function () {
+                                            $.ajax({
+                                                type: "GET",
+                                                url: "/umbraco/surface/CartsSurface/AddToCart",
+                                                contentType: "application/json",
+                                                dataType: "json",
+                                                data: { "pk": "@idsp" },
+                                                success: function (data) { $('.count').html(data); },
+                                                error: function (data) { alert("error"); }
+                                            });
+                                        });
+                                    });
+                                                        </script>
+                                                        @{
+                                                            var t = item1.inventories.Where(o => o.branchId == 13933).FirstOrDefault();
+                                                            if (t != null && t.onHand > 0)
+                                                            {
+                                                                <button type="button" id="@idd" class="btn btnitem addToCartButton">
+                                                                    <i class="fa fa-shopping-cart"></i>
+                                                                </button>
+                                                            }
+                                                        }
+                                                    </li>
+                                                    <li>
+                                                        <a href="/danh-muc/san-pham?pt=@item1.id" title="">
+                                                            <button type="button" class="btn btnitem">
+                                                                <i class="fa fa-eye"></i>
+                                                            </button>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    }
+}

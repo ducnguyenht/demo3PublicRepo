@@ -1,0 +1,23 @@
+﻿@{
+    var pr = MemoryCacheKiot.dsNhomHang;
+    foreach (var item in pr.data)
+    {
+        var id = "path_8_" + @item.categoryId;
+        <a href="#@id" data-toggle="collapse" data-parent="#MainMenu" class="list-group-item-vmenu ">@item.categoryName</a>
+        <a href="#@id" data-toggle="collapse" data-parent="#MainMenu" class="arrow-sub-vmenu">
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <div class="collapse" id="@id">
+            @{
+                if (item.hasChild)
+                {
+                    foreach (var item1 in item.children)
+                    {
+                        <a href="/danh-muc?pt=@item1.categoryId" class="list-group-item-vmenu sub"> <i class="fa fa-angle-right"></i>@item1.categoryName</a>
+                    }
+                }
+
+            }
+        </div>
+    }
+}

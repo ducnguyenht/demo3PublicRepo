@@ -1,0 +1,42 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContactViewModel>
+
+<div id="status"></div>
+
+@using (Ajax.BeginForm("SendMail", "CartsSurface", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "target",
+    OnFailure = "ShowError()",
+    OnSuccess = "ShowSuccess()"
+}))
+{
+
+    <fieldset>
+        <legend>Fill the form below and we will contact you soon</legend>
+
+        @Html.LabelFor(model => model.Name)
+        @Html.EditorFor(model => model.Name) @Html.ValidationMessageFor(model => model.Name)
+
+        @Html.LabelFor(model => model.Email)
+        @Html.EditorFor(model => model.Email) @Html.ValidationMessageFor(model => model.Email)
+
+        @Html.LabelFor(model => model.Message)
+        @Html.TextAreaFor(model => model.Message) @Html.ValidationMessageFor(model => model.Message)<br />
+
+        <input type="submit" @*class="btn btn-primary"*@ value="Send Message">
+    </fieldset>
+  }
+
+<script>
+    function ShowError() {
+        $("#status").removeClass();
+        $("#status").addClass("alert alert-error");
+        $("#status").html("<strong>Error!</strong> There was an error posting the contact form. Please try again later.");
+    }
+
+    function ShowSuccess() {
+        $("#target").removeClass();
+        $("#target").addClass("alert alert-success");
+    }
+</script>

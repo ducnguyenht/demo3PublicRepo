@@ -1,0 +1,128 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "MasterPage.cshtml";
+}
+<section class="row_section" style=' padding:25px 0px !important; '>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <section class="clearfix">
+                            @Html.Partial("Breadcrumb")
+                            @*<umbraco:Macro Alias="Breadcrumb" runat="server" />*@
+                        </section>
+                    </div>
+                </div><div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <article class="box-category">
+                            <div class="heading">
+                                <h2>
+                                    <span><umbraco:Item field="pageName" runat="server" /></span>
+                                </h2>
+                            </div>
+                        </article>
+                        @Html.Partial("Danhsachtintuc")
+                        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+                        </div>
+                        <!--End listitem-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div>
+                    <section class="box-category">
+                        <div class="heading">
+                            <h2><span>Hỗ trợ</span></h2>
+                        </div>
+                        <div class="main">
+                            <ul class="support-html">
+                                @Html.Partial("MenuHotroRight")
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+                <div>
+                    <section class="box-category">
+                        <div class="banner-small">
+                            @*@Html.Partial("Bannerquangcao")*@
+                        </div>
+                    </section>
+                </div>
+                <div>
+                    <!-- Vertical Menu -->
+                    <section class="box-category">
+                        <div class="heading">
+                            <h2><span>Danh mục sản phẩm</span></h2>
+                        </div>
+                        <div class="list-group panelvmenu">
+                            @Html.Partial("Menuleft")
+                        </div>
+                    </section>
+                    <script>
+                        var url_cat = document.URL;
+                        $(".panelvmenu a[href='" + url_cat + "']").addClass('active');
+                    </script>
+                </div>
+                <div>
+                    <!-- Product silder -->
+                    <Script language="javascript">
+                        $(document).ready(function () {
+                            var owl80381448880828 = $('#typical-products-80381448880828');
+                            owl80381448880828.owlCarousel({
+                                items: 1,
+                                itemsDesktop: [1024, 1],
+                                itemsDesktopSmall: [960, 3],
+                                itemsTablet: [640, 2],
+                            });
+                            $("#next80381448880828").click(function () {
+                                owl80381448880828.trigger('owl.next');
+                            })
+                            $("#prev80381448880828").click(function () {
+                                owl80381448880828.trigger('owl.prev');
+                            })
+                        });
+                    </Script>
+                    <section id="typical" class="box-category">
+                        <div class="heading">
+                            <h2><span>Bán chạy</span></h2>
+                        </div>
+                        <div class="main">
+                            <div class="typicalNavigation">
+                                <a class="prev" id="prev80381448880828"><i class="fa fa-chevron-circle-left"></i></a>
+                                <a class="next" id="next80381448880828"><i class="fa fa-chevron-circle-right"></i></a>
+                            </div>
+                            <div id="typical-products-80381448880828" class="typical-products owl-carousel">
+                                @Html.Partial("Sanphambanchay")
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div>
+                    <section class="box-category">
+                        <div class="heading">
+                            <h2><span>Dịch vụ khách hàng</span></h2>
+                        </div>
+                        <div class="main">
+                            <ul class="dv-html">
+                                @Html.Partial("tintuc_left")
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+                <div>
+                    <section class="box-category">
+                        <div class="heading">
+                            <h2><span>Tag</span></h2>
+                        </div>
+                        <div class="main">
+                            <ul class="tags-footer">
+                                <umbraco:Macro Alias="TAG" runat="server" />
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

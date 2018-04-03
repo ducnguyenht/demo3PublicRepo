@@ -1,0 +1,36 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    if (Model.Content.Id == 2057)
+    {
+        <a href="@Umbraco.Content(2057).Url" tile="Trang chủ" target="_self" class="list-group-item-stmenu active">@Umbraco.Content(2057).Name</a>
+    }
+    else
+    {
+        <a href="@Umbraco.Content(2057).Url" tile="Trang chủ" target="_self" class="list-group-item-stmenu">@Umbraco.Content(2057).Name</a>
+    }
+    var dsnhomhang = MemoryCacheKiot.dsNhomHang;
+    foreach (var item in dsnhomhang.data)
+    {
+        var at = "list-group-item-stmenu";
+        <a href="#@item.categoryId" data-toggle="collapse" tile="@item.categoryName" target="_self" class="@at">@item.categoryName</a>
+        <a href="#@item.categoryId" data-toggle="collapse" class="arrow-sub">
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <div class="collapse" id="@item.categoryId">
+            @{
+                if (item.hasChild)
+                {
+                    foreach (var item1 in item.children)
+                    {
+                        <a href="/danh-muc?pt=@item1.categoryId" target="_self" class="list-group-item-stmenu sub">
+                            <i class="fa fa-angle-right"></i>@item1.categoryName
+                        </a>
+                    }
+                }
+            }
+        </div>
+    }
+    <a href="/huong-dan" tile="Hướng dẫn" target="_self" class="list-group-item-stmenu">Hướng dẫn</a>
+    <a href="/lien-he" tile="Liên hệ" target="_self" class="list-group-item-stmenu">Liên hệ</a>
+
+}

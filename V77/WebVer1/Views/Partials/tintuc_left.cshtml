@@ -1,0 +1,17 @@
+@using HtmlAgilityPack;
+@{
+    var r = new Random();
+    List<umbraco.MacroEngines.DynamicNode>
+    pr = new umbraco.MacroEngines.DynamicNode(2119).Descendants("chiTietTinTuc").Items.OrderBy(x => r.Next()).ToList();
+
+    var count = 0;
+    foreach (dynamic item in pr.Take(6))
+    {
+        count++;
+        <li>
+            <span style="color:#eb6714">@count.</span>
+            <a href="@item.Url" title="@item.Name">@item.Name</a>
+        </li>
+
+    }
+}

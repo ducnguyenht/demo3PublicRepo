@@ -1,0 +1,172 @@
+﻿@using HtmlAgilityPack;
+<section>
+    <article class="detail">
+        <div class="row">
+            @{
+                var sanphamId = (Request.QueryString["pt"] == null) ? "" : Request.QueryString["pt"];
+                var chiTietSanPham = new HangHoaBLL().ChiTietHangHoa(sanphamId);
+                var image = chiTietSanPham.images != null ? chiTietSanPham.images[0] : "Images/noimageb.png";
+                var idsp = @chiTietSanPham.id;
+                var demc = 0;
+                <div class="img-blog col-lg-5 col-md-5 col-sm-5 col-xs-12" id="gallery_01">
+                    <div class="w3-content" style="max-width:100%">
+                        @if (chiTietSanPham.images != null)
+                        {
+                            foreach (var itemhinh in chiTietSanPham.images)
+                            {
+                                image = itemhinh != null ? itemhinh : "Images/noimageb.png";
+                                <img class="mySlides" src="@image" style="width:100%" />
+                            }
+                        }
+                        @*else
+                            {
+                                <img class="mySlides" src="@image" style="width:100%" />
+                            }*@
+                        <div class="w3-row-padding w3-section">
+                            @if (chiTietSanPham.images != null && chiTietSanPham.images.Count > 1)
+                            {
+                                foreach (var itemhinh in chiTietSanPham.images)
+                                {
+                                    demc++;
+                                    image = itemhinh != null ? itemhinh : "Images/noimageb.png";
+                                    <div class="w3-col s4">
+                                        <img class="demo w3-opacity w3-hover-opacity-off" src="@image" style="width:100%" onclick="currentDiv(@demc)">
+                                    </div>
+                                }
+                            }
+                            <link rel="stylesheet" href="/css/w3.css">
+                            <style>
+
+                                .mySlides {
+                                    display: none;
+                                }
+
+                                .demo {
+                                    cursor: pointer;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                    <script>var slideIndex = 1;
+                        showDivs(slideIndex);
+                        function plusDivs(n) {
+                            showDivs(slideIndex += n);
+                        }
+                        function currentDiv(n) {
+                            showDivs(slideIndex = n);
+                        }
+                        function showDivs(n) {
+                            var i;
+                            var x = document.getElementsByClassName("mySlides");
+                            var dots = document.getElementsByClassName("demo");
+                            if (n > x.length) { slideIndex = 1 }
+                            if (n < 1) { slideIndex = x.length }
+                            for (i = 0; i < x.length; i++) {
+                                x[i].style.display = "none";
+                            }
+                            for (i = 0; i < dots.length; i++) {
+                                dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+                            }
+                            x[slideIndex - 1].style.display = "block";
+                            //dots[slideIndex - 1].className += " w3-opacity-off";
+                        }</script>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                    <h1>@chiTietSanPham.name</h1>
+                    <p><strong>Ngày đăng :</strong> @Html.Raw(chiTietSanPham.modifiedDate.ToString("dd/MM/yyyy"))</p>
+                    @foreach (var item in chiTietSanPham.inventories)
+                    {
+                        if (item.branchId == 13933)
+                        {
+                            <p><strong>@item.branchName :</strong> @(item.onHand > 0 ? "Còn hàng (Hỗ trợ đặt hàng online)" : "Hết hàng")</p>
+                        }
+                        else
+                        {
+                            <p><strong>@item.branchName :</strong> @(item.onHand > 0 ? "Còn hàng (Không hỗ trợ đặt hàng online)" : "Hết hàng")</p>
+                        }
+                    }
+                    @if (chiTietSanPham.attributes != null && chiTietSanPham.attributes.Count > 0)
+                    {
+                        <p><strong>@(chiTietSanPham.attributes[0].attributeName) : </strong>@(chiTietSanPham.attributes[0].attributeValue)</p>
+                    }
+                    <div class="share">
+                        <div class="addthis_native_toolbox"></div>
+                    </div>
+                    <div class="price-num">
+                        <div class="price">
+                            <span class="price-new">
+                                @try
+                                {
+                                    @Html.Raw(string.Format("{0:#,##0}", Int32.Parse(chiTietSanPham.basePrice.ToString())))
+                                }
+                                catch
+                                {
+                                    @Html.Raw(chiTietSanPham.basePrice.ToString());
+                                } đ
+                            </span>
+                        </div>
+                        <div class="quantity-input">
+                            Số lượng:
+                            <input type="number" id="qty" name="qty" value="1" size="3" min="1" max="20">
+                        </div>
+                    </div>
+                    <ul class="function">
+                        <li>
+
+                            @{
+                                var ret = chiTietSanPham.inventories.Where(t => t.branchId == 13933).FirstOrDefault();
+                                if (ret != null && ret.onHand > 0)
+                                {
+                                    <p style="color:red;font-style: italic" id="checkError"></p>
+                                    <button type="button" name="btn_submit" style="width:135px;border-radius:5px" class="btn btnitem cart-popup addToCartButton fuku" id="themvaogiohang">Thêm vào giỏ</button>
+                                }
+                            }
+                        </li>
+                    </ul>
+                </div>
+            }
+        </div> <!--End row-->
+    </article>
+</section>
+<section id="product-tab">
+    <ul class="tabs">
+        <li class="selected"><a class="item_tabs" tab_id="1">Giới thiệu</a></li>
+        <li class="comment-on-off" style="display:"><a class="item_tabs" tab_id="3">Bình luận</a></li>
+    </ul>
+    <ul id="tb_1" class="tab" style="display: block;">
+        <p>
+            @Html.Raw(chiTietSanPham.description != null ? chiTietSanPham.description : "")
+        </p>
+    </ul>
+    <ul id="tb_3" class="tab" style="display: none;">
+            @{
+                var url = "http://phukienphanthiet.com" + @"/danh-muc/san-pham?pt=" + sanphamId;//
+                <div class="fb-comments" data-width="100%" data-href="@url" data-numposts="5" data-colorscheme="light"></div>
+            }
+    </ul>
+</section> <!--end product-tab-->
+
+<script type="text/javascript">
+    $(".fuku").click(function () {
+        $.ajax({
+            type: "GET",
+            url: "/umbraco/surface/CartsSurface/UpdateQuantityTempp",
+            contentType: "application/json",
+            dataType: "json",
+            data: { "pk": "@idsp", "sl": $('#qty').val() },
+            async: true,
+            success: function (data) {
+                var res = JSON.parse(data);
+                $('.count').html(res.count);
+                if (res.message) {
+                    $('#checkError').text(res.product + " còn: " + res.stock + " ,vui lòng chỉnh lại số lượng hợp lý.").show();
+                } else {
+                    $('#checkError').hide();
+                }
+            },
+            error: function (data) { alert("error"); }
+        });
+
+    });
+
+</script>
