@@ -10,6 +10,11 @@ namespace WebVer1.Controllers.AjaxSurfaceController
 {
     public class CartsSurfaceController : Umbraco.Web.Mvc.SurfaceController
     {
+        public ActionResult SearchCart(string query)
+        {
+            return RedirectToUmbracoPage(2129,"q="+query);
+            //return PartialView("TimKiem");
+        }
         [HttpGet]
         public JsonResult CartCount()
         {

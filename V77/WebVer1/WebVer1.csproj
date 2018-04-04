@@ -413,6 +413,8 @@
     <Content Include="Views\ChiTietTinTuc.cshtml" />
     <Content Include="Views\Partials\Tintuccungdanhmuc.cshtml" />
     <Content Include="Views\Partials\tintuc_left.cshtml" />
+    <Content Include="Views\TimKiem.cshtml" />
+    <Content Include="Views\Partials\TimkiemPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -475,6 +477,7 @@
     <Compile Include="Controllers\Api\ProductsApiController.cs" />
     <Compile Include="Controllers\Api\SampleWebApiController.cs" />
     <Compile Include="Controllers\RenderMVC\DatHangController.cs" />
+    <Compile Include="Controllers\RenderMVC\ProductsController.cs" />
     <Compile Include="Controllers\RenderMVC\SampleRenderMvcController.cs" />
     <Compile Include="Events\ApplicationEvents.cs" />
     <Compile Include="Models\Contact.cs" />
@@ -482,6 +485,7 @@
     <Compile Include="Services\ISampleService.cs" />
     <Compile Include="Services\SampleService.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="WebModule.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -496,6 +500,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="usercontrols\" />
+    <Folder Include="Views\Products\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

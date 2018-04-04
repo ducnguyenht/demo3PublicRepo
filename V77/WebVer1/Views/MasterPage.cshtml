@@ -4,59 +4,59 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- this styles only adds some repairs on idevices  -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        @{
-            string seo1 = ""; string desc = ""; string urler = ""; string keyword = "";
-            var id = (Request.QueryString["pt"] == null) ? 0 : Convert.ToInt32(Request.QueryString["pt"]);
-            SEO seo = new SEOBLL().SEO(id);
-            if (Model.Content.Id.ToString() == "2057")
+    @{
+        string seo1 = ""; string desc = ""; string urler = ""; string keyword = "";
+        var id = (Request.QueryString["pt"] == null) ? 0 : Convert.ToInt32(Request.QueryString["pt"]);
+        SEO seo = new SEOBLL().SEO(id);
+        if (Model.Content.Id.ToString() == "2057")
+        {
+            seo1 = "PHỤ KIỆN PHAN THIẾT";
+        }
+        else
+        {
+            if (id != 0)
             {
-                seo1 = "PHỤ KIỆN PHAN THIẾT";
-            }
-            else
-            {
-                if (id != 0)
+                if (seo1.Length > 32)
                 {
-                    if (seo1.Length > 32)
-                    {
-                    }
-                    else
-                    {
-                        seo1 = seo.Name + " - PHỤ KIỆN PHAN THIẾT";
-                    }
                 }
-            }
-            if (seo != null)
-            {
-                if (!String.IsNullOrEmpty(seo.Description))
+                else
                 {
-                    desc = Extension.RemoveAllHTMLTags(seo.Description).Length > 150 ? Extension.RemoveAllHTMLTags(seo.Description).Substring(0, 150) + " ..." : Extension.RemoveAllHTMLTags(seo.Description);
+                    seo1 = seo.Name + " - PHỤ KIỆN PHAN THIẾT";
                 }
-                urler = "http://phukienphanthiet.com" + seo.Url;
-                keyword = "";// @Model.Keyword;
             }
         }
-        <title>@Html.Raw(seo1)</title>
-        <meta name="description" content="@desc">
-        <meta name="keywords" content="@keyword">
-        <!--Facebook-->
-        <link rel="image_src" href="" / >
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="favicon.ico">
-        <meta http-equiv="content-language" content="vi-VN">
-        <meta property="og:title" content="@seo1" />
-        <meta property="og:description" content="@desc" />
-        <meta property="og:url" content="@urler" />
-        <meta property="og:type" content="site" />
-        <meta property="og:locale" content="vi_VN">
-        <meta property="og:site_name" content="PHỤ KIỆN PHAN THIẾT" />
-        <meta name="Generator" content="http://phukienphanthiet.com">
-        <meta name="Author" content="PHU KIEN PHAN THIET">
-        <meta name="geo.region" content="VN">
-        <meta name="geo.placename" content="Phan Thiet">
-        <meta name="geo.position" content="10.8975441,108.1731705">
-        <meta name="ICBM" content="10.8975441,108.1731705">
-        <meta property="fb:admins" content="100001918344127" />
-        <meta http-equiv="content-language" content="vi" />
+        if (seo != null)
+        {
+            if (!String.IsNullOrEmpty(seo.Description))
+            {
+                desc = Extension.RemoveAllHTMLTags(seo.Description).Length > 150 ? Extension.RemoveAllHTMLTags(seo.Description).Substring(0, 150) + " ..." : Extension.RemoveAllHTMLTags(seo.Description);
+            }
+            urler = "http://phukienphanthiet.com" + seo.Url;
+            keyword = "";// @Model.Keyword;
+        }
+    }
+    <title>@Html.Raw(seo1)</title>
+    <meta name="description" content="@desc">
+    <meta name="keywords" content="@keyword">
+    <!--Facebook-->
+    <link rel="image_src" href="" / >
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta http-equiv="content-language" content="vi-VN">
+    <meta property="og:title" content="@seo1" />
+    <meta property="og:description" content="@desc" />
+    <meta property="og:url" content="@urler" />
+    <meta property="og:type" content="site" />
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:site_name" content="PHỤ KIỆN PHAN THIẾT" />
+    <meta name="Generator" content="http://phukienphanthiet.com">
+    <meta name="Author" content="PHU KIEN PHAN THIET">
+    <meta name="geo.region" content="VN">
+    <meta name="geo.placename" content="Phan Thiet">
+    <meta name="geo.position" content="10.8975441,108.1731705">
+    <meta name="ICBM" content="10.8975441,108.1731705">
+    <meta property="fb:admins" content="100001918344127" />
+    <meta http-equiv="content-language" content="vi" />
     <!--end facebook-->
     <base href="/" />
     <!-- Bootstrap -->
@@ -128,131 +128,146 @@
     </script>
 </head>
 <body style="background-image: url(Images/bg1.jpg);background-repeat: no-repeat;background-position: top center;">
-    <form action="/" method="post" runat="server">
-        <div id="st-container" class="st-container">
-            <div class="st-pusher">
-                <nav class="st-menu st-effect-3" id="cssmenu-st">
-                    <div class="list-group panel">
-                        @Html.Partial("Menu")
-                    </div>
-                </nav><!-------Menu reponsive--->
-                <div class="st-content">
-                    <!-- this is the wrapper for the content -->
-                    <div class="st-content-inner">
-                        <div class="main clearfix">
-                            <!--begin top-->
-                            <!--icon menu su dụng trong giao diện mobile-->
-                            <div id="st-trigger-effects" class="column hidden-lg hidden-md" style="z-index: 9999;">
-                                <button data-effect="st-effect-3" type="button" style="background-color: black;position: fixed;border-bottom-width: 0 !important;left: 0;;box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);top: 0;z-index: 1000;">
-                                    <i class="fa fa-bars fa-lg"></i>
-                                </button>
-                            </div>
-                            <!--icon menu su dụng trong giao diện mobile-->
-                            <section id="topheader" style="height: 40px;">
-                                <section id="topbar" style="background-color: black;position: fixed;border-bottom-width: 0 !important;left: 0;right: 0;width: 100%;box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);top: 0;z-index: 1000;adding: 7px 0;">
-                                    <div class="container" style="position: relative;">
-                                        <div class="row">
-                                            <!-- start col -->
-                                            <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
-                                            </div>
-                                            <!-- end col -->
-                                            <!-- start col -->
-                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 hidden-xs hidden-sm header-right">
-                                                <i class="thead checkError"></i>
-                                                <ul class="hidden-sm hidden-xs links pull-right" style="z-index: 9999;">
-                                                    <li>
-                                                        <a href="/gio-hang">
-                                                            <i class="fa fa-shopping-cart"></i><span class="cart-total-items">
-                                                                <span> Giỏ hàng</span> ( <span id="count" class="count"></span> )
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <!-- end col -->
-                                            <!-- start col -->
-                                            <div class="show-mobile hidden-lg hidden-md pull-right">
-                                                <!-- start quick-user --><i class="thead checkError"></i>
-                                                <div class="quick-user pull-left">
-                                                    <div class="quickaccess-toggle">
-                                                        <a href="/gio-hang" style="color: #ec960f;">
-                                                            <span id="count" class="count"></span> <i class="fa fa-shopping-cart"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <!-- end quick-user -->
-                                                <div class="quick-access pull-left">
-                                                </div>
-                                                <!-- end quick-access -->
-                                            </div>
-                                            <!-- end col -->
+    @*<form action="/" method="post" runat="server">*@
+    <div id="st-container" class="st-container">
+        <div class="st-pusher">
+            <nav class="st-menu st-effect-3" id="cssmenu-st">
+                <div class="list-group panel">
+                    @Html.Partial("Menu")
+                </div>
+            </nav><!-------Menu reponsive--->
+            <div class="st-content">
+                <!-- this is the wrapper for the content -->
+                <div class="st-content-inner">
+                    <div class="main clearfix">
+                        <!--begin top-->
+                        <!--icon menu su dụng trong giao diện mobile-->
+                        <div id="st-trigger-effects" class="column hidden-lg hidden-md" style="z-index: 9999;">
+                            <button data-effect="st-effect-3" type="button" style="background-color: black;position: fixed;border-bottom-width: 0 !important;left: 0;;box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);top: 0;z-index: 1000;">
+                                <i class="fa fa-bars fa-lg"></i>
+                            </button>
+                        </div>
+                        <!--icon menu su dụng trong giao diện mobile-->
+                        <section id="topheader" style="height: 40px;">
+                            <section id="topbar" style="background-color: black;position: fixed;border-bottom-width: 0 !important;left: 0;right: 0;width: 100%;box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);top: 0;z-index: 1000;adding: 7px 0;">
+                                <div class="container" style="position: relative;">
+                                    <div class="row">
+                                        <!-- start col -->
+                                        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
                                         </div>
+                                        <!-- end col -->
+                                        <!-- start col -->
+                                        <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 hidden-xs hidden-sm header-right">
+                                            <i class="thead checkError"></i>
+                                            <ul class="hidden-sm hidden-xs links pull-right" style="z-index: 9999;">
+                                                <li>
+                                                    <a href="/gio-hang">
+                                                        <i class="fa fa-shopping-cart"></i><span class="cart-total-items">
+                                                            <span> Giỏ hàng</span> ( <span id="count" class="count"></span> )
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- end col -->
+                                        <!-- start col -->
+                                        <div class="show-mobile hidden-lg hidden-md pull-right">
+                                            <!-- start quick-user --><i class="thead checkError"></i>
+                                            <div class="quick-user pull-left">
+                                                <div class="quickaccess-toggle">
+                                                    <a href="/gio-hang" style="color: #ec960f;">
+                                                        <span id="count" class="count"></span> <i class="fa fa-shopping-cart"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- end quick-user -->
+                                            <div class="quick-access pull-left">
+                                            </div>
+                                            <!-- end quick-access -->
+                                        </div>
+                                        <!-- end col -->
                                     </div>
-                                </section>
+                                </div>
                             </section>
-                            <!--search table -->
-                            <script>
-                                $(document).ready(function () {
-                                    $.makeTable = function (mydata) {
-                                        var table = $('<table id="dynamictb" style="z-index: 9999;font-size: 13px;width: 100%;">');
-                                        $.each(mydata, function (index, value) {
-                                            var TableRow = '<tr style="border-bottom: 1px solid #dedede;">';
-                                            $.each(value, function (key, val) {
-                                                TableRow += "<td style='width:auto;padding: 5px'>" + val + "</td>";
-                                            });
-                                            TableRow += "</tr>";
-                                            $(table).append(TableRow);
+                        </section>
+                        <!--search table -->
+                        <script>
+                            $(document).ready(function () {
+                                $.makeTable = function (mydata) {
+                                    var table = $('<table id="dynamictb" style="z-index: 9999;font-size: 13px;width: 100%;">');
+                                    $.each(mydata, function (index, value) {
+                                        var TableRow = '<tr style="border-bottom: 1px solid #dedede;">';
+                                        $.each(value, function (key, val) {
+                                            TableRow += "<td style='width:auto;padding: 5px'>" + val + "</td>";
                                         });
-                                        return ($(table));
-                                    };
-                                    $(document).on("click", "#dynamictb tr", function () {
-                                        var $name = $(this).children(":first").text();
-                                        $('#search').val($name);
-                                        $('#btnSearch').click();
-                                        $("#dynamictb").remove();
+                                        TableRow += "</tr>";
+                                        $(table).append(TableRow);
                                     });
-                                    $("#search").keyup(function () {
-                                        $.ajax({
-                                            type: "GET",
-                                            url: "/umbraco/surface/CartsSurface/SearchProduct",
-                                            contentType: "application/json",
-                                            dataType: "json",
-                                            data: { "pk":  $(this).val()  },
-                                            beforeSend: function () {
-                                                $("#search-box").css("background", "#FFF url(LoaderIcon.gif) no-repeat 165px");
-                                            },
-                                            success: function (resp) {
-                                                $("#dynamictb").remove();
-                                                var res = JSON.parse(resp);
-                                                var mydata = eval(res);
-                                                var table = $.makeTable(mydata);
-                                                $(table).appendTo("#TableCont");
-                                                $("#search-box").css("background", "#FFF url() no-repeat 165px");
-                                            }
-                                        });
+                                    return ($(table));
+                                };
+                                $(document).on("click", "#dynamictb tr", function () {
+                                    var $name = $(this).children(":first").text();
+                                    $('#search').val($name);
+                                    $('#btnSearch').click();
+                                    $("#dynamictb").remove();
+                                });
+                                $("#search").keyup(function () {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "/umbraco/surface/CartsSurface/SearchProduct",
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        data: { "pk": $(this).val() },
+                                        beforeSend: function () {
+                                            $("#search-box").css("background", "#FFF url(LoaderIcon.gif) no-repeat 165px");
+                                        },
+                                        success: function (resp) {
+                                            $("#dynamictb").remove();
+                                            var res = JSON.parse(resp);
+                                            var mydata = eval(res);
+                                            var table = $.makeTable(mydata);
+                                            $(table).appendTo("#TableCont");
+                                            $("#search-box").css("background", "#FFF url() no-repeat 165px");
+                                        }
                                     });
                                 });
-                                function selectCountry(val) {
-                                    $("#search-box").val(val);
-                                    $("#suggesstion-box").hide();
-                                }
-                            </script>
-                            <!--end search table-->
-                            <section class="row-section top-logo top-search top-html " style=''>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            <h1 class="logo">
-                                                <a title="" href="/">
-                                                    <img alt="" style="max-width: 100%; max-height: 100%" src="logo.png" />
-                                                </a>
-                                            </h1>
+                            });
+                            function selectCountry(val) {
+                                $("#search-box").val(val);
+                                $("#suggesstion-box").hide();
+                            }
+                        </script>
+                        <!--end search table-->
+                        <section class="row-section top-logo top-search top-html " style=''>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <h1 class="logo">
+                                            <a title="" href="/">
+                                                <img alt="" style="max-width: 100%; max-height: 100%" src="logo.png" />
+                                            </a>
+                                        </h1>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="header-right">
+                                            <script type="text/javascript">
+                                                $(document).ready(function () {
+                                                    $('#search').keydown(function (event) {
+                                                        if (event.keyCode == 13) {
+                                                            window.location = '/tim-kiem?q=' + $('#search').val();
+
+                                                        }
+                                                    });
+                                                    $("#btnSearch").click(function () {
+                                                        window.location = '/tim-kiem?q=' + $('#search').val();
+                                                    });
+                                                });
+                                            </script>
+                                            <input id="search" style="width:85%" type="text" autocomplete="off" name="search" class="search_query" placeholder="Từ khóa tìm kiếm..." value="" runat="server" />
+                                            <button id="btnSearch" class="btnSearch" runat="server" hidefocus="true" style="border: 0 none;    background-color: rgba(255, 255, 255, 0)" onclick="searchFunction()" @*onserverclick="btnSearch_Click"*@><i class="fa fa-search fa-lg"></i></button>
+
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            <div class="header-right">
-                                                @Html.Partial("searchbox")
-                                            </div>
-                                            <table id="TableCont" style="font-family: 'Arial';
+                                        <table id="TableCont" style="font-family: 'Arial';
     border-collapse: collapse;
     border-bottom: 2px solid #00cccc;
     border-spacing: 0px;
@@ -262,217 +277,218 @@
     border-left: 0px;
     border-right: 0px;
     border-top: 0px;z-index: 9999;background-color: #fff;;display: table;position: absolute;"></table>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                            <ul class="social">
-                                                <li>
-                                                    <a href="https://www.facebook.com/pkpt01" title="Phu Kiện Phan Thiết Page" class="fb hover" target="_blank">
-                                                        <i class="fa fa-facebook"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="" title="" class="tw hover" target="_blank">
-                                                        <i class="fa fa-twitter"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://www.youtube.com/playlist?list=PL9Kbj26vhVPZvrHuGpMsTaW3xfpn8-lAe" title="PhuKienPhanThiet Channel
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <ul class="social">
+                                            <li>
+                                                <a href="https://www.facebook.com/pkpt01" title="Phu Kiện Phan Thiết Page" class="fb hover" target="_blank">
+                                                    <i class="fa fa-facebook"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="" title="" class="tw hover" target="_blank">
+                                                    <i class="fa fa-twitter"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://www.youtube.com/playlist?list=PL9Kbj26vhVPZvrHuGpMsTaW3xfpn8-lAe" title="PhuKienPhanThiet Channel
 " class="yt hover" target="_blank">
-                                                        <i class="fa fa-youtube-play"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="" title="" class="gg hover" target="_blank">
-                                                        <i class="fa fa-google-plus"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="" title="" class="rss hover" target="_blank">
-                                                        <i class="fa fa-rss"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                                    <i class="fa fa-youtube-play"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="" title="" class="gg hover" target="_blank">
+                                                    <i class="fa fa-google-plus"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="" title="" class="rss hover" target="_blank">
+                                                    <i class="fa fa-rss"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </section>
-                            <section class="row-section top-menu " style=''>
+                            </div>
+                        </section>
+                        <section class="row-section top-menu " style=''>
+                            <div class="container">
+                                <div class="hidden-sm hidden-xs">
+                                    <nav id="nav">
+                                        <ul class="nav navbar-nav">
+                                            @Html.Partial("Menu2")
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        var url = document.URL;
+                                        $("a[href='" + url + "'][level='" + 1 + "']").addClass('active');
+                                    });
+                                </script>
+                            </div>
+                        </section>
+                        @RenderBody()
+                        <footer>
+                            <section class="row-section footer-html footer-newsletters footer-html  row_2" style='background:#1f1f1f !important; padding:25px 0px !important; '>
                                 <div class="container">
-                                    <div class="hidden-sm hidden-xs">
-                                        <nav id="nav">
-                                            <ul class="nav navbar-nav">
-                                                @Html.Partial("Menu2")
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                    <script>
-                                        $(document).ready(function () {
-                                            var url = document.URL;
-                                            $("a[href='" + url + "'][level='" + 1 + "']").addClass('active');
-                                        });
-                                    </script>
-                                </div>
-                            </section>
-                            @RenderBody()
-                            <footer>
-                                <section class="row-section footer-html footer-newsletters footer-html  row_2" style='background:#1f1f1f !important; padding:25px 0px !important; '>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                                <div class="box">
-                                                    <h3>Thông tin liên hệ</h3>
-                                                    <p> </p>
-                                                    <p><em><span style="font-size: medium;">PHUKIENPHANTHIET.COM</span></em><br />Chuyên: cung cấp sỉ &amp; lẻ các loại phụ kiện công nghệ</p>
-                                                    <ul class="address">
-                                                        <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 1: </strong> 12 Phạm Ngọc Thạch, Phú Trinh, Phan Thiết, Bình Thuận
-                                                        <li>
-                                                        <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 2: </strong> 02 Lê Hồng Phong, Phan Thiết, Bình Thuận
-                                                        <li>
-                                                        <li><i class="fa fa-phone"></i> <strong>Điện thoại: </strong> 0971670168 - 0944505039</li>
-                                                        <li><strong>Email:</strong> <a href="#" title="">banhang@phukienphanthiet.com</a></li>
-                                                        <li><i class="fa fa-facebook"></i> <strong>Fanpage: </strong> <a href="fb.com/1680942635467735" target="_blank">fb.com/1680942635467735</a>
-                                                        <li>
-                                                        <li><i class="fa fa-home"></i> <strong>website: </strong> <a href="http://phukienphanthiet.com" target="_blank">http://phukienphanthiet.com</a>
-                                                        <li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                                <div class="box">
-                                                    <h3>DỊCH VỤ KHÁCH HÀNG</h3>
-                                                    <ul class="address">
-                                                        @{
-        var r = new Random();
-        List<umbraco.MacroEngines.DynamicNode>
-        pr = new umbraco.MacroEngines.DynamicNode(2119).Descendants("chiTietTinTuc").Items.OrderBy(x => r.Next()).ToList();
-        foreach (dynamic item in pr.Take(6))
-        {
-                                                    <li><i class="fa fa-check"></i><a href="@item.Url" title="@item.Name">@item.Name</a>  </li>                                           
-}
-                                                        }
-                                                    </ul>
-                                                    @*<ul class="address">
-                                                        <li><i class="fa fa-check"></i><a href="/huong-dan/chinh-sach-van-chuyen-va-thanh-toan.aspx" title="Ch&#237;nh s&#225;ch vận chuyển v&#224; thanh to&#225;n">Ch&#237;nh s&#225;ch vận chuyển v&#224; thanh to&#225;n</a>  </li>
-                                                        <li><i class="fa fa-check"></i><a href="/huong-dan/bao-ve-quyen-loi-khach-hang.aspx" title="Bảo vệ quyền lợi kh&#225;ch h&#224;ng">Bảo vệ quyền lợi kh&#225;ch h&#224;ng</a>  </li>
-                                                    </ul>*@
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                                <!--footer-->
-                                                <section id="email-newsletter" class="clearfix">
-                                                    <h3>Google Map</h3>
-                                                    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>	<!-- Google Maps API -->
-                                                    <script>
-                                                        var map; // Google map object
-                                                        // Initialize and display a google map
-                                                        function Init() {
-                                                            ShowLocation(10.9397546, 108.1013938, "PHỤ KIỆN PHAN THIẾT<br/>Đc: 12 Phạm Ngọc Thạch, P.Phú Trinh, TP.Phan Thiết");
-                                                        }
-                                                        // Display a map centered at the specified coordinate with a marker and InfoWindow.
-                                                        function ShowLocation(lat, lng, title) {
-                                                            // Create a Google coordinate object for where to center the map
-                                                            var latlng = new google.maps.LatLng(lat, lng);
-                                                            // Map options for how to display the Google map
-                                                            var mapOptions = { zoom: 15, center: latlng };
-                                                            // Show the Google map in the div with the attribute id 'map-canvas'.
-                                                            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-                                                            // Place a Google Marker at the same location as the map center
-                                                            // When you hover over the marker, it will display the title
-                                                            var marker = new google.maps.Marker({
-                                                                position: latlng,
-                                                                map: map,
-                                                                title: title
-                                                            });
-                                                            // Create an InfoWindow for the marker
-                                                            var contentString = "<b>" + title + "</b>"; // HTML text to display in the InfoWindow
-                                                            var infowindow = new google.maps.InfoWindow({ content: contentString });
-                                                            // Set event to display the InfoWindow anchored to the marker when the marker is clicked.
-                                                            google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); });
-                                                        }
-                                                        // Call the method 'Init()' to display the google map when the web page is displayed ( load event )
-                                                        google.maps.event.addDomListener(window, 'load', Init);
-                                                    </script>
-                                                    <div id='map-canvas' style="height:215px;border-radius: 5px;"></div>
-                                                </section>
-                                                <!--footer-->
-                                            </div><div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                                <div class="box">
-                                                    <h3>Fanpage shop</h3>
-                                                    <div class="fb-like-box" data-colorscheme="light" data-header="true" data-href="fb.com/1680942635467735" data-show-border="true" data-show-faces="true" data-stream="false"> </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>    <section class="row-section footer-html footer-html  row_3" style='background:#131313 !important; padding:10px 0px !important; '>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                                                <div class="copyright">
-                                                    <p>PHUKIENPHANTHIET.COM © 2016. All Rights Reserved. Design by <a href="http://itphanthiet.com" title=""> <strong>ITPhanThiet</strong> </a>.</p>
-                                                </div>
-                                            </div><div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                                <ul class="payment">
-                                                    <li><img alt="icon 3" src="images/icon 3.png" style="width: 48px; height: 30px;"></li>
-                                                    <li><img alt="icon 2" src="images/icon 2.png" style="width: 48px; height: 30px;"></li>
-                                                    <li><img alt="icon 1" src="images/icon 1.png" style="width: 48px; height: 30px;"></li>
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                            <div class="box">
+                                                <h3>Thông tin liên hệ</h3>
+                                                <p> </p>
+                                                <p><em><span style="font-size: medium;">PHUKIENPHANTHIET.COM</span></em><br />Chuyên: cung cấp sỉ &amp; lẻ các loại phụ kiện công nghệ</p>
+                                                <ul class="address">
+                                                    <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 1: </strong> 12 Phạm Ngọc Thạch, Phú Trinh, Phan Thiết, Bình Thuận
+                                                    <li>
+                                                    <li><i class="fa fa-location-arrow"></i> <strong>Địa chỉ 2: </strong> 02 Lê Hồng Phong, Phan Thiết, Bình Thuận
+                                                    <li>
+                                                    <li><i class="fa fa-phone"></i> <strong>Điện thoại: </strong> 0971670168 - 0944505039</li>
+                                                    <li><strong>Email:</strong> <a href="#" title="">banhang@phukienphanthiet.com</a></li>
+                                                    <li><i class="fa fa-facebook"></i> <strong>Fanpage: </strong> <a href="fb.com/1680942635467735" target="_blank">fb.com/1680942635467735</a>
+                                                    <li>
+                                                    <li><i class="fa fa-home"></i> <strong>website: </strong> <a href="http://phukienphanthiet.com" target="_blank">http://phukienphanthiet.com</a>
+                                                    <li>
                                                 </ul>
                                             </div>
                                         </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                            <div class="box">
+                                                <h3>DỊCH VỤ KHÁCH HÀNG</h3>
+                                                <ul class="address">
+                                                    @{
+                                                        var r = new Random();
+                                                        List<umbraco.MacroEngines.DynamicNode>
+                                                        pr = new umbraco.MacroEngines.DynamicNode(2119).Descendants("chiTietTinTuc").Items.OrderBy(x => r.Next()).ToList();
+                                                        foreach (dynamic item in pr.Take(6))
+                                                        {
+                                                            <li><i class="fa fa-check"></i><a href="@item.Url" title="@item.Name">@item.Name</a>  </li>
+                                                        }
+                                                    }
+                                                </ul>
+                                                @*<ul class="address">
+                                                        <li><i class="fa fa-check"></i><a href="/huong-dan/chinh-sach-van-chuyen-va-thanh-toan.aspx" title="Ch&#237;nh s&#225;ch vận chuyển v&#224; thanh to&#225;n">Ch&#237;nh s&#225;ch vận chuyển v&#224; thanh to&#225;n</a>  </li>
+                                                        <li><i class="fa fa-check"></i><a href="/huong-dan/bao-ve-quyen-loi-khach-hang.aspx" title="Bảo vệ quyền lợi kh&#225;ch h&#224;ng">Bảo vệ quyền lợi kh&#225;ch h&#224;ng</a>  </li>
+                                                    </ul>*@
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                            <!--footer-->
+                                            <section id="email-newsletter" class="clearfix">
+                                                <h3>Google Map</h3>
+                                                <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>	<!-- Google Maps API -->
+                                                <script>
+                                                    var map; // Google map object
+                                                    // Initialize and display a google map
+                                                    function Init() {
+                                                        ShowLocation(10.9397546, 108.1013938, "PHỤ KIỆN PHAN THIẾT<br/>Đc: 12 Phạm Ngọc Thạch, P.Phú Trinh, TP.Phan Thiết");
+                                                    }
+                                                    // Display a map centered at the specified coordinate with a marker and InfoWindow.
+                                                    function ShowLocation(lat, lng, title) {
+                                                        // Create a Google coordinate object for where to center the map
+                                                        var latlng = new google.maps.LatLng(lat, lng);
+                                                        // Map options for how to display the Google map
+                                                        var mapOptions = { zoom: 15, center: latlng };
+                                                        // Show the Google map in the div with the attribute id 'map-canvas'.
+                                                        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                                                        // Place a Google Marker at the same location as the map center
+                                                        // When you hover over the marker, it will display the title
+                                                        var marker = new google.maps.Marker({
+                                                            position: latlng,
+                                                            map: map,
+                                                            title: title
+                                                        });
+                                                        // Create an InfoWindow for the marker
+                                                        var contentString = "<b>" + title + "</b>"; // HTML text to display in the InfoWindow
+                                                        var infowindow = new google.maps.InfoWindow({ content: contentString });
+                                                        // Set event to display the InfoWindow anchored to the marker when the marker is clicked.
+                                                        google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); });
+                                                    }
+                                                    // Call the method 'Init()' to display the google map when the web page is displayed ( load event )
+                                                    google.maps.event.addDomListener(window, 'load', Init);
+                                                </script>
+                                                <div id='map-canvas' style="height:215px;border-radius: 5px;"></div>
+                                            </section>
+                                            <!--footer-->
+                                        </div><div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                            <div class="box">
+                                                <h3>Fanpage shop</h3>
+                                                <div class="fb-like-box" data-colorscheme="light" data-header="true" data-href="fb.com/1680942635467735" data-show-border="true" data-show-faces="true" data-stream="false"> </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </section>
-                            </footer>
-                        </div>
-                        <!-- /main -->
+                                </div>
+                            </section>    <section class="row-section footer-html footer-html  row_3" style='background:#131313 !important; padding:10px 0px !important; '>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                            <div class="copyright">
+                                                <p>PHUKIENPHANTHIET.COM © 2016. All Rights Reserved. Design by <a href="http://itphanthiet.com" title=""> <strong>ITPhanThiet</strong> </a>.</p>
+                                            </div>
+                                        </div><div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                            <ul class="payment">
+                                                <li><img alt="icon 3" src="images/icon 3.png" style="width: 48px; height: 30px;"></li>
+                                                <li><img alt="icon 2" src="images/icon 2.png" style="width: 48px; height: 30px;"></li>
+                                                <li><img alt="icon 1" src="images/icon 1.png" style="width: 48px; height: 30px;"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </footer>
                     </div>
-                    <!-- /st-content-inner -->
-                </div><!-- /st-content -->
-            </div><!-- /st-pusher -->
-        </div><!-- /st-container -->
-        <!-- Load main.js-->
-        <script src="js/main.js"></script>
-        <!-- OWL Carousel jquery -->
-        <!--end id=page-->
-        <div id="freeow-tr" class="freeow freeow-top-right"></div>
-        <div id="fb-root"></div>
-        <script>
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.0";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-        <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <style>
-            #bttop {
-                text-align: center;
-                padding: 5px;
-                position: fixed;
-                bottom: 5px;
-                right: 30px;
-                cursor: pointer;
-                display: none;
-                color: #fff;
-                font-size: 11px;
-                font-weight: 900;
-                border-radius: 30px;
+                    <!-- /main -->
+                </div>
+                <!-- /st-content-inner -->
+            </div><!-- /st-content -->
+        </div><!-- /st-pusher -->
+    </div><!-- /st-container -->
+    <!-- Load main.js-->
+    <script src="js/main.js"></script>
+    <!-- OWL Carousel jquery -->
+    <!--end id=page-->
+    <div id="freeow-tr" class="freeow freeow-top-right"></div>
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style>
+        #bttop {
+            text-align: center;
+            padding: 5px;
+            position: fixed;
+            bottom: 5px;
+            right: 30px;
+            cursor: pointer;
+            display: none;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 900;
+            border-radius: 30px;
+        }
+
+            #bttop:hover {
+                border: 1px solid #009AE2;
             }
-                #bttop:hover {
-                    border: 1px solid #009AE2;
-                }
-        </style>
-        <script type="text/javascript">$(function () { $(window).scroll(function () { if ($(this).scrollTop() != 0) { $('#bttop').fadeIn(); } else { $('#bttop').fadeOut(); } }); $('#bttop').click(function () { $('body,html').animate({ scrollTop: 0 }, 800); }); });</script>
-        <div id="bttop" style="z-index: 9999; display: block;"><img src="Images/gototop.png" alt="lên đầu trang" alt="len dau trang" title="lên đầu trang"></div>
-        <script>
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-            ga('create', 'UA-80560430-1', 'auto');
-            ga('send', 'pageview');
-        </script>
-    </form>
+    </style>
+    <script type="text/javascript">$(function () { $(window).scroll(function () { if ($(this).scrollTop() != 0) { $('#bttop').fadeIn(); } else { $('#bttop').fadeOut(); } }); $('#bttop').click(function () { $('body,html').animate({ scrollTop: 0 }, 800); }); });</script>
+    <div id="bttop" style="z-index: 9999; display: block;"><img src="Images/gototop.png" alt="lên đầu trang" alt="len dau trang" title="lên đầu trang"></div>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-80560430-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    @*</form>*@
 </body>
 </html>
