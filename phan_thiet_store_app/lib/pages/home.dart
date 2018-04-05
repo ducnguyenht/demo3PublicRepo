@@ -32,19 +32,75 @@ class PageHomeState extends State<PageHome> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-            title: new TextFormField(
-                decoration: new InputDecoration(
-                    hintText: 'Tìm kiếm',
-                    fillColor: new Color.fromARGB(255, 250, 250, 250),
-                    isDense: true,
-                    prefixIcon: new Icon(Icons.search),
-                    filled: true),
-                autofocus: false,
-            onFieldSubmitted: navigateToSearchResultPage),
+          title: new TextFormField(
+              decoration: new InputDecoration(
+                  hintText: 'Tìm kiếm',
+                  fillColor: new Color.fromARGB(255, 250, 250, 250),
+                  isDense: true,
+                  prefixIcon: new Icon(Icons.search),
+                  filled: true),
+              autofocus: false,
+              onFieldSubmitted: navigateToSearchResultPage),
           actions: <Widget>[
-            new IconButton(icon: new Icon(Icons.shopping_cart), onPressed: navigateToCartPage)
+            new IconButton(
+                icon: new Icon(Icons.shopping_cart),
+                onPressed: navigateToCartPage)
           ],
         ),
+        drawer: new Drawer(
+            child: new ListView(
+          children: <Widget>[
+            new DrawerHeader(
+              child: new Text(
+                'Phụ kiện Phan Thiết',
+                style: Theme.of(context).textTheme.title,
+              ),
+            ),
+            new ListTile(
+              title: new Text('Trang chủ'),
+              onTap: () {},
+            ),
+            new ExpansionTile(
+              title: new Text('Ốp - bao da',
+                  style: Theme.of(context).textTheme.body2),
+              children: <Widget>[
+                new ListTile(title: new Text('Samsung - Tab Samsung')),
+                new ListTile(title: new Text('Oppo')),
+                new ListTile(title: new Text('Vivo')),
+                new ListTile(title: new Text('Huawei'))
+              ],
+            ),
+            new ExpansionTile(
+              title: new Text('Loa - tai nghe - mic',
+                  style: Theme.of(context).textTheme.body2),
+              children: <Widget>[
+                new ListTile(title: new Text('Tai nghe có dây')),
+                new ListTile(title: new Text('Loa bluetooth không dây')),
+                new ListTile(title: new Text('Loa máy tính - thẻ nhớ')),
+                new ListTile(title: new Text('Headphone'))
+              ],
+            ),
+            new ExpansionTile(
+              title: new Text('Miếng dán',
+                  style: Theme.of(context).textTheme.body2),
+              children: <Widget>[
+                new ListTile(title: new Text('Dán film trong')),
+                new ListTile(title: new Text('Samsung')),
+                new ListTile(title: new Text('Hãng XO')),
+                new ListTile(title: new Text('Hàng Titan'))
+              ],
+            ),
+            new Divider(),
+            new ListTile(
+              title: new Text('Trợ giúp'),
+              onTap: () {},
+            ),
+            new ListTile(
+              title: new Text('Liên hệ'),
+              onTap: () {},
+            ),
+          ],
+        )),
         body: new ListView(children: <Widget>[
           new WidgetHomeCategory(title: 'Tai nghe'),
           new WidgetHomeCategory(title: 'Ốp lưng'),
