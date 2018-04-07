@@ -22,15 +22,6 @@ class WidgetCategoryProducts extends StatelessWidget {
               crossAxisSpacing: 5.0,
               crossAxisCount: 2,
               children: <Widget>[
-                new WidgetProductCard(),
-                new WidgetProductCard(),
-                new WidgetProductCard(),
-                new WidgetProductCard(),
-                new WidgetProductCard(),
-                new WidgetProductCard(),
-                new WidgetProductCard(),
-                new WidgetProductCard(),
-                new WidgetProductCard()
               ]
           )
         ]);

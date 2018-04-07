@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../models/product.dart';
 
 class PageProduct extends StatelessWidget {
-  void buyNowPressed() {}
+  void buyNowPressed() {
+  }
+
+  final ProductDetail product;
+  final formatter = new NumberFormat("#,###");
+
+  PageProduct(this.product);
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Tai nghe MZ ABC')),
+      appBar: new AppBar(title: new Text(this.product.name)),
       body: new Container(
         child: new Column(
           children: <Widget>[
             new Center(
                 child:
                     new Image.asset('images/tai_nghe.png', fit: BoxFit.cover)),
-            new Text('Tai nghe MZ ABC hàng chính hãng'),
-            new Text('5,399,000'),
+            new Text(this.product.name),
+            new Text('${formatter.format(this.product.price)} đ'),
             new Align(
                 child: new Text('Thông số sản phẩm',
                     style: new TextStyle(fontWeight: FontWeight.bold)),
@@ -22,8 +31,7 @@ class PageProduct extends StatelessWidget {
             new Align(
                 child: new Column(
                   children: <Widget>[
-                    new Text('Tai 2 driver'),
-                    new Text('Âm thanh chi tiết')
+                    new Text(this.product.description, softWrap: true)
                   ],
                   crossAxisAlignment: CrossAxisAlignment.start,
                 ),

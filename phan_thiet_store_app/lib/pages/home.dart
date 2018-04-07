@@ -3,11 +3,20 @@ import 'package:flutter/material.dart';
 import '../widgets/home_category.dart';
 import './search_result.dart';
 import './cart.dart';
+import '../view_models/home_popular_products.dart';
+import '../services/product_service.dart';
 
 class PageHome extends StatefulWidget {
+  HomePopularProducts popularBlocks;
+
   @override
   PageHomeState createState() {
     return new PageHomeState();
+  }
+
+  PageHome() {
+    var productSvc = new MockProductService();
+    popularBlocks = productSvc.getHomePopularProducts();
   }
 }
 
@@ -26,6 +35,16 @@ class PageHomeState extends State<PageHome> {
         return new PageSearchResult(searchStr: searchStr);
       },
     ));
+  }
+
+  List<Widget> getPopularProductBlocksWidget() {
+    List<Widget> widgets = [];
+    this
+        .widget
+        .popularBlocks
+        .blocks
+        .forEach((block) => widgets.add(new WidgetHomeCategory(block)));
+    return widgets;
   }
 
   @override
@@ -101,10 +120,6 @@ class PageHomeState extends State<PageHome> {
             ),
           ],
         )),
-        body: new ListView(children: <Widget>[
-          new WidgetHomeCategory(title: 'Tai nghe'),
-          new WidgetHomeCategory(title: 'Ốp lưng'),
-          new WidgetHomeCategory(title: 'Bao da')
-        ]));
+        body: new ListView(children: getPopularProductBlocksWidget()));
   }
 }
