@@ -8,6 +8,7 @@ import '../models/category.dart';
 abstract class ProductService {
   HomePopularProducts getHomePopularProducts();
   ProductDetail getProductById(String id);
+  List<ProductSummary> getProductsByCategoryId(String categoryId);
 }
 
 class MockProductService extends ProductService {
@@ -27,6 +28,11 @@ class MockProductService extends ProductService {
     return product;
   }
 
+  @override
+  List<ProductSummary> getProductsByCategoryId(String categoryId) {
+    return products.where((it) => it.categoryId == categoryId).toList();
+  }
+
   void _generateProducts() {
     if (homePopularProducts == null) {
       categories = new List<Category>();
@@ -36,6 +42,7 @@ class MockProductService extends ProductService {
       var uuid = new Uuid();
 
       num numOfCats = 4;
+      num numOfChildCats = 4;
       num numOfProductsPerCats = 8;
 
       for (num i = 0; i < numOfCats; i++) {
@@ -45,13 +52,21 @@ class MockProductService extends ProductService {
         var category = new Category(categoryId, categoryName);
         categories.add(category);
 
+        for (num ii = 0; ii < numOfChildCats; ii++) {
+          var childCatId = uuid.v4();
+          var childCatName = faker.food.restaurant();
+
+          var childCat = new Category(childCatId, childCatName);
+          category.childs.add(childCat);
+        }
+
         var categoryBlock =
             new HomePopularProductsBlock(categoryId, categoryName);
         homePopularProducts.blocks.add(categoryBlock);
 
         for (num j = 0; j < numOfProductsPerCats; j++) {
           var productId = uuid.v4();
-          var productName = faker.food.restaurant();
+          var productName = faker.food.dish();
           var productPrice = faker.randomGenerator.integer(2000000, min: 1000000);
           var productDesc = faker.food.cuisine();
 

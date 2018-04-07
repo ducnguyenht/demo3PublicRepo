@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/home_category.dart';
+import '../widgets/home_sidenav.dart';
+import '../widgets/category_products.dart';
 import './search_result.dart';
 import './cart.dart';
 import '../view_models/home_popular_products.dart';
@@ -11,7 +13,8 @@ class PageHome extends StatefulWidget {
 
   @override
   PageHomeState createState() {
-    return new PageHomeState();
+    var state =  new PageHomeState();
+    return state;
   }
 
   PageHome() {
@@ -20,7 +23,15 @@ class PageHome extends StatefulWidget {
   }
 }
 
-class PageHomeState extends State<PageHome> {
+class PageHomeState extends State<PageHome> with TickerProviderStateMixin  {
+  Widget currentBodyWidget;
+
+  @override
+  void initState() {
+    super.initState();
+    this.displayPopularProducts(isInit: true);
+  }
+
   void navigateToCartPage() {
     Navigator.of(context).push(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
@@ -37,14 +48,30 @@ class PageHomeState extends State<PageHome> {
     ));
   }
 
-  List<Widget> getPopularProductBlocksWidget() {
+  void displayPopularProducts({isInit = false}) {
     List<Widget> widgets = [];
     this
         .widget
         .popularBlocks
         .blocks
-        .forEach((block) => widgets.add(new WidgetHomeCategory(block)));
-    return widgets;
+        .forEach((block) => widgets.add(new WidgetHomeCategory(block, this)));
+    var ret = new ListView(children: widgets);
+
+    this.setState(() { currentBodyWidget = ret; });
+
+    if (!isInit) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  void displayProductsFromCategory(String catId, String catName, {isOpenFromNav = false}) {
+    var productSvc = new MockProductService();
+    var products = productSvc.getProductsByCategoryId(catId);
+    var homeWidget = new WidgetCategoryProducts(catName, products);
+    this.setState(() { currentBodyWidget = homeWidget; });
+    if (isOpenFromNav) {
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -66,60 +93,7 @@ class PageHomeState extends State<PageHome> {
                 onPressed: navigateToCartPage)
           ],
         ),
-        drawer: new Drawer(
-            child: new ListView(
-          children: <Widget>[
-            new DrawerHeader(
-              child: new Text(
-                'Phụ kiện Phan Thiết',
-                style: Theme.of(context).textTheme.title,
-              ),
-            ),
-            new ListTile(
-              title: new Text('Trang chủ'),
-              onTap: () {},
-            ),
-            new ExpansionTile(
-              title: new Text('Ốp - bao da',
-                  style: Theme.of(context).textTheme.body2),
-              children: <Widget>[
-                new ListTile(title: new Text('Samsung - Tab Samsung')),
-                new ListTile(title: new Text('Oppo')),
-                new ListTile(title: new Text('Vivo')),
-                new ListTile(title: new Text('Huawei'))
-              ],
-            ),
-            new ExpansionTile(
-              title: new Text('Loa - tai nghe - mic',
-                  style: Theme.of(context).textTheme.body2),
-              children: <Widget>[
-                new ListTile(title: new Text('Tai nghe có dây')),
-                new ListTile(title: new Text('Loa bluetooth không dây')),
-                new ListTile(title: new Text('Loa máy tính - thẻ nhớ')),
-                new ListTile(title: new Text('Headphone'))
-              ],
-            ),
-            new ExpansionTile(
-              title: new Text('Miếng dán',
-                  style: Theme.of(context).textTheme.body2),
-              children: <Widget>[
-                new ListTile(title: new Text('Dán film trong')),
-                new ListTile(title: new Text('Samsung')),
-                new ListTile(title: new Text('Hãng XO')),
-                new ListTile(title: new Text('Hàng Titan'))
-              ],
-            ),
-            new Divider(),
-            new ListTile(
-              title: new Text('Trợ giúp'),
-              onTap: () {},
-            ),
-            new ListTile(
-              title: new Text('Liên hệ'),
-              onTap: () {},
-            ),
-          ],
-        )),
-        body: new ListView(children: getPopularProductBlocksWidget()));
+        drawer: new WidgetHomeSideNav(this),
+        body: currentBodyWidget);
   }
 }
