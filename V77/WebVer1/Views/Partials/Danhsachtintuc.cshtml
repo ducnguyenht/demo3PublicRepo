@@ -27,7 +27,7 @@
             {
                 var doc = new HtmlDocument();
 
-                doc.LoadHtml(HttpUtility.HtmlEncode(@item.Mota));
+                doc.LoadHtml(HttpUtility.HtmlEncode(item.MoTa));
                 HtmlNode imgnoidung = doc.DocumentNode.SelectSingleNode("//*/img");
                 urlget = imgnoidung.Attributes["src"].Value;
             }
