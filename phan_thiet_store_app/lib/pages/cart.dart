@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 
+import '../models/cart.dart';
+import '../services/cart_service.dart';
 import '../widgets/cart_item.dart';
 
-class PageCart extends StatelessWidget {
+class PageCart extends StatefulWidget {
   void checkoutCart() {
 
   }
 
+  @override
+  PageCartState createState() {
+    return new PageCartState();
+  }
+}
+
+class PageCartState extends State<PageCart> {
+  Cart currentCart;
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -44,12 +55,19 @@ class PageCart extends StatelessWidget {
                         new RaisedButton(
                             color: Theme.of(context).accentColor,
                             textTheme: ButtonTextTheme.primary,
-                            child: new Text('Đặt hàng'), onPressed: checkoutCart
+                            child: new Text('Đặt hàng'), onPressed: widget.checkoutCart
                         )
                       ],
                     ),
                     padding: new EdgeInsets.all(16.0)))
           ],
         ));
+  }
+
+  @override
+  void initState() {
+    var cartSvc = new MockCartService();
+    var cart = cartSvc.getCurrentCart();
+    setState(() { currentCart = cart; });
   }
 }

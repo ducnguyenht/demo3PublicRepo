@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../models/cart.dart';
+
 class WidgetCartItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
