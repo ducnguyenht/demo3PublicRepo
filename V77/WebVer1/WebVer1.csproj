@@ -269,6 +269,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="canvas2image.js" />
     <Content Include="config\imageprocessor\security.config" />
     <Content Include="config\imageprocessor\processing.config" />
     <Content Include="config\imageprocessor\cache.config" />
@@ -299,6 +300,7 @@
     <Content Include="css\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="html2canvas.js" />
     <Content Include="Images\bg1.jpg" />
     <Content Include="Images\giao_hang_tan_noi.png" />
     <Content Include="Images\gototop.png" />
@@ -309,6 +311,8 @@
     <Content Include="Images\noimageb.png" />
     <Content Include="Images\slide5.png" />
     <Content Include="Images\slide7.jpg" />
+    <Content Include="jscolor.js" />
+    <Content Include="jscolor.min.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\custom.js" />
     <Content Include="js\demo.js" />
@@ -354,9 +358,13 @@
     <Content Include="macroScripts\[DocCart]CartCountAjax.cshtml" />
     <Content Include="macroScripts\[DocCart]ViewCart.cshtml" />
     <Content Include="macroScripts\[DocCart]ViewCartAjax.cshtml" />
+    <Content Include="op.css" />
+    <Content Include="op.js" />
+    <Content Include="op.min.css" />
     <Content Include="xslt\[DocCart]AddtoCart.xslt" />
     <Content Include="xslt\[DocCart]CartCount.xslt" />
     <Content Include="xslt\[DocCart]ViewCart.xslt" />
+    <Content Include="op.scss" />
     <None Include="packages.config" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -415,6 +423,7 @@
     <Content Include="Views\Partials\tintuc_left.cshtml" />
     <Content Include="Views\TimKiem.cshtml" />
     <Content Include="Views\Partials\TimkiemPartial.cshtml" />
+    <Content Include="Views\ThietKeInOpLung.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
