@@ -1,6 +1,6 @@
 ﻿@{
-    var pr = new HangHoaBLL().SanPhamNoiBat();
-    foreach (var item in pr.data)
+    var pr = MemoryCacheKiot.dsHangHoa.data.Where(o=>o.allowsSale==true).OrderByDescending(o => o.modifiedDate).Take(10).ToList();
+    foreach (var item in pr)
     {
         var idsp = @item.id;
         var idd = "addToCartButtonA" + @item.id;

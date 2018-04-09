@@ -11,7 +11,8 @@
             @{
                 if (item.hasChild)
                 {
-                    foreach (var item1 in item.children)
+                    var filter = item.children.Where(o => o.categoryId != 300683);
+                    foreach (var item1 in filter)
                     {
                         <a href="/danh-muc?pt=@item1.categoryId" class="list-group-item-vmenu sub"> <i class="fa fa-angle-right"></i>@item1.categoryName</a>
                     }
