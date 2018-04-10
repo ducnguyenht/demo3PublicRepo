@@ -22,8 +22,10 @@ class MockCartService implements CartService {
 
     var id = uuid.v4();
 
-    var cartItem = new CartItem(id, product.id, 1, product.price);
-    currentCart.items.add(cartItem);
+    var cartItem = new CartItem(id, product.id, product.name, 1, product.price);
+    var cart = getCurrentCart();
+    cart.items.add(cartItem);
+    recalculateCurrentCartAmount();
   }
 
   @override
@@ -38,6 +40,7 @@ class MockCartService implements CartService {
   void removeItemFromCart(String cartItemId) {
     var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
     currentCart.items.remove(cartItem);
+    recalculateCurrentCartAmount();
   }
 
   @override
@@ -46,12 +49,14 @@ class MockCartService implements CartService {
     if (cartItem.quantity >= 2) {
       cartItem.quantity -= 1;
     }
+    recalculateCurrentCartAmount();
   }
 
   @override
   void increaseQuantity(String cartItemId) {
     var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
     cartItem.quantity += 1;
+    recalculateCurrentCartAmount();
   }
 
   @override

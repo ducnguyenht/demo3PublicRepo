@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../models/cart.dart';
 import '../services/cart_service.dart';
 import '../widgets/cart_item.dart';
 
 class PageCart extends StatefulWidget {
-  void checkoutCart() {
-
-  }
+  void checkoutCart() {}
 
   @override
   PageCartState createState() {
@@ -17,7 +16,24 @@ class PageCart extends StatefulWidget {
 
 class PageCartState extends State<PageCart> {
   Cart currentCart;
-  
+
+  final formatter = new NumberFormat("#,###");
+
+  void refreshCart() {
+    this.setState(() => {currentCart: currentCart});
+  }
+
+  List<Widget> getCartItemsWidgets() {
+    var ret = new List<Widget>();
+    if (currentCart.items.length > 0) {
+      currentCart.items
+          .forEach((it) => ret.add(new WidgetCartItem(it, refreshCart)));
+    } else {
+      ret.add(new Text('Giỏ hàng hiện đang trống'));
+    }
+    return ret;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -25,15 +41,9 @@ class PageCartState extends State<PageCart> {
         body: new Column(
           children: <Widget>[
             new Expanded(
-                child: new ListView(children: <Widget>[
-              new WidgetCartItem(),
-              new WidgetCartItem(),
-              new WidgetCartItem(),
-              new WidgetCartItem(),
-              new WidgetCartItem(),
-              new WidgetCartItem(),
-              new WidgetCartItem()
-            ], padding: new EdgeInsets.all(8.0))),
+                child: new ListView(
+                    children: getCartItemsWidgets(),
+                    padding: new EdgeInsets.all(8.0))),
             new Card(
                 child: new Container(
                     child: new Row(
@@ -47,16 +57,21 @@ class PageCartState extends State<PageCart> {
                                     style: Theme.of(context).textTheme.caption),
                                 padding: new EdgeInsets.all(4.0)),
                             new Container(
-                                child: new Text('đ 800.000',
-                                    style: Theme.of(context).textTheme.title),
+                                child: currentCart.amount != null
+                                    ? new Text('${this.formatter.format(currentCart.amount)}  đ',
+                                        style:
+                                            Theme.of(context).textTheme.title)
+                                    : new Text('0 đ',
+                                        style:
+                                            Theme.of(context).textTheme.title),
                                 padding: new EdgeInsets.all(4.0))
                           ],
                         )),
                         new RaisedButton(
                             color: Theme.of(context).accentColor,
                             textTheme: ButtonTextTheme.primary,
-                            child: new Text('Đặt hàng'), onPressed: widget.checkoutCart
-                        )
+                            child: new Text('Đặt hàng'),
+                            onPressed: widget.checkoutCart)
                       ],
                     ),
                     padding: new EdgeInsets.all(16.0)))
@@ -68,6 +83,8 @@ class PageCartState extends State<PageCart> {
   void initState() {
     var cartSvc = new MockCartService();
     var cart = cartSvc.getCurrentCart();
-    setState(() { currentCart = cart; });
+    setState(() {
+      currentCart = cart;
+    });
   }
 }
