@@ -3,7 +3,6 @@
     Layout = "MasterPage.cshtml";
 }
 <link type="text/css" rel="stylesheet" href="op.min.css">
-
 @* the fun starts here *@
 <section class="row_section" style='padding: 25px 0px !important;'>
 
@@ -67,9 +66,7 @@
                                                                 {
                                                                     var urlget = item.images != null ? item.images[0] : "Images/noimageb.png";
 
-                                                                    <li class="m-phone js-phone" data-img="@urlget">@item.name
-                                                                    @*<img src="@urlget" />*@
-                                                                   </li>
+                                                                    <li class="m-phone js-phone" id="@item.id" data-img="@urlget">@item.name</li>
                                                                 }
                                                             </ul>
                                                         }
@@ -103,7 +100,7 @@
                                                     <input type="text" id="m-input-color" class="jscolor js-color" value="#000">
                                                 </div>
                                                 <div class="m-row m-btn-group">
-                                                    <a class="m-btn js-btn-order">Đặt</a>
+                                                    <a class="m-btn js-btn-order" id="dhOplung">Đặt</a>
                                                 </div>
                                             </div>
                                         </div>
