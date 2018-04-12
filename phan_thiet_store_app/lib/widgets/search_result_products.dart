@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/product_card.dart';
-
 class WidgetSearchResultProducts extends StatelessWidget {
   WidgetSearchResultProducts({this.searchStr});
 
