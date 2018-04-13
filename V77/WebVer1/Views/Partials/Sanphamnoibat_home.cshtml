@@ -1,5 +1,8 @@
-﻿@{
-    var pr = MemoryCacheKiot.dsHangHoa.data.Where(o=>o.allowsSale==true).OrderByDescending(o => o.modifiedDate).Take(10).ToList();
+﻿@try
+{
+    var excluedIdCateory = new List<int>() { 300685, 300707 };
+    var pr = MemoryCacheKiot.dsHangHoa.data.Where(o => !excluedIdCateory.Contains(o.categoryId)).OrderByDescending(o => o.modifiedDate).Take(10).ToList();
+
     foreach (var item in pr)
     {
         var idsp = @item.id;
@@ -68,3 +71,8 @@
         </div>
     }
 }
+catch (Exception)
+{
+
+}
+
