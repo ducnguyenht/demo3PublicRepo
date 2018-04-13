@@ -10,11 +10,11 @@ namespace WebVer1.Controllers.AjaxSurfaceController
 {
     public class CartsSurfaceController : Umbraco.Web.Mvc.SurfaceController
     {
-        public ActionResult SearchCart(string query)
-        {
-            return RedirectToUmbracoPage(2129,"q="+query);
-            //return PartialView("TimKiem");
-        }
+        //public ActionResult SearchCart(string query)
+        //{
+        //    return RedirectToUmbracoPage(2129,"q="+query);
+        //    //return PartialView("TimKiem");
+        //}
         [HttpGet]
         public JsonResult CartCount()
         {
@@ -46,6 +46,42 @@ namespace WebVer1.Controllers.AjaxSurfaceController
                 dsIdHangHoa = new List<string>();
                 dsIdHangHoa.Add(pk);
             }
+            session["dsIdHangHoa"] = dsIdHangHoa;
+            return Json(dsIdHangHoa.Count, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult AddToCartInOpLung(string pk, string arr)
+        {
+            List<string> dsIdHangHoa = null;
+            JArray cartOpLung = new JArray();
+            JObject jo = new JObject();
+            var session = System.Web.HttpContext.Current.Session;
+            if (session != null && session["dsIdHangHoa"] != null)
+            {
+                dsIdHangHoa = session["dsIdHangHoa"] as List<string>;
+                dsIdHangHoa.Add(pk);
+            }
+            else
+            {
+                dsIdHangHoa = new List<string>();
+                dsIdHangHoa.Add(pk);
+            }
+            if (session != null && session["dsIdOpLung"]!=null)
+            {
+                cartOpLung = session["dsIdOpLung"] as JArray;
+                jo.Add("pk", pk);
+                jo.Add("arr", JArray.Parse(arr));
+                cartOpLung.Add(jo);
+            }
+            else
+            {
+                cartOpLung = new JArray();
+                cartOpLung.Add(new JObject(
+                    new JProperty("pk",pk),
+                    new JProperty("arr",JArray.Parse(arr)
+                 )));
+            }
+            session["dsIdOpLung"] = cartOpLung;
             session["dsIdHangHoa"] = dsIdHangHoa;
             return Json(dsIdHangHoa.Count, JsonRequestBehavior.AllowGet);
         }
@@ -248,6 +284,16 @@ namespace WebVer1.Controllers.AjaxSurfaceController
                     name = lastname,
                     contactNumber = telephone,
                 };
+                if (session["dsIdOpLung"]!=null)
+                {
+                    var sdOplung = session["dsIdOpLung"] as JArray;
+                    foreach (dynamic item in sdOplung)
+                    {
+                        var t = item.arr.ToString();
+                        t= t.Replace("[", "").Replace("{","").Replace("]","").Replace("}","").Replace(",","\n");
+                        note += t;
+                    }
+                }
                 var checkCustomer = new CustomerBLL().checkCustomer(khachHang);
                 RootOrderBO rootOrderBO = new RootOrderBO();
                 rootOrderBO.customerId = checkCustomer.id;
@@ -276,7 +322,8 @@ namespace WebVer1.Controllers.AjaxSurfaceController
                 }
                 rootOrderBO.orderDetails = dsHangHoaDuocDat;
                 var result = new CartBLL().PostCart(rootOrderBO);
-                System.Web.HttpContext.Current.Session["dsIdHangHoa"] = null;
+                session["dsIdOpLung"] = null;
+                session["dsIdHangHoa"] = null;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
             }
             return Json( JsonConvert.SerializeObject(validate) , JsonRequestBehavior.AllowGet);
