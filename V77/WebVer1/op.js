@@ -90,17 +90,28 @@
         //Order
         $jsBtnOrder.on('click', function (event) {
             $jsPhone.each(function( index, value ) {
-                if(value.classList[2] == 'm-phone--active') {
+                if (value.classList[2] == 'm-phone--active') {
                     dataBooking = [];
                     dataBooking.push(
-                        { 
-                            'phone': $(value).text(), 
+                        {
+                            'phone': $(value).text(),
                             'type': $jsFont.children('option:selected').text(),
                             'size': $jsSize.children('option:selected').text(),
                             'color': '#' + $jsColor.val(),
                             'text': $jsInputTxt.val(),
                         }
                     );
+                    $.ajax({
+                        type: "GET",
+                        url: "/umbraco/surface/CartsSurface/AddToCartInOpLung",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: { "pk": $(value)[0].id, "arr": JSON.stringify(dataBooking)},
+                        success: function (data) {
+                            $('.count').html(data);
+                        },
+                        error: function (data) { alert("error"); }
+                    });                    
                 }
               });
             event.preventDefault();
