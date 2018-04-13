@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "canvas2image.es5.js",
+    "inputFile": "canvas2image.js"
+  },
+  {
+    "outputFile": "html2canvas.es5.js",
+    "inputFile": "html2canvas.js"
+  },
+  {
+    "outputFile": "jscolor.es5.js",
+    "inputFile": "jscolor.js"
+  },
+  {
+    "outputFile": "op.es5.js",
+    "inputFile": "op.js"
+  }
+]

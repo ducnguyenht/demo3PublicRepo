@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "jscolor.min.js",
+    "inputFiles": [
+      "jscolor.js"
+    ]
+  },
+  {
+    "outputFileName": "op.min.js",
+    "inputFiles": [
+      "op.js"
+    ]
+  }
+]

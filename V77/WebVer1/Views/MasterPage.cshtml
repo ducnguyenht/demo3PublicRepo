@@ -79,6 +79,8 @@
     <script src="js/owl.carousel.js"></script>
     <!--popup cart-->
     <link rel="stylesheet" type="text/css" href="css/style/freeow/freeow.css">
+    <link href="~/css/sm-core-css.css" rel="stylesheet" />
+<link href="~/css/sm-blue/sm-blue.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="css/demo.css">
     <script type="text/javascript" src="js/jquery.freeow.min.js"></script>
     <script type="text/javascript" src="js/demo.js"></script>
@@ -488,6 +490,16 @@
         })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
         ga('create', 'UA-80560430-1', 'auto');
         ga('send', 'pageview');
+    </script>
+    <script src="~/js/jquery.smartmenus.min.js"></script>
+    <!-- SmartMenus jQuery init -->
+    <script type="text/javascript">
+    	$(function() {
+    		$('#main-menu').smartmenus({
+    			subMenusSubOffsetX: 1,
+    			subMenusSubOffsetY: -8
+    		});
+    	});
     </script>
     @*</form>*@
 </body>

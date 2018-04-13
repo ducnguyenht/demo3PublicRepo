@@ -269,7 +269,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="canvas2image.js" />
     <Content Include="config\imageprocessor\security.config" />
     <Content Include="config\imageprocessor\processing.config" />
     <Content Include="config\imageprocessor\cache.config" />
@@ -287,6 +286,8 @@
     <Content Include="css\reset.css" />
     <Content Include="css\settings.css" />
     <Content Include="css\slider.css" />
+    <Content Include="css\sm-blue\sm-blue.css" />
+    <Content Include="css\sm-core-css.css" />
     <Content Include="css\style-responsive.css" />
     <Content Include="css\style.css" />
     <Content Include="css\style\freeow\freeow.css" />
@@ -300,7 +301,6 @@
     <Content Include="css\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="html2canvas.js" />
     <Content Include="Images\bg1.jpg" />
     <Content Include="Images\giao_hang_tan_noi.png" />
     <Content Include="Images\gototop.png" />
@@ -311,8 +311,16 @@
     <Content Include="Images\noimageb.png" />
     <Content Include="Images\slide5.png" />
     <Content Include="Images\slide7.jpg" />
+    <Content Include="jscolor.es5.js">
+      <DependentUpon>jscolor.js</DependentUpon>
+    </Content>
+    <Content Include="jscolor.es5.min.js">
+      <DependentUpon>jscolor.es5.js</DependentUpon>
+    </Content>
     <Content Include="jscolor.js" />
-    <Content Include="jscolor.min.js" />
+    <Content Include="jscolor.min.js">
+      <DependentUpon>jscolor.js</DependentUpon>
+    </Content>
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\custom.js" />
     <Content Include="js\demo.js" />
@@ -321,6 +329,8 @@
     <Content Include="js\jquery.elevateZoom-3.0.8.min.js" />
     <Content Include="js\jquery.freeow.min.js" />
     <Content Include="js\jquery.magnific-popup.min.js" />
+    <Content Include="js\jquery.smartmenus.js" />
+    <Content Include="js\jquery.smartmenus.min.js" />
     <Content Include="js\jquery.unobtrusive-ajax.min.js" />
     <Content Include="js\jquery.validate.js" />
     <Content Include="js\jquery.validate.min.js" />
@@ -359,15 +369,33 @@
     <Content Include="macroScripts\[DocCart]ViewCart.cshtml" />
     <Content Include="macroScripts\[DocCart]ViewCartAjax.cshtml" />
     <Content Include="op.css" />
+    <Content Include="op.es5.js">
+      <DependentUpon>op.js</DependentUpon>
+    </Content>
+    <Content Include="op.es5.min.js">
+      <DependentUpon>op.es5.js</DependentUpon>
+    </Content>
     <Content Include="op.js" />
     <Content Include="op.min.css" />
     <Content Include="xslt\[DocCart]AddtoCart.xslt" />
     <Content Include="xslt\[DocCart]CartCount.xslt" />
     <Content Include="xslt\[DocCart]ViewCart.xslt" />
     <Content Include="op.scss" />
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="css\sm-blue\mixins\_round-corners-last-item.scss" />
+    <Content Include="css\sm-blue\mixins\_sub-items-indentation.scss" />
+    <Content Include="css\sm-blue\sm-blue.css.map" />
+    <Content Include="css\sm-blue\sm-blue.scss" />
+    <Content Include="css\sm-blue\_mixins.scss" />
+    <Content Include="css\sm-blue\_sm-blue-theme.scss" />
     <None Include="packages.config" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
