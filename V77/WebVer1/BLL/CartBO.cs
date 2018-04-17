@@ -18,6 +18,7 @@ public class CartBO
     public string code { get; set; }
     public string name { get; set; }
     public int basePrice { get; set; }
+    public int disCount { get; set; }
     public int quantity { get; set; }
     public string description { get; set; }
     public string image { get; set; }
@@ -26,5 +27,8 @@ public class CartBO
     {
         get { return basePrice*quantity; }
     }
-    
+    public int totalAfterDiscount {
+        get { return basePrice * (100 - disCount) / 100; }
+    }
+
 }
