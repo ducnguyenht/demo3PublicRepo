@@ -75,6 +75,9 @@ public class CustomGlobal : UmbracoApplication
            
                 if (string.IsNullOrEmpty((string)HttpContext.Current.Cache["CacheDB"]))
                 {
+                    MemoryCacheKiot.dsHangHoa = null;
+                    MemoryCacheKiot.dsChiNhanh = null;
+                    MemoryCacheKiot.dsNhomHang = null;
                     new NhomHangBLL().DanhSachNhomHangCache();
                     new HangHoaBLL().DanhSachHangHoaCache();
                     new ChiNhanhBLL().DanhSachChiNhanh();
