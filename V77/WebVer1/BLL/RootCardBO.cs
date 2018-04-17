@@ -30,6 +30,21 @@ public class RootCardBO
             return tongTien; 
         }
     }
+    public int totalAfterPriceDisCount
+    {
+        get
+        {
+            int tongTien = 0;
+            if (carts.Count > 0)
+            {
+                foreach (var item in carts)
+                {
+                    tongTien += item.totalAfterDiscount;
+                }
+            }
+            return tongTien;
+        }
+    }
     public int totalQuantity
     {
         get
