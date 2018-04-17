@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../pages/home.dart';
 import '../services/category_service.dart';
 import '../models/category.dart';
 
-class WidgetHomeSideNav extends StatelessWidget {
-  PageHomeState pageHomeState;
+class WidgetSideNav extends StatelessWidget {
+  final Function displayHomePage;
+  final Function displayCategoryPage;
 
-  WidgetHomeSideNav(this.pageHomeState);
+  WidgetSideNav(this.displayHomePage, this.displayCategoryPage);
 
   List<Widget> getSideNavItems(BuildContext context, List<Category> categories) {
 
@@ -22,7 +22,7 @@ class WidgetHomeSideNav extends StatelessWidget {
 
     ret.add(new ListTile(
       title: new Text('Trang chủ'),
-      onTap: () => pageHomeState.displayPopularProducts(),
+      onTap: () => displayHomePage(),
     ));
 
     for (num i = 0; i < categories.length; i++) {
@@ -32,8 +32,8 @@ class WidgetHomeSideNav extends StatelessWidget {
         var id = categories.elementAt(i).childs.elementAt(j).id;
         items.add(new ListTile(
             title: new Text(name),
-            onTap: () => pageHomeState.displayProductsFromCategory(id, name,
-                isOpenFromNav: true)));
+            onTap: () => displayCategoryPage(id, name)
+        ));
       }
 
       var retItem = new ExpansionTile(

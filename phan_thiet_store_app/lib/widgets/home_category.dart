@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import './product_card.dart';
 import '../services/product_service.dart';
 import '../pages/category.dart';
-import '../pages/home.dart';
 import '../view_models/home_popular_products.dart';
 
 class WidgetHomeCategory extends StatefulWidget {
-  WidgetHomeCategory(this.productBlock, this.homeState);
+  WidgetHomeCategory(this.productBlock, this.navigateToCategoryPage);
 
   final HomePopularProductsBlock productBlock;
-  final PageHomeState homeState;
+  final Function navigateToCategoryPage;
 
   @override
   WidgetHomeCategoryState createState() {
@@ -54,12 +53,9 @@ class WidgetHomeCategoryState extends State<WidgetHomeCategory> {
               new Expanded(
                   child: new Align(
                       child: new FlatButton(
-                          onPressed: () => this
-                              .widget
-                              .homeState
-                              .displayProductsFromCategory(
-                                  this.widget.productBlock.categoryId,
-                                  this.widget.productBlock.name),
+                          onPressed: () => this.widget.navigateToCategoryPage(
+                              this.widget.productBlock.categoryId,
+                              this.widget.productBlock.name),
                           child: new Text('Xem tất cả',
                               style: new TextStyle(color: Colors.orange)),
                           padding: new EdgeInsets.only(right: 5.0)),
