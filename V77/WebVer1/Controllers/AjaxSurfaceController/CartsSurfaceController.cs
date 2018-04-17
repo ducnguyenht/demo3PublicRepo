@@ -6,15 +6,77 @@ using KiotVietBO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using Umbraco.Core;
+using Umbraco.Core.Models;
+using Umbraco.Core.Services;
+public class Cupon
+{
+    public DateTime tuNgay { get; set; }
+    public DateTime denNgay { get; set; }
+    public bool suDung1Lan { get; set; }
+    public bool suDungNhieuLan { get; set; }
+    public bool coHieuLuc { get; set; }
+    public int giamGia { get; set; }
+    public string name { get; set; }
+    public int maHang_NhomHang { get; set; }
+    public string hangHoa { get; set; }
+
+}
 namespace WebVer1.Controllers.AjaxSurfaceController
 {
     public class CartsSurfaceController : Umbraco.Web.Mvc.SurfaceController
     {
-        //public ActionResult SearchCart(string query)
-        //{
-        //    return RedirectToUmbracoPage(2129,"q="+query);
-        //    //return PartialView("TimKiem");
-        //}
+        [System.Web.Http.HttpGet]
+        public JsonResult CheckCupon(string cupon)
+        {
+            var contentService = ApplicationContext.Current.Services.ContentService;
+            var content = contentService.GetById(2116);
+            var query = content.Children().Where(o => o.Name == cupon).FirstOrDefault();
+            if (query!=null)
+            {
+                var tuNgay = query.GetValue<DateTime>("tuNgay");
+                var denNgay = query.GetValue<DateTime>("denNgay");
+                var giamGia = query.GetValue<int>("giamGia");
+                var suDung1Lan = query.GetValue<bool>("suDung1Lan");
+                var suDungNhieuLan = query.GetValue<bool>("suDungNhieuLan");
+                var coHieuLuc = query.GetValue<bool>("coHieuLuc");
+                var maNhomHangHoa = query.GetValue<int>("maNhomHangHoa");
+                Cupon cp = new Cupon() {
+                    coHieuLuc = coHieuLuc,
+                    denNgay=denNgay,
+                    giamGia=giamGia,
+                    name=query.Name,
+                    suDung1Lan=suDung1Lan,
+                    suDungNhieuLan=suDungNhieuLan,
+                    tuNgay=tuNgay,
+                    maHang_NhomHang = maNhomHangHoa
+                };
+                if (tuNgay <= DateTime.Now && DateTime.Now <= denNgay)
+                {
+                    if (coHieuLuc)
+                    {
+                        var session = System.Web.HttpContext.Current.Session;
+                        if (session["dsCupon"] == null && session != null)
+                        {
+                            Dictionary<string, Cupon> dsCupon = new Dictionary<string, Cupon>();
+                            dsCupon.Add(query.Name, cp);
+                            session["dsCupon"] = dsCupon;
+                            return Json(new { message = "Mã giảm giá này sẽ được áp dụng khi hoàn tất đơn hàng.", count = 1 }, JsonRequestBehavior.AllowGet);
+                        }else if(session["dsCupon"] != null && session != null)
+                        {
+                            return Json(new { message = "Mã giảm giá này sẽ được áp dụng khi hoàn tất đơn hàng.", count = 1 }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { message = "Mã giảm giá đã được sử dụng.Vui lòng nhập mã khác.", count = 1 }, JsonRequestBehavior.AllowGet);
+                    }
+                    return Json(new { message = "Mã giảm giá đã quá hạn sử dụng.", count = 1 }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+            return Json(new { message = "Mã giảm giá không đúng.Vui lòng nhập mã khác.", count = 1 }, JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public JsonResult CartCount()
         {
@@ -266,6 +328,7 @@ namespace WebVer1.Controllers.AjaxSurfaceController
             {
                 var session = System.Web.HttpContext.Current.Session;
                 var rootCartBO = new CartBLL().GetCartItems(session["dsIdHangHoa"] as List<string>);
+                Dictionary<string, Cupon> cupon = session["dsCupon"]!=null? session["dsCupon"] as Dictionary<string, Cupon> : null;
                 var items = rootCartBO.carts;
                 OrderDeliveryBO orderDeliveryBO = new OrderDeliveryBO();
                 orderDeliveryBO.type = 0;
@@ -299,7 +362,6 @@ namespace WebVer1.Controllers.AjaxSurfaceController
                 rootOrderBO.customerId = checkCustomer.id;
                 rootOrderBO.branchId = 13933;
                 rootOrderBO.soldById = 29657;
-                rootOrderBO.total = rootCartBO.totalPrice;
                 rootOrderBO.makeInvoice = false;
                 rootOrderBO.status = 1;
                 rootOrderBO.statusValue = "Phiếu tạm";
@@ -307,6 +369,77 @@ namespace WebVer1.Controllers.AjaxSurfaceController
                 rootOrderBO.description = "Đặt hàng qua Website \n"+note;
                 rootOrderBO.method = "CASH";
                 rootOrderBO.orderDelivery = orderDeliveryBO;
+                if (cupon!=null)
+                {
+                    var Cupon = cupon.Values.FirstOrDefault();
+                    var cuponAvailable = false;//ap dung giam gia
+                    if (Cupon.suDung1Lan && Cupon.coHieuLuc)
+                    {
+                        var contentService = ApplicationContext.Current.Services.ContentService;
+                        var content = contentService.GetById(2116);
+                        var query = content.Children().Where(o => o.Name == Cupon.name).FirstOrDefault();
+                        var coHieuLuc = query.GetValue<bool>("coHieuLuc");
+                        if (coHieuLuc)
+                        {
+                            query.SetValue("coHieuLuc", false);
+                            contentService.SaveAndPublishWithStatus(query);
+                            cuponAvailable = true;
+                        }
+                    }
+                    else if (Cupon.suDung1Lan==false && Cupon.coHieuLuc)
+                    {
+                        cuponAvailable = true;
+                    }
+                    else
+                    {
+                        cuponAvailable = false;
+                    }
+                    if (cuponAvailable)
+                    {
+                        var maHang_NhomHang = Cupon.maHang_NhomHang;
+                        //neu cupon la ma hang hoa
+                        var hangHoa = MemoryCacheKiot.dsHangHoa.data.Where(o => o.id == maHang_NhomHang).FirstOrDefault();
+                        if (hangHoa != null)
+                        {
+                            foreach (var item in items.Where(o => o.id == hangHoa.id))
+                            {
+                                item.disCount = Cupon.giamGia;
+                            }
+                        }
+                        else
+                        {//nguoc lai cupon la ma nhom hang
+                            var nhomHang = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == maHang_NhomHang).FirstOrDefault();
+                            var nhomHangPlane = new NhomHangBLL().DanhNhomHangPlane();
+                            var parents =
+                                        nhomHangPlane
+                                            .Where(x => x.parentId != 0)
+                                            .ToDictionary(x => x.categoryId, x => x.parentId);
+
+                            Func<int, IEnumerable<int>> getParents = null;
+                            getParents = i =>
+                                parents.ContainsKey(i)
+                                    ? new[] { parents[i] }.Concat(getParents(parents[i]))
+                                    : Enumerable.Empty<int>();
+                            foreach (var cart in items)
+                            {
+                                var hanghoa = MemoryCacheKiot.dsHangHoa.data.Where(o => o.id == cart.id).FirstOrDefault();
+                                var sdf = getParents(hanghoa.categoryId);
+                                var find = sdf.ToList();
+                                find.Add(hanghoa.categoryId);
+                                if (find.Contains(Cupon.maHang_NhomHang))
+                                {
+                                    cart.disCount = Cupon.giamGia;
+                                }
+                            }
+                        }
+                    }                    
+                    rootOrderBO.total = rootCartBO.totalAfterPriceDisCount;
+                }
+                else
+                {
+                    rootOrderBO.total = rootCartBO.totalPrice;
+                }
+
                 List<OrderDetailBO> dsHangHoaDuocDat = new List<OrderDetailBO>();
                 foreach (var item in items)
                 {
@@ -316,12 +449,14 @@ namespace WebVer1.Controllers.AjaxSurfaceController
                         productCode = item.code,
                         productName = item.name,
                         quantity = item.quantity,
-                        price = item.basePrice
+                        price = item.basePrice,
+                        discountRatio=item.disCount
                     };
                     dsHangHoaDuocDat.Add(orderDetailBO);
                 }
                 rootOrderBO.orderDetails = dsHangHoaDuocDat;
-                var result = new CartBLL().PostCart(rootOrderBO);
+                //var result = new CartBLL().PostCart(rootOrderBO);
+                session["dsCupon"] = null;
                 session["dsIdOpLung"] = null;
                 session["dsIdHangHoa"] = null;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
