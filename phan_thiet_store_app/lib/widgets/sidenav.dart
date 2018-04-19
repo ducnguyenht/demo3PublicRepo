@@ -58,8 +58,6 @@ class WidgetSideNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //return new Drawer(child: new ListView(children: getSideNavItems(context)));
-
     var apiCategorySvc = new ApiCategoryService();
     return new Drawer(child: new FutureBuilder<List<Category>>(
       future: apiCategorySvc.getCategories(),

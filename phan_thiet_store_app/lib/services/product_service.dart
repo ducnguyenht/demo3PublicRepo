@@ -8,7 +8,7 @@ import '../models/category.dart';
 abstract class ProductService {
   HomePopularProducts getHomePopularProducts();
   ProductDetail getProductById(String id);
-  List<ProductSummary> getProductsByCategoryId(String categoryId);
+  List<ProductSummary> getProductsByCategoryId(int categoryId);
 }
 
 class MockProductService extends ProductService {
@@ -29,7 +29,7 @@ class MockProductService extends ProductService {
   }
 
   @override
-  List<ProductSummary> getProductsByCategoryId(String categoryId) {
+  List<ProductSummary> getProductsByCategoryId(int categoryId) {
     return products.where((it) => it.categoryId == categoryId).toList();
   }
 
@@ -46,14 +46,14 @@ class MockProductService extends ProductService {
       num numOfProductsPerCats = 8;
 
       for (num i = 0; i < numOfCats; i++) {
-        var categoryId = uuid.v4();
+        var categoryId = faker.randomGenerator.integer(20000, min: 10000);
         var categoryName = faker.food.restaurant();
 
         var category = new Category(categoryId, categoryName);
         categories.add(category);
 
         for (num ii = 0; ii < numOfChildCats; ii++) {
-          var childCatId = uuid.v4();
+          var childCatId = faker.randomGenerator.integer(40000, min: 30000);
           var childCatName = faker.food.restaurant();
 
           var childCat = new Category(childCatId, childCatName);

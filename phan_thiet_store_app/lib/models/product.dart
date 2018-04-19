@@ -4,7 +4,7 @@ class ProductSummary {
   String name;
   num price;
 
-  String categoryId;
+  int categoryId;
 
   ProductSummary(this.id, this.name, this.price, this.categoryId);
 }

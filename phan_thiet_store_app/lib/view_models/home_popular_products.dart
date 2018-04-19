@@ -5,7 +5,7 @@ class HomePopularProducts {
 }
 
 class HomePopularProductsBlock {
-  String categoryId;
+  int categoryId;
   String name;
   List<ProductSummary> products = new List<ProductSummary>();
 

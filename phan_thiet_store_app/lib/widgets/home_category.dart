@@ -18,7 +18,7 @@ class WidgetHomeCategory extends StatefulWidget {
 }
 
 class WidgetHomeCategoryState extends State<WidgetHomeCategory> {
-  void navigateToCategoryPage(String categoryId, String categoryName) {
+  void navigateToCategoryPage(int categoryId, String categoryName) {
     var productService = new MockProductService();
     var products = productService.getProductsByCategoryId(categoryId);
 

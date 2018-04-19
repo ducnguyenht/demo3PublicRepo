@@ -61,7 +61,7 @@ abstract class CommonState<T extends StatefulWidget> extends State<T> {
     ));
   }
 
-  void navigateToCategoryPage(String catId, String catName) {
+  void navigateToCategoryPage(int catId, String catName) {
     var productSvc = new MockProductService();
     var products = productSvc.getProductsByCategoryId(catId);
     Navigator.of(context).push(new MaterialPageRoute<Null>(

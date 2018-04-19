@@ -1,21 +1,37 @@
 class Category {
-  String id;
+  int id;
   String name;
   List<Category> childs = new List<Category>();
 
   Category(this.id, this.name);
 
   factory Category.fromJson(Map<String, dynamic> json) {
-    var catId = json['categoryId'] as int;
-    var catName = json['categoryName'] as String;
-    var ret = new Category(catId.toString(), catName);
+    var catId = json['id'] as int;
+    var catName = json['name'] as String;
+    var ret = new Category(catId, catName);
+    return ret;
+  }
 
-    var childCatsJson = json['children'];
-    if (childCatsJson != null) {
-      List<Category> childCats = childCatsJson.map<Category>((childCat) => new Category.fromJson(childCat)).toList();
-      ret.childs = childCats;
-    }
+  factory Category.fromKiot(KiotCategory kiotCat) {
+    var ret = new Category(kiotCat.id, kiotCat.name);
+    return ret;
+  }
+}
 
+class KiotCategory {
+  int id;
+  String name;
+  bool hasChild;
+  int parentId;
+
+  KiotCategory(this.id, this.name, this.hasChild, this.parentId);
+
+  factory KiotCategory.fromJson(Map<String, dynamic> json) {
+    var catId = json['Id'] as int;
+    var catName = json['Name'] as String;
+    var hasChild = json['HasChild'] as bool;
+    var parentId = json['ParentId'] as int;
+    var ret = new KiotCategory(catId, catName, hasChild, parentId);
     return ret;
   }
 }
