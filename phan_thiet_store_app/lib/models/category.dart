@@ -1,19 +1,20 @@
 class Category {
   int id;
+  int parentId;
   String name;
   List<Category> childs = new List<Category>();
 
-  Category(this.id, this.name);
+  Category(this.id, this.parentId, this.name);
 
   factory Category.fromJson(Map<String, dynamic> json) {
     var catId = json['id'] as int;
     var catName = json['name'] as String;
-    var ret = new Category(catId, catName);
+    var ret = new Category(catId, catId, catName);
     return ret;
   }
 
   factory Category.fromKiot(KiotCategory kiotCat) {
-    var ret = new Category(kiotCat.id, kiotCat.name);
+    var ret = new Category(kiotCat.id, kiotCat.parentId, kiotCat.name);
     return ret;
   }
 }

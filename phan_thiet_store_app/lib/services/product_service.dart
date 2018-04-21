@@ -1,5 +1,13 @@
-import 'package:uuid/uuid.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/foundation.dart' as fo;
+
 import 'package:faker/faker.dart';
+import 'package:http/http.dart' as http;
+
+import '../services/category_service.dart';
+import '../services/network_service.dart';
+import '../services/branch_service.dart';
 
 import '../view_models/home_popular_products.dart';
 import '../models/product.dart';
@@ -7,8 +15,16 @@ import '../models/category.dart';
 
 abstract class ProductService {
   HomePopularProducts getHomePopularProducts();
-  ProductDetail getProductById(String id);
+  ProductDetail getProductById(int id);
   List<ProductSummary> getProductsByCategoryId(int categoryId);
+}
+
+abstract class AsyncProductService {
+  Future<List<HomePopularProductsBlock>> getHomePopularProducts();
+  Future<ProductDetail> getProductById(String id);
+  Future<List<ProductSummary>> getProductsByCategoryId(int categoryId);
+  Future<List<ProductSummary>> getLimitedProductsByCategoryId(
+      int numberOfProducts, int categoryId);
 }
 
 class MockProductService extends ProductService {
@@ -23,7 +39,7 @@ class MockProductService extends ProductService {
   }
 
   @override
-  ProductDetail getProductById(String id) {
+  ProductDetail getProductById(int id) {
     var product = products.firstWhere((it) => it.id == id);
     return product;
   }
@@ -39,8 +55,6 @@ class MockProductService extends ProductService {
       products = new List<ProductDetail>();
       homePopularProducts = new HomePopularProducts();
 
-      var uuid = new Uuid();
-
       num numOfCats = 4;
       num numOfChildCats = 4;
       num numOfProductsPerCats = 8;
@@ -49,14 +63,14 @@ class MockProductService extends ProductService {
         var categoryId = faker.randomGenerator.integer(20000, min: 10000);
         var categoryName = faker.food.restaurant();
 
-        var category = new Category(categoryId, categoryName);
+        var category = new Category(categoryId, categoryId, categoryName);
         categories.add(category);
 
         for (num ii = 0; ii < numOfChildCats; ii++) {
           var childCatId = faker.randomGenerator.integer(40000, min: 30000);
           var childCatName = faker.food.restaurant();
 
-          var childCat = new Category(childCatId, childCatName);
+          var childCat = new Category(childCatId, categoryId, childCatName);
           category.childs.add(childCat);
         }
 
@@ -65,9 +79,10 @@ class MockProductService extends ProductService {
         homePopularProducts.blocks.add(categoryBlock);
 
         for (num j = 0; j < numOfProductsPerCats; j++) {
-          var productId = uuid.v4();
+          var productId = faker.randomGenerator.integer(4000000, min: 3000000);
           var productName = faker.food.dish();
-          var productPrice = faker.randomGenerator.integer(2000000, min: 1000000);
+          var productPrice =
+              faker.randomGenerator.integer(2000000, min: 1000000);
           var productDesc = faker.food.cuisine();
 
           var product = new ProductDetail(
@@ -81,5 +96,67 @@ class MockProductService extends ProductService {
         }
       }
     }
+  }
+}
+
+class ApiProductService extends AsyncProductService {
+  @override
+  Future<List<HomePopularProductsBlock>> getHomePopularProducts() async {
+    fo.debugPrint('get home popular products');
+    var ret = new HomePopularProducts();
+
+    var catSvc = new ApiCategoryService();
+    var parentCats = await catSvc.getCategories();
+
+    for (var parentCat in parentCats) {
+      final parentCatId = parentCat.id;
+      fo.debugPrint('get home popular products cat $parentCatId');
+      var categoryBlock =
+          new HomePopularProductsBlock(parentCat.id, parentCat.name);
+      ret.blocks.add(categoryBlock);
+
+      var productSummaries =
+          await getLimitedProductsByCategoryId(4, parentCat.id);
+      categoryBlock.products.addAll(productSummaries);
+    }
+
+    return ret.blocks;
+  }
+
+  @override
+  Future<ProductDetail> getProductById(String id) async {
+    // TODO: implement getProductById
+  }
+
+  @override
+  Future<List<ProductSummary>> getProductsByCategoryId(int categoryId) async {
+    // TODO: implement getProductsByCategoryId
+  }
+
+  @override
+  Future<List<ProductSummary>> getLimitedProductsByCategoryId(
+      int numberOfProducts, int categoryId) async {
+    var networkSvc = new NetworkService();
+    var branchSvc = new BranchService();
+    var authToken = await networkSvc.getAuthToken();
+    fo.debugPrint('token $authToken');
+    var branchId = branchSvc.getBranchId();
+
+    fo.debugPrint('get home popular products cat summary $categoryId');
+
+    var response = await http.get(
+        'https://nzt.kiotviet.com/api/branchs/$branchId/masterproducts?format=json&ForSummaryRow=false&CategoryId=$categoryId&IsActive=true&pageSize=4&skip=0&take=4',
+        headers: {"Authorization": "Bearer $authToken"});
+    var body = response.body;
+    final parsed = json.decode(body);
+
+    fo.debugPrint('finished get home popular products cat summary $categoryId');
+
+    var kiotProductLists = parsed['Data'];
+    List<ProductSummary> productList = kiotProductLists
+        .map<ProductSummary>((it) => new ProductSummary.fromJson(it))
+        .toList();
+
+    return productList;
   }
 }

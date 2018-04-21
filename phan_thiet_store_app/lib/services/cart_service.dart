@@ -5,7 +5,7 @@ import '../services/product_service.dart';
 
 abstract class CartService {
   Cart getCurrentCart();
-  void addProductToCart(String productId);
+  void addProductToCart(int productId);
   void removeItemFromCart(String cartItemId);
   void increaseQuantity(String cartItemId);
   void decreaseQuantity(String cartItemId);
@@ -16,7 +16,7 @@ class MockCartService implements CartService {
   static Cart currentCart;
 
   @override
-  void addProductToCart(String productId) {
+  void addProductToCart(int productId) {
     var uuid = new Uuid();
     var product = MockProductService.products.firstWhere((it) => it.id == productId);
 

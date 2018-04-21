@@ -15,6 +15,7 @@ abstract class CategoryService {
 
 abstract class AsyncCategoryService {
   Future<List<Category>> getCategories();
+  Future<List<Category>> getChildCategories(int parentCatId);
 }
 
 class MockCategoryService extends CategoryService {
@@ -25,8 +26,21 @@ class MockCategoryService extends CategoryService {
 }
 
 class ApiCategoryService extends AsyncCategoryService {
+  static List<Category> _parentCats;
+  static List<Category> _allCats;
+
   @override
   Future<List<Category>> getCategories() async {
+
+    if (_parentCats != null) {
+      return _parentCats;
+    }
+
+    await _populateCategories();
+    return _parentCats;
+  }
+
+  Future _populateCategories() async {
     var networkService = new NetworkService();
     var authToken = await networkService.getAuthToken();
     var response = await http.get(
@@ -46,6 +60,19 @@ class ApiCategoryService extends AsyncCategoryService {
       parentCat.childs = childCats;
     }
 
-    return parentCats;
+    var allCats = retKiot.map<Category>((cat) => new Category.fromKiot(cat)).toList();
+
+    _allCats = allCats;
+    _parentCats = parentCats;
+  }
+
+  @override
+  Future<List<Category>> getChildCategories(int parentCatId) async {
+    if (_allCats != null) {
+      await _populateCategories();
+    }
+
+    var childCats = _allCats.where((it) => it.parentId == parentCatId).toList();
+    return childCats;
   }
 }

@@ -7,7 +7,7 @@ class CartItem {
   CartItem(this.id, this.productId, this.productName, this.quantity, this.amount);
 
   String id;
-  String productId;
+  int productId;
   String productName;
   num quantity;
   // Amount = Quantity * Price

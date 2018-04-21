@@ -23,23 +23,27 @@ class PageHomeState extends CommonState<PageHome> {
   @override
   void initState() {
     super.initState();
-    var productSvc = new MockProductService();
-    popularBlocks = productSvc.getHomePopularProducts();
-  }
-
-  Widget displayPopularProducts() {
-    List<Widget> widgets = [];
-    this.popularBlocks.blocks.forEach((block) => widgets
-        .add(new WidgetHomeCategory(block, this.navigateToCategoryPage)));
-    return new ListView(children: widgets);
   }
 
   @override
   Widget build(BuildContext context) {
+    var productSvc = new ApiProductService();
+
     return new Scaffold(
         appBar: searchBar.build(context),
         drawer: new WidgetSideNav(
             this.navigateToHomePage, this.navigateToCategoryPage),
-        body: displayPopularProducts());
+        body: new FutureBuilder<List<HomePopularProductsBlock>>(
+          future: productSvc.getHomePopularProducts(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) print(snapshot.error);
+
+            return snapshot.hasData
+                ? new ListView.builder(
+                    itemBuilder: (context, index) => new WidgetHomeCategory(
+                        snapshot.data[index], this.navigateToCategoryPage))
+                : new Center(child: new CircularProgressIndicator());
+          },
+        ));
   }
 }

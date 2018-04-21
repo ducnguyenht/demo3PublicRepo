@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../services/branch_service.dart';
 import '../services/category_service.dart';
 import '../models/category.dart';
 
-class WidgetSideNav extends StatelessWidget {
+class WidgetSideNav extends StatefulWidget {
   final Function displayHomePage;
   final Function displayCategoryPage;
 
   WidgetSideNav(this.displayHomePage, this.displayCategoryPage);
 
-  List<Widget> getSideNavItems(BuildContext context, List<Category> categories) {
-
+  List<Widget> getSideNavItems(
+      BuildContext context, List<Category> categories) {
     List<Widget> ret = new List<Widget>();
-
-    ret.add(new DrawerHeader(
-      child: new Text(
-        'Phụ kiện Phan Thiết',
-        style: Theme.of(context).textTheme.title,
-      ),
-    ));
-
-    ret.add(new ListTile(
-      title: new Text('Trang chủ'),
-      onTap: () => displayHomePage(),
-    ));
 
     for (num i = 0; i < categories.length; i++) {
       List<Widget> items = new List<Widget>();
@@ -31,8 +20,10 @@ class WidgetSideNav extends StatelessWidget {
         var name = categories.elementAt(i).childs.elementAt(j).name;
         var id = categories.elementAt(i).childs.elementAt(j).id;
         items.add(new ListTile(
-            title: new Text(name),
-            onTap: () => displayCategoryPage(id, name)
+          title: new Container(
+              child: new Text(name, style: Theme.of(context).textTheme.body1),
+              padding: new EdgeInsets.only(left: 8.0)),
+          onTap: () => displayCategoryPage(id, name),
         ));
       }
 
@@ -43,31 +34,90 @@ class WidgetSideNav extends StatelessWidget {
       ret.add(retItem);
     }
 
-    ret.add(new Divider());
-    ret.add(new ListTile(
-      title: new Text('Trợ giúp'),
-      onTap: () {},
-    ));
-    ret.add(new ListTile(
-      title: new Text('Liên hệ'),
-      onTap: () {},
-    ));
-
     return ret;
+  }
+
+  @override
+  WidgetSideNavState createState() {
+    return new WidgetSideNavState();
+  }
+}
+
+class WidgetSideNavState extends State<WidgetSideNav> {
+  int _branchId;
+
+  @override
+  void initState() {
+    super.initState();
+
+    var branchSvc = new BranchService();
+    this.setState(() {
+      _branchId = branchSvc.getBranchId();
+    });
+  }
+
+  void setBranchId(int id) {
+    var branchSvc = new BranchService();
+    branchSvc.setBranchId(id);
+
+    this.setState(() {
+      _branchId = branchSvc.getBranchId();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var apiCategorySvc = new ApiCategoryService();
-    return new Drawer(child: new FutureBuilder<List<Category>>(
-      future: apiCategorySvc.getCategories(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) print(snapshot.error);
+    return new Drawer(
+        child: new ListView(children: <Widget>[
+      new DrawerHeader(
+          child: new Column(
+        children: <Widget>[
+          new Expanded(
+              child: new Text(
+            'Phụ kiện Phan Thiết',
+            style: Theme.of(context).textTheme.title,
+          )),
+          new Row(children: <Widget>[
+            new Text('Chi nhánh:'),
+            new DropdownButton<int>(items: <DropdownMenuItem<int>>[
+              new DropdownMenuItem<int>(
+                  key: new ValueKey(13933),
+                  value: 13933,
+                  child: new Text('02 Lê Hồng Phong')),
+              new DropdownMenuItem<int>(
+                  key: new ValueKey(17467),
+                  value: 17467,
+                  child: new Text('12 Phạm Ngọc Thạch'))
+            ], onChanged: setBranchId, value: _branchId)
+          ]),
+        ],
+        crossAxisAlignment: CrossAxisAlignment.start,
+      )),
+      new ListTile(
+        title: new Text('Trang chủ'),
+        onTap: () => widget.displayHomePage(),
+      ),
+      new FutureBuilder<List<Category>>(
+        future: apiCategorySvc.getCategories(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) print(snapshot.error);
 
-        return snapshot.hasData
-            ? new ListView(children: getSideNavItems(context, snapshot.data))
-            : new Center(child: new CircularProgressIndicator());
-      },
-    ));
+          return snapshot.hasData
+              ? new Column(
+                  children: widget.getSideNavItems(context, snapshot.data))
+              : new Center(child: new CircularProgressIndicator());
+        },
+      ),
+      new Divider(),
+      new ListTile(
+        title: new Text('Trợ giúp'),
+        onTap: () {},
+      ),
+      new ListTile(
+        title: new Text('Liên hệ'),
+        onTap: () {},
+      )
+    ]));
   }
 }

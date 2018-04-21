@@ -38,6 +38,7 @@ flutter:
 
   assets:
    - images/tai_nghe.png
+   - images/image_coming_soon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

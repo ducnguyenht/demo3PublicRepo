@@ -6,7 +6,6 @@ import '../pages/product.dart';
 import '../models/product.dart';
 
 class WidgetProductCard extends StatefulWidget {
-
   final ProductSummary product;
   final formatter = new NumberFormat("#,###");
 
@@ -19,7 +18,7 @@ class WidgetProductCard extends StatefulWidget {
 }
 
 class WidgetProductCardState extends State<WidgetProductCard> {
-  void goToProductPage(String productId) {
+  void goToProductPage(int productId) {
     var productSvc = new MockProductService();
     var product = productSvc.getProductById(productId);
 
@@ -40,12 +39,17 @@ class WidgetProductCardState extends State<WidgetProductCard> {
           children: <Widget>[
             new Flexible(
                 child: new Center(
-                    child: new Image.asset('images/tai_nghe.png',
-                        fit: BoxFit.cover)),
+                    child: this.widget.product.imageUrl != null
+                        ? new Image.network(this.widget.product.imageUrl,
+                            fit: BoxFit.cover)
+                        : new Image.asset('images/image_coming_soon.png',
+                            fit: BoxFit.cover)
+                ),
                 fit: FlexFit.tight,
                 flex: 3),
             new Expanded(child: (new Text(this.widget.product.name))),
-            new Text('${this.widget.formatter.format(this.widget.product.price)} đ'),
+            new Text('${this.widget.formatter.format(
+                    this.widget.product.price)} đ'),
           ],
         )),
         onTapUp: (tapDetail) => goToProductPage(this.widget.product.id));
