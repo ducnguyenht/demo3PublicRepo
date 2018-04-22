@@ -54,7 +54,7 @@ abstract class CommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void navigateToHomePage() {
-    Navigator.of(context).push(new MaterialPageRoute<Null>(
+    Navigator.of(context).pushReplacement(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
         return new PageHome();
       },
@@ -62,11 +62,9 @@ abstract class CommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void navigateToCategoryPage(int catId, String catName) {
-    var productSvc = new MockProductService();
-    var products = productSvc.getProductsByCategoryId(catId);
-    Navigator.of(context).push(new MaterialPageRoute<Null>(
+    Navigator.of(context).pushReplacement(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
-        return new PageCategory(catName, products);
+        return new PageCategory(catId, catName);
       },
     ));
   }

@@ -19,13 +19,10 @@ class WidgetHomeCategory extends StatefulWidget {
 
 class WidgetHomeCategoryState extends State<WidgetHomeCategory> {
   void navigateToCategoryPage(int categoryId, String categoryName) {
-    var productService = new MockProductService();
-    var products = productService.getProductsByCategoryId(categoryId);
-
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new PageCategory(categoryName, products)));
+            builder: (context) => new PageCategory(categoryId, categoryName)));
   }
 
   List<Widget> getProductCard() {

@@ -41,7 +41,8 @@ class PageHomeState extends CommonState<PageHome> {
             return snapshot.hasData
                 ? new ListView.builder(
                     itemBuilder: (context, index) => new WidgetHomeCategory(
-                        snapshot.data[index], this.navigateToCategoryPage))
+                        snapshot.data[index], this.navigateToCategoryPage),
+                    itemCount: snapshot.data.length)
                 : new Center(child: new CircularProgressIndicator());
           },
         ));

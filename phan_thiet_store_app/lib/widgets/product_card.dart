@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_advanced_networkimage/flutter_advanced_networkimage.dart';
+import 'package:flutter_advanced_networkimage/transition_to_image.dart';
 
-import '../services/product_service.dart';
 import '../pages/product.dart';
 import '../models/product.dart';
 
@@ -19,12 +20,9 @@ class WidgetProductCard extends StatefulWidget {
 
 class WidgetProductCardState extends State<WidgetProductCard> {
   void goToProductPage(int productId) {
-    var productSvc = new MockProductService();
-    var product = productSvc.getProductById(productId);
-
     Navigator.of(context).push(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
-        return new PageProduct(product);
+        return new PageProduct(productId);
       },
     ));
   }
@@ -39,11 +37,12 @@ class WidgetProductCardState extends State<WidgetProductCard> {
           children: <Widget>[
             new Flexible(
                 child: new Center(
-                    child: this.widget.product.imageUrl != null
-                        ? new Image.network(this.widget.product.imageUrl,
-                            fit: BoxFit.cover)
-                        : new Image.asset('images/image_coming_soon.png',
-                            fit: BoxFit.cover)
+                  child: this.widget.product.imageUrl != null
+                      ? new TransitionToImage(new AdvancedNetworkImage(
+                          this.widget.product.imageUrl,
+                          useDiskCache: true))
+                      : new Image.asset('images/image_coming_soon.png',
+                          fit: BoxFit.cover),
                 ),
                 fit: FlexFit.tight,
                 flex: 3),
