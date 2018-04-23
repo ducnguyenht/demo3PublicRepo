@@ -81,7 +81,9 @@ class PageCartState extends State<PageCart> {
 
   @override
   void initState() {
-    var cartSvc = new MockCartService();
+    super.initState();
+
+    var cartSvc = new ApiCartService();
     var cart = cartSvc.getCurrentCart();
     setState(() {
       currentCart = cart;

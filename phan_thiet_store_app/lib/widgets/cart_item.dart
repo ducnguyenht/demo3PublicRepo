@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_advanced_networkimage/flutter_advanced_networkimage.dart';
+import 'package:flutter_advanced_networkimage/transition_to_image.dart';
 
 import '../models/cart.dart';
 import '../services/cart_service.dart';
@@ -20,16 +22,16 @@ class WidgetCartItemState extends State<WidgetCartItem> {
   CartItem cartItem;
   final formatter = new NumberFormat("#,###");
 
-  void increaseQuantity() {
-    var cartSvc = new MockCartService();
-    cartSvc.increaseQuantity(cartItem.id);
+  void increaseQuantity() async {
+    var cartSvc = new ApiCartService();
+    await cartSvc.increaseQuantity(cartItem.id);
     this.setState(() { cartItem: cartItem;});
     this.widget.refreshCart();
   }
 
-  void decreaseQuantity() {
-    var cartSvc = new MockCartService();
-    cartSvc.decreaseQuantity(cartItem.id);
+  void decreaseQuantity() async {
+    var cartSvc = new ApiCartService();
+    await cartSvc.decreaseQuantity(cartItem.id);
     this.widget.refreshCart();
   }
 
@@ -39,7 +41,12 @@ class WidgetCartItemState extends State<WidgetCartItem> {
       child: new Container(
         child: new Row(children: <Widget>[
           new Container(
-            child: new Image.asset('images/tai_nghe.png', fit: BoxFit.cover),
+            child: this.widget.cartItem.imageUrl != null
+                ? new TransitionToImage(new AdvancedNetworkImage(
+                this.widget.cartItem.imageUrl,
+                useDiskCache: true))
+                : new Image.asset('images/image_coming_soon.png',
+                fit: BoxFit.cover),
             padding: new EdgeInsets.all(5.0),
             height: 64.0,
           ),

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_advanced_networkimage/flutter_advanced_networkimage.dart';
@@ -27,9 +30,9 @@ class PageProductState extends State<PageProduct> {
 
   PageProductState(this.productId);
   
-  void buyNowPressed(BuildContext bContext, String productName) {
-    var cartSvc = new MockCartService();
-    cartSvc.addProductToCart(productId);
+  void buyNowPressed(BuildContext bContext, String productName) async {
+    var cartSvc = new ApiCartService();
+    await cartSvc.addProductToCart(productId);
     var snackBar = new SnackBar(
         content: new Text('Đã thêm "$productName" vào giỏ hàng.'));
     Scaffold.of(bContext).showSnackBar(snackBar);
