@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart' as fo;
+
 import 'package:http/http.dart' as http;
 
 class NetworkService {
@@ -7,6 +10,7 @@ class NetworkService {
 
   Future<String> getAuthToken() async {
     if (authToken == null) {
+      fo.debugPrint('get token');
       final String tokenUrl =
           "https://nzt.kiotviet.com/api/auth/credentials?format=json";
       var requester = new http.Client();
@@ -18,6 +22,7 @@ class NetworkService {
       });
       var bodyStr = response.body;
       var bodyMap = json.decode(bodyStr);
+      fo.debugPrint('got token');
       authToken = bodyMap['BearerToken'];
     }
     return authToken;

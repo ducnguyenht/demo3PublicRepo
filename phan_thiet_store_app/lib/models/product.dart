@@ -35,7 +35,9 @@ class ProductDetail extends ProductSummary {
     var desc = json['Description'] as String;
 
     var ret = new ProductDetail(id, fullName, price, categoryId, desc);
-    ret.imageUrl = json['ProductImages'][0]['Image'];
+    if (json['ProductImages'].length > 0) {
+      ret.imageUrl = json['ProductImages'][0]['Image'];
+    }
     return ret;
   }
 }

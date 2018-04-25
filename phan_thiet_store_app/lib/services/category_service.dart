@@ -31,23 +31,24 @@ class ApiCategoryService extends AsyncCategoryService {
 
   @override
   Future<List<Category>> getCategories() async {
-
-    if (_parentCats != null) {
-      return _parentCats;
+    if (_parentCats == null) {
+      await _populateCategories();
     }
-
-    await _populateCategories();
     return _parentCats;
   }
 
   Future _populateCategories() async {
     var networkService = new NetworkService();
+    fo.debugPrint('getting token');
     var authToken = await networkService.getAuthToken();
+    fo.debugPrint('got token');
+    fo.debugPrint('getting cats');
     var response = await http.get(
         'https://nzt.kiotviet.com/api/categories?%24inlinecount=allpages&format=json',
         headers: {"Authorization": "Bearer $authToken"});
     var body = response.body;
     final parsed = json.decode(body);
+    fo.debugPrint('got cats');
     var kiotCatList = parsed['Data'];
     List<KiotCategory> retKiot = kiotCatList.map<KiotCategory>((cat) => new KiotCategory.fromJson(cat)).toList();
 

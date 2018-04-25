@@ -19,10 +19,10 @@ class WidgetProductCard extends StatefulWidget {
 }
 
 class WidgetProductCardState extends State<WidgetProductCard> {
-  void goToProductPage(int productId) {
+  void goToProductPage(int productId, String productName) {
     Navigator.of(context).push(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
-        return new PageProduct(productId);
+        return new PageProduct(productId, productName);
       },
     ));
   }
@@ -51,6 +51,6 @@ class WidgetProductCardState extends State<WidgetProductCard> {
                     this.widget.product.price)} đ'),
           ],
         )),
-        onTapUp: (tapDetail) => goToProductPage(this.widget.product.id));
+        onTapUp: (tapDetail) => goToProductPage(this.widget.product.id, this.widget.product.name));
   }
 }

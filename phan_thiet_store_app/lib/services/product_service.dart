@@ -157,7 +157,7 @@ class ApiProductService extends AsyncProductService {
     var body = response.body;
     final parsed = json.decode(body);
 
-    fo.debugPrint('finished get products by cat $categoryId');
+    fo.debugPrint('got products by cat $categoryId');
 
     var kiotProductLists = parsed['Data'];
     List<ProductSummary> productList = kiotProductLists

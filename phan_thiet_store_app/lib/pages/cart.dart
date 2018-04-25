@@ -26,8 +26,9 @@ class PageCartState extends State<PageCart> {
   List<Widget> getCartItemsWidgets() {
     var ret = new List<Widget>();
     if (currentCart.items.length > 0) {
-      currentCart.items
-          .forEach((it) => ret.add(new WidgetCartItem(it, refreshCart)));
+      currentCart.items.forEach((it) => ret.add(
+            new WidgetCartItem(it, refreshCart)
+          ));
     } else {
       ret.add(new Text('Giỏ hàng hiện đang trống'));
     }
@@ -58,7 +59,8 @@ class PageCartState extends State<PageCart> {
                                 padding: new EdgeInsets.all(4.0)),
                             new Container(
                                 child: currentCart.amount != null
-                                    ? new Text('${this.formatter.format(currentCart.amount)}  đ',
+                                    ? new Text(
+                                        '${this.formatter.format(currentCart.amount)}  đ',
                                         style:
                                             Theme.of(context).textTheme.title)
                                     : new Text('0 đ',
