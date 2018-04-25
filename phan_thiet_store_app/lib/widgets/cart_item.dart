@@ -24,19 +24,15 @@ class WidgetCartItemState extends State<WidgetCartItem> {
   CartItem cartItem;
   final formatter = new NumberFormat("#,###");
 
-  void increaseQuantity() async {
+  void increaseQuantity() {
     var cartSvc = new ApiCartService();
-    await cartSvc.increaseQuantity(cartItem.id);
-    this.setState(() {
-      cartItem:
-      cartItem;
-    });
+    cartSvc.increaseQuantity(cartItem.id);
     this.widget.refreshCart();
   }
 
-  void decreaseQuantity() async {
+  void decreaseQuantity() {
     var cartSvc = new ApiCartService();
-    await cartSvc.decreaseQuantity(cartItem.id);
+    cartSvc.decreaseQuantity(cartItem.id);
     this.widget.refreshCart();
   }
 
@@ -45,17 +41,19 @@ class WidgetCartItemState extends State<WidgetCartItem> {
         context: context,
         barrierDismissible: false, // user must tap button!
         child: new AlertDialog(
-          title: new Text('Xóa hàng hóa'),
+          title: new Text('Vui lòng xác nhận'),
           content: new SingleChildScrollView(
             child: new ListBody(
               children: <Widget>[
-                new Text("Bạn muốn xóa '${cartItem.productName}' khỏi giỏ hàng?")
+                new Text(
+                    "Bạn muốn xóa '${cartItem.productName}' khỏi giỏ hàng?")
               ],
             ),
           ),
           actions: <Widget>[
             new FlatButton(
-              child: new Text('Đồng ý'),
+              child: new Text('Đồng ý',
+                  style: new TextStyle(color: new Color(Colors.red.value))),
               onPressed: () async {
                 var cartSvc = new ApiCartService();
                 await cartSvc.removeItemFromCart(cartItem.id);

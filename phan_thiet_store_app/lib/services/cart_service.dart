@@ -18,9 +18,9 @@ abstract class CartService {
 abstract class AsyncCartService {
   Cart getCurrentCart();
   Future addProductToCart(int productId);
-  Future removeItemFromCart(String cartItemId);
-  Future increaseQuantity(String cartItemId);
-  Future decreaseQuantity(String cartItemId);
+  void removeItemFromCart(String cartItemId);
+  void increaseQuantity(String cartItemId);
+  void decreaseQuantity(String cartItemId);
   Future recalculateCurrentCartAmount();
 }
 
@@ -39,16 +39,20 @@ class ApiCartService implements AsyncCartService {
     var cartItem = new CartItem(id, product.id, product.name, product.imageUrl, 1, product.price);
     var cart = getCurrentCart();
     cart.items.add(cartItem);
-    recalculateCurrentCartAmount();
   }
 
   @override
-  Future decreaseQuantity(String cartItemId) async {
+  void decreaseQuantity(String cartItemId) {
     var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
     if (cartItem.quantity >= 2) {
       cartItem.quantity -= 1;
-      await recalculateCurrentCartAmount();
     }
+  }
+
+  @override
+  void increaseQuantity(String cartItemId) {
+    var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
+    cartItem.quantity += 1;
   }
 
   @override
@@ -57,13 +61,6 @@ class ApiCartService implements AsyncCartService {
       currentCart = new Cart();
     }
     return currentCart;
-  }
-
-  @override
-  Future increaseQuantity(String cartItemId) async {
-    var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
-    cartItem.quantity += 1;
-    await recalculateCurrentCartAmount();
   }
 
   @override
@@ -83,7 +80,6 @@ class ApiCartService implements AsyncCartService {
   Future removeItemFromCart(String cartItemId) async {
     var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
     currentCart.items.remove(cartItem);
-    recalculateCurrentCartAmount();
   }
 }
 
@@ -100,7 +96,6 @@ class MockCartService implements CartService {
     var cartItem = new CartItem(id, product.id, product.name, product.imageUrl, 1, product.price);
     var cart = getCurrentCart();
     cart.items.add(cartItem);
-    recalculateCurrentCartAmount();
   }
 
   @override
@@ -115,7 +110,6 @@ class MockCartService implements CartService {
   void removeItemFromCart(String cartItemId) {
     var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
     currentCart.items.remove(cartItem);
-    recalculateCurrentCartAmount();
   }
 
   @override
@@ -124,14 +118,12 @@ class MockCartService implements CartService {
     if (cartItem.quantity >= 2) {
       cartItem.quantity -= 1;
     }
-    recalculateCurrentCartAmount();
   }
 
   @override
   void increaseQuantity(String cartItemId) {
     var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
     cartItem.quantity += 1;
-    recalculateCurrentCartAmount();
   }
 
   @override

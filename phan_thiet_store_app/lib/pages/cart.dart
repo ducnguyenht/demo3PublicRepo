@@ -16,21 +16,35 @@ class PageCart extends StatefulWidget {
 
 class PageCartState extends State<PageCart> {
   Cart currentCart;
-
   final formatter = new NumberFormat("#,###");
+  bool isLoading = false;
 
-  void refreshCart() {
-    this.setState(() => {currentCart: currentCart});
+  @override
+  void initState() {
+    super.initState();
+    refreshCart();
+  }
+
+  void refreshCart() async {
+    setState(() { isLoading = true; });
+    var cartSvc = new ApiCartService();
+    await cartSvc.recalculateCurrentCartAmount();
+    var cart = cartSvc.getCurrentCart();
+    setState(() {
+      currentCart = cart;
+      isLoading = false;
+    });
   }
 
   List<Widget> getCartItemsWidgets() {
     var ret = new List<Widget>();
-    if (currentCart.items.length > 0) {
-      currentCart.items.forEach((it) => ret.add(
-            new WidgetCartItem(it, refreshCart)
-          ));
-    } else {
-      ret.add(new Text('Giỏ hàng hiện đang trống'));
+    if (currentCart != null) {
+      if (currentCart.items.length > 0) {
+        currentCart.items
+            .forEach((it) => ret.add(new WidgetCartItem(it, refreshCart)));
+      } else {
+        ret.add(new Text('Giỏ hàng hiện đang trống'));
+      }
     }
     return ret;
   }
@@ -42,9 +56,11 @@ class PageCartState extends State<PageCart> {
         body: new Column(
           children: <Widget>[
             new Expanded(
-                child: new ListView(
-                    children: getCartItemsWidgets(),
-                    padding: new EdgeInsets.all(8.0))),
+                child: (currentCart != null || isLoading == false)
+                    ? new ListView(
+                        children: getCartItemsWidgets(),
+                        padding: new EdgeInsets.all(8.0))
+                    : new Center(child: new CircularProgressIndicator())),
             new Card(
                 child: new Container(
                     child: new Row(
@@ -58,7 +74,8 @@ class PageCartState extends State<PageCart> {
                                     style: Theme.of(context).textTheme.caption),
                                 padding: new EdgeInsets.all(4.0)),
                             new Container(
-                                child: currentCart.amount != null
+                                child: currentCart != null &&
+                                        currentCart.amount != null
                                     ? new Text(
                                         '${this.formatter.format(currentCart.amount)}  đ',
                                         style:
@@ -79,16 +96,5 @@ class PageCartState extends State<PageCart> {
                     padding: new EdgeInsets.all(16.0)))
           ],
         ));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    var cartSvc = new ApiCartService();
-    var cart = cartSvc.getCurrentCart();
-    setState(() {
-      currentCart = cart;
-    });
   }
 }
