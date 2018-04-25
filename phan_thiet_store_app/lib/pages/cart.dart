@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import './checkout.dart';
+
 import '../models/cart.dart';
 import '../services/cart_service.dart';
 import '../widgets/cart_item.dart';
 
 class PageCart extends StatefulWidget {
-  void checkoutCart() {}
-
   @override
   PageCartState createState() {
     return new PageCartState();
@@ -18,6 +18,14 @@ class PageCartState extends State<PageCart> {
   Cart currentCart;
   final formatter = new NumberFormat("#,###");
   bool isLoading = false;
+
+  void checkoutCart() {
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+      builder: (BuildContext context) {
+        return new PageCheckOut();
+      },
+    ));
+  }
 
   @override
   void initState() {
@@ -56,7 +64,7 @@ class PageCartState extends State<PageCart> {
         body: new Column(
           children: <Widget>[
             new Expanded(
-                child: (currentCart != null || isLoading == false)
+                child: (currentCart != null && isLoading == false)
                     ? new ListView(
                         children: getCartItemsWidgets(),
                         padding: new EdgeInsets.all(8.0))
@@ -90,7 +98,7 @@ class PageCartState extends State<PageCart> {
                             color: Theme.of(context).accentColor,
                             textTheme: ButtonTextTheme.primary,
                             child: new Text('Đặt hàng'),
-                            onPressed: widget.checkoutCart)
+                            onPressed: checkoutCart)
                       ],
                     ),
                     padding: new EdgeInsets.all(16.0)))
