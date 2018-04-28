@@ -22,7 +22,7 @@ class PageCartState extends State<PageCart> {
   void checkoutCart() {
     Navigator.of(context).push(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
-        return new PageCheckOut();
+        return new PageCheckOut(currentCart);
       },
     ));
   }
