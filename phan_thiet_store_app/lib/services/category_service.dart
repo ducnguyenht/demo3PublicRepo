@@ -8,6 +8,7 @@ import './network_service.dart';
 import './product_service.dart';
 
 import '../models/category.dart';
+import '../models/config.dart';
 
 abstract class CategoryService {
   List<Category> getCategories();
@@ -43,25 +44,34 @@ class ApiCategoryService extends AsyncCategoryService {
     var authToken = await networkService.getAuthToken();
     fo.debugPrint('got token');
     fo.debugPrint('getting cats');
+    var config = new Config.getTestConfig();
     var response = await http.get(
-        'https://nzt.kiotviet.com/api/categories?%24inlinecount=allpages&format=json',
+        config
+            .getFullUrl("/api/categories?%24inlinecount=allpages&format=json"),
         headers: {"Authorization": "Bearer $authToken"});
     var body = response.body;
     final parsed = json.decode(body);
     fo.debugPrint('got cats');
     var kiotCatList = parsed['Data'];
-    List<KiotCategory> retKiot = kiotCatList.map<KiotCategory>((cat) => new KiotCategory.fromJson(cat)).toList();
+    List<KiotCategory> retKiot = kiotCatList
+        .map<KiotCategory>((cat) => new KiotCategory.fromJson(cat))
+        .toList();
 
     var parentKiotCats = retKiot.where((it) => it.parentId == null);
-    List<Category> parentCats = parentKiotCats.map<Category>((cat) => new Category.fromKiot(cat)).toList();
+    List<Category> parentCats = parentKiotCats
+        .map<Category>((cat) => new Category.fromKiot(cat))
+        .toList();
 
     for (var parentCat in parentCats) {
       var childKiotCats = retKiot.where((it) => it.parentId == parentCat.id);
-      List<Category> childCats = childKiotCats.map<Category>((cat) => new Category.fromKiot(cat)).toList();
+      List<Category> childCats = childKiotCats
+          .map<Category>((cat) => new Category.fromKiot(cat))
+          .toList();
       parentCat.childs = childCats;
     }
 
-    var allCats = retKiot.map<Category>((cat) => new Category.fromKiot(cat)).toList();
+    var allCats =
+        retKiot.map<Category>((cat) => new Category.fromKiot(cat)).toList();
 
     _allCats = allCats;
     _parentCats = parentCats;

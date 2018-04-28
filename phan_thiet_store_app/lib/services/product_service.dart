@@ -7,9 +7,10 @@ import 'package:http/http.dart' as http;
 
 import '../services/category_service.dart';
 import '../services/network_service.dart';
-import '../services/branch_service.dart';
 
 import '../view_models/home_popular_products.dart';
+
+import '../models/config.dart';
 import '../models/product.dart';
 import '../models/category.dart';
 
@@ -126,13 +127,12 @@ class ApiProductService extends AsyncProductService {
   @override
   Future<ProductDetail> getProductById(int id) async {
     var networkSvc = new NetworkService();
-    var branchSvc = new BranchService();
+    var config = new Config.getTestConfig();
     var authToken = await networkSvc.getAuthToken();
     fo.debugPrint('token $authToken');
-    var branchId = branchSvc.getBranchId();
 
     var response = await http.get(
-        'https://nzt.kiotviet.com/api/branchs/$branchId/masterproducts/$id',
+        config.getFullUrl("/api/branchs/${config.branchId}/masterproducts/$id"),
         headers: {"Authorization": "Bearer $authToken"});
     var body = response.body;
     final parsed = json.decode(body);
@@ -144,15 +144,12 @@ class ApiProductService extends AsyncProductService {
   @override
   Future<List<ProductSummary>> getProductsByCategoryId(int categoryId) async {
     var networkSvc = new NetworkService();
-    var branchSvc = new BranchService();
+    var config = new Config.getTestConfig();
     var authToken = await networkSvc.getAuthToken();
     fo.debugPrint('token $authToken');
-    var branchId = branchSvc.getBranchId();
-
     fo.debugPrint('get products by cat $categoryId');
-
     var response = await http.get(
-        'https://nzt.kiotviet.com/api/branchs/$branchId/masterproducts?format=json&ForSummaryRow=false&CategoryId=$categoryId&IsActive=true',
+      config.getFullUrl("/api/branchs/${config.branchId}/masterproducts?format=json&ForSummaryRow=false&CategoryId=$categoryId&IsActive=true"),
         headers: {"Authorization": "Bearer $authToken"});
     var body = response.body;
     final parsed = json.decode(body);
@@ -171,20 +168,18 @@ class ApiProductService extends AsyncProductService {
   Future<List<ProductSummary>> getLimitedProductsByCategoryId(
       int numberOfProducts, int categoryId) async {
     var networkSvc = new NetworkService();
-    var branchSvc = new BranchService();
+    var config = new Config.getTestConfig();
     var authToken = await networkSvc.getAuthToken();
-    fo.debugPrint('token $authToken');
-    var branchId = branchSvc.getBranchId();
 
-    fo.debugPrint('get home popular products cat summary $categoryId');
+    fo.debugPrint('Get limited products by cat $categoryId');
 
     var response = await http.get(
-        'https://nzt.kiotviet.com/api/branchs/$branchId/masterproducts?format=json&ForSummaryRow=false&CategoryId=$categoryId&IsActive=true&pageSize=$numberOfProducts&skip=0&take=4',
+      config.getFullUrl("/api/branchs/${config.branchId}/masterproducts?format=json&ForSummaryRow=false&CategoryId=$categoryId&IsActive=true&pageSize=$numberOfProducts&skip=0&take=4"),
         headers: {"Authorization": "Bearer $authToken"});
     var body = response.body;
     final parsed = json.decode(body);
 
-    fo.debugPrint('finished get home popular products cat summary $categoryId');
+    fo.debugPrint('Got limited products by cat $categoryId');
 
     var kiotProductLists = parsed['Data'];
     List<ProductSummary> productList = kiotProductLists

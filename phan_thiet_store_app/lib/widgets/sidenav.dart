@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../services/branch_service.dart';
 import '../services/category_service.dart';
 import '../models/category.dart';
 
@@ -44,25 +43,9 @@ class WidgetSideNav extends StatefulWidget {
 }
 
 class WidgetSideNavState extends State<WidgetSideNav> {
-  int _branchId;
-
   @override
   void initState() {
     super.initState();
-
-    var branchSvc = new BranchService();
-    this.setState(() {
-      _branchId = branchSvc.getBranchId();
-    });
-  }
-
-  void setBranchId(int id) {
-    var branchSvc = new BranchService();
-    branchSvc.setBranchId(id);
-
-    this.setState(() {
-      _branchId = branchSvc.getBranchId();
-    });
   }
 
   @override
@@ -77,20 +60,7 @@ class WidgetSideNavState extends State<WidgetSideNav> {
               child: new Text(
             'Phụ kiện Phan Thiết',
             style: Theme.of(context).textTheme.title,
-          )),
-          new Row(children: <Widget>[
-            new Text('Chi nhánh:'),
-            new DropdownButton<int>(items: <DropdownMenuItem<int>>[
-              new DropdownMenuItem<int>(
-                  key: new ValueKey(13933),
-                  value: 13933,
-                  child: new Text('02 Lê Hồng Phong')),
-              new DropdownMenuItem<int>(
-                  key: new ValueKey(17467),
-                  value: 17467,
-                  child: new Text('12 Phạm Ngọc Thạch'))
-            ], onChanged: setBranchId, value: _branchId)
-          ]),
+          ))
         ],
         crossAxisAlignment: CrossAxisAlignment.start,
       )),
