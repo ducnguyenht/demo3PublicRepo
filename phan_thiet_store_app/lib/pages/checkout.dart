@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'dart:async';
 
 import '../models/cart.dart';
 
@@ -21,7 +24,25 @@ class PageCheckOut extends StatefulWidget {
 
 class PageCheckoutState extends State<PageCheckOut> {
   Cart currentCart;
+  String name;
+  String phone;
   final formatter = new NumberFormat("#,###");
+
+  @override
+  void initState() {
+    super.initState();
+    getUserPref();
+  }
+
+  void getUserPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var savedName = prefs.getString("PT-APP-USER-NAME");
+    var savedPhone = prefs.getString("PT-APP-USER-PHONE");
+    setState(() {
+      this.name = savedName;
+      this.phone = savedPhone;
+    });
+  }
 
   PageCheckoutState(this.currentCart);
 
@@ -57,13 +78,19 @@ class PageCheckoutState extends State<PageCheckOut> {
     var ret = new List<Widget>();
     if (currentCart != null) {
       if (currentCart.items.length > 0) {
-        currentCart.items
-            .forEach((it) => ret.add(new CheckoutItem(it)));
+        currentCart.items.forEach((it) => ret.add(new CheckoutItem(it)));
       } else {
         ret.add(new Text('Giỏ hàng hiện đang trống'));
       }
     }
     return ret;
+  }
+
+  Future<bool> _willPopCallback() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("PT-APP-USER-NAME", this.name);
+    await prefs.setString("PT-APP-USER-PHONE", this.phone);
+    return true;
   }
 
   @override
@@ -75,6 +102,7 @@ class PageCheckoutState extends State<PageCheckOut> {
         body: new Form(
             key: _formKey,
             autovalidate: _autoValidate,
+            onWillPop: _willPopCallback,
             child: new ListView(children: <Widget>[
               new CheckoutBox("Thông tin giao hàng", <Widget>[
                 new TextFormField(
@@ -83,8 +111,14 @@ class PageCheckoutState extends State<PageCheckOut> {
                     hintText: 'Tên bạn là gì?',
                     labelText: 'Tên *',
                   ),
-                  onSaved: (String value) {},
                   validator: _validateName,
+                  initialValue: this.name,
+                  onFieldSubmitted: (String value) {
+                    this.name = value;
+                  },
+                  onSaved: (String value) {
+                    this.name = value;
+                  },
                 ),
                 new TextFormField(
                     decoration: const InputDecoration(
@@ -92,17 +126,24 @@ class PageCheckoutState extends State<PageCheckOut> {
                         hintText: 'Số điện thoại để liên lạc với bạn?',
                         labelText: 'Điện thoại *'),
                     keyboardType: TextInputType.phone,
-                    onSaved: (String value) {})
+                    initialValue: this.phone,
+                    onFieldSubmitted: (String value) {
+                      this.phone = value;
+                    },
+                    onSaved: (String value) {
+                      this.phone = value;
+                    }),
               ]),
               new CheckoutBox("Hàng hóa", getCartItemsWidgets()),
               new CheckoutBox("Tổng cộng", <Widget>[
-                new Text(
-                    '${this.formatter.format(currentCart.amount)} đ',
-                    style:
-                    Theme.of(context).textTheme.title)
+                new Text('${this.formatter.format(currentCart.amount)} đ',
+                    style: Theme.of(context).textTheme.title)
               ]),
               new RaisedButton(
-                  child: new Text("Đặt hàng"), onPressed: _handleSubmitted)
+                  color: Theme.of(context).accentColor,
+                  textTheme: ButtonTextTheme.primary,
+                  child: new Text("Hoàn tất đặt hàng"),
+                  onPressed: _handleSubmitted)
             ], padding: new EdgeInsets.all(16.0))));
   }
 }

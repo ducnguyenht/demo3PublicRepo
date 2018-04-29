@@ -42,6 +42,7 @@ class CheckoutItem extends StatelessWidget {
                             padding: new EdgeInsets.all(5.0))
                       ],
                     )),
+                new Text('SL: ${cartItem.quantity}'),
               ]),
               padding: new EdgeInsets.all(4.0),
               color: Theme.of(context).cardColor,
