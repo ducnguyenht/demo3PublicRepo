@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="AccessTokenBO.cs" />
     <Compile Include="ChiNhanhBO.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="DatHangBO.cs" />
     <Compile Include="HangHoaBO.cs" />
     <Compile Include="KhachHangBO.cs" />
