@@ -44,7 +44,7 @@ class PageCategoryState extends CommonState<PageCategory> {
         appBar: searchBar.build(context),
         drawer: new WidgetSideNav(
             this.navigateToHomePage, this.navigateToCategoryPage),
-        body: new FutureBuilder<List<ProductDetail>>(
+        body: new FutureBuilder<List<ProductSummary>>(
           future: productSvc.getProductsByCategoryId(id),
           builder: (context, snapshot) {
             if (snapshot.hasError) print(snapshot.error);

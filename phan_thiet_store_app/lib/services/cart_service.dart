@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -91,13 +93,12 @@ class ApiCartService implements AsyncCartService {
     if (config.isSupportCheckout && currentCart != null) {
       var kiotCart = new KiotCart.fromCart(name, phone, email, address, currentCart);
       var kiotCartJson = kiotCart.toJson();
-
-      var config = new Config.getConfig();
+      String kiotCartJsonString = json.encode(kiotCartJson);
 
       var response = await http.post(
           config.checkOutPath,
-          body: kiotCartJson,
-          headers: {"Content-Type": "application/json"});
+          body: kiotCartJsonString,
+          headers: {"Content-type": "application/json", "Accept": "application/json"});
 
       var cartCode = response.body;
       return cartCode;

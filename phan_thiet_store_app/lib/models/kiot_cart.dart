@@ -27,7 +27,7 @@ class KiotCart {
 
     for (var item in cart.items) {
       for (var itemCount = 0; itemCount < item.quantity; itemCount++) {
-        ret.dsIdHangHoa.add(item.id);
+        ret.dsIdHangHoa.add(item.productId.toString());
       }
     }
 
