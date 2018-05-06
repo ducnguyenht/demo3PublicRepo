@@ -127,7 +127,7 @@ class ApiProductService extends AsyncProductService {
   @override
   Future<ProductDetail> getProductById(int id) async {
     var networkSvc = new NetworkService();
-    var config = new Config.getTestConfig();
+    var config = new Config.getConfig();
     var authToken = await networkSvc.getAuthToken();
     fo.debugPrint('token $authToken');
 
@@ -144,7 +144,7 @@ class ApiProductService extends AsyncProductService {
   @override
   Future<List<ProductSummary>> getProductsByCategoryId(int categoryId) async {
     var networkSvc = new NetworkService();
-    var config = new Config.getTestConfig();
+    var config = new Config.getConfig();
     var authToken = await networkSvc.getAuthToken();
     fo.debugPrint('token $authToken');
     fo.debugPrint('get products by cat $categoryId');
@@ -168,7 +168,7 @@ class ApiProductService extends AsyncProductService {
   Future<List<ProductSummary>> getLimitedProductsByCategoryId(
       int numberOfProducts, int categoryId) async {
     var networkSvc = new NetworkService();
-    var config = new Config.getTestConfig();
+    var config = new Config.getConfig();
     var authToken = await networkSvc.getAuthToken();
 
     fo.debugPrint('Get limited products by cat $categoryId');

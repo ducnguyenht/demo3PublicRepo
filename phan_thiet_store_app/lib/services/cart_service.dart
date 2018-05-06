@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
+import '../models/kiot_cart.dart';
 import '../models/cart.dart';
+import '../models/config.dart';
+
 import '../services/product_service.dart';
 
 abstract class CartService {
@@ -22,6 +24,7 @@ abstract class AsyncCartService {
   void increaseQuantity(String cartItemId);
   void decreaseQuantity(String cartItemId);
   Future recalculateCurrentCartAmount();
+  Future<String> checkOutCurrentCart(String name, String phone, String email, String address);
 }
 
 class ApiCartService implements AsyncCartService {
@@ -80,6 +83,26 @@ class ApiCartService implements AsyncCartService {
   Future removeItemFromCart(String cartItemId) async {
     var cartItem = currentCart.items.firstWhere((e) => e.id == cartItemId);
     currentCart.items.remove(cartItem);
+  }
+
+  @override
+  Future<String> checkOutCurrentCart(String name, String phone, String email, String address) async {
+    var config = new Config.getConfig();
+    if (config.isSupportCheckout && currentCart != null) {
+      var kiotCart = new KiotCart.fromCart(name, phone, email, address, currentCart);
+      var kiotCartJson = kiotCart.toJson();
+
+      var config = new Config.getConfig();
+
+      var response = await http.post(
+          config.checkOutPath,
+          body: kiotCartJson,
+          headers: {"Content-Type": "application/json"});
+
+      var cartCode = response.body;
+      return cartCode;
+    }
+    return "";
   }
 }
 

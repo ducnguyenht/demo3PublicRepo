@@ -12,7 +12,7 @@ class NetworkService {
 
   Future<String> getAuthToken() async {
     if (authToken == null) {
-      var config = new Config.getTestConfig();
+      var config = new Config.getConfig();
       fo.debugPrint('get token');
       final String tokenUrl = config.getFullUrl("/api/auth/credentials?format=json");
       var requester = new http.Client();

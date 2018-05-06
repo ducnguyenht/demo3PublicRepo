@@ -44,7 +44,7 @@ class ApiCategoryService extends AsyncCategoryService {
     var authToken = await networkService.getAuthToken();
     fo.debugPrint('got token');
     fo.debugPrint('getting cats');
-    var config = new Config.getTestConfig();
+    var config = new Config.getConfig();
     var response = await http.get(
         config
             .getFullUrl("/api/categories?%24inlinecount=allpages&format=json"),

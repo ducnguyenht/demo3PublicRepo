@@ -1,4 +1,6 @@
 class Config {
+  static const String env = "prod";
+
   String baseUrl;
   int retailerId;
   int branchId;
@@ -6,13 +8,31 @@ class Config {
   int soldById;
   String tokenUserName;
   String tokenPassword;
+  bool isSupportCheckout;
+  String checkOutPath;
 
   String getFullUrl(String path) {
     return this.baseUrl + path;
   }
 
-  Config(this.baseUrl, this.retailerId, this.branchId, this.saleChannelId,
-      this.soldById, this.tokenUserName, this.tokenPassword);
+  Config(
+      this.baseUrl,
+      this.retailerId,
+      this.branchId,
+      this.saleChannelId,
+      this.soldById,
+      this.tokenUserName,
+      this.tokenPassword,
+      this.isSupportCheckout,
+      this.checkOutPath);
+
+  factory Config.getConfig() {
+    if (env != "prod") {
+      return new Config.getTestConfig();
+    }
+
+    return new Config.getProdConfig();
+  }
 
   factory Config.getTestConfig() {
     var config = new Config(
@@ -22,7 +42,9 @@ class Config {
         25542, // Ban hang dien thoai
         133583,
         "01263553934",
-        "123"); // Vo Van Trieu
+        "123",
+        false,
+        ""); // Vo Van Trieu
     return config;
   }
 
@@ -34,7 +56,9 @@ class Config {
         25552, // Ban hang dien thoai
         29657,
         "0944505039",
-        "@vanlinh123"); // Anh Linh
+        "@vanlinh123",
+        true,
+        "http://phukienphanthiet.com/umbraco/api/PkPTApi/PostDatHangMain"); // Anh Linh
     return config;
   }
 }
