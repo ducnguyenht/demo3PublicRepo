@@ -34,7 +34,9 @@ class PageCartState extends State<PageCart> {
   }
 
   void refreshCart() async {
-    setState(() { isLoading = true; });
+    setState(() {
+      isLoading = true;
+    });
     var cartSvc = new ApiCartService();
     await cartSvc.recalculateCurrentCartAmount();
     var cart = cartSvc.getCurrentCart();
@@ -50,8 +52,6 @@ class PageCartState extends State<PageCart> {
       if (currentCart.items.length > 0) {
         currentCart.items
             .forEach((it) => ret.add(new WidgetCartItem(it, refreshCart)));
-      } else {
-        ret.add(new Text('Giỏ hàng hiện đang trống'));
       }
     }
     return ret;
@@ -65,9 +65,25 @@ class PageCartState extends State<PageCart> {
           children: <Widget>[
             new Expanded(
                 child: (currentCart != null && isLoading == false)
-                    ? new ListView(
-                        children: getCartItemsWidgets(),
-                        padding: new EdgeInsets.all(8.0))
+                    ? currentCart.items.length > 0
+                        ? new ListView(
+                            children: getCartItemsWidgets(),
+                            padding: new EdgeInsets.all(8.0))
+                        : new Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.sentiment_dissatisfied,
+                                size: 96.0,
+                                color: Colors.grey,
+                              ),
+                              new Container(height: 16.0),
+                              new Text('Giỏ hàng hiện đang trống',
+                                  style: Theme.of(context).textTheme.display1)
+                            ],
+                          )
                     : new Center(child: new CircularProgressIndicator())),
             new Card(
                 child: new Container(

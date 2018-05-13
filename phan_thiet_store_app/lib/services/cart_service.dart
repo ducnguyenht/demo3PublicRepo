@@ -71,14 +71,16 @@ class ApiCartService implements AsyncCartService {
   @override
   Future recalculateCurrentCartAmount() async {
     num cartAmount = 0;
-    var productSvc = new ApiProductService();
-    for (int i = 0; i < currentCart.items.length; i++) {
-      var cartItem = currentCart.items.elementAt(i);
-      var product = await productSvc.getProductById(cartItem.productId);
-      cartItem.amount = cartItem.quantity * product.price;
-      cartAmount += cartItem.amount;
+    if (currentCart != null) {
+      var productSvc = new ApiProductService();
+      for (int i = 0; i < currentCart.items.length; i++) {
+        var cartItem = currentCart.items.elementAt(i);
+        var product = await productSvc.getProductById(cartItem.productId);
+        cartItem.amount = cartItem.quantity * product.price;
+        cartAmount += cartItem.amount;
+      }
+      currentCart.amount = cartAmount;
     }
-    currentCart.amount = cartAmount;
   }
 
   @override

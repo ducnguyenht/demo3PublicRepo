@@ -60,7 +60,7 @@ class PageProduct extends StatelessWidget {
                         new Expanded(
                           child: new Scrollbar(
                               child: new SingleChildScrollView(
-                            child: snapshot.data.description != null
+                            child: (snapshot.data.description != null && snapshot.data.description.isNotEmpty)
                                 ? new MarkdownBody(
                                     data: html2md
                                         .convert(snapshot.data.description))
