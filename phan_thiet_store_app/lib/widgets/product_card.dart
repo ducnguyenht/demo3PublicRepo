@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_advanced_networkimage/flutter_advanced_networkimage.dart';
-import 'package:flutter_advanced_networkimage/transition_to_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../pages/product.dart';
 import '../models/product.dart';
@@ -38,9 +37,10 @@ class WidgetProductCardState extends State<WidgetProductCard> {
             new Flexible(
                 child: new Center(
                   child: this.widget.product.imageUrl != null
-                      ? new TransitionToImage(new AdvancedNetworkImage(
-                          this.widget.product.imageUrl,
-                          useDiskCache: true))
+                      ? new CachedNetworkImage(
+                          imageUrl: this.widget.product.imageUrl,
+                          placeholder: new CircularProgressIndicator(),
+                          errorWidget: new Icon(Icons.error))
                       : new Image.asset('images/image_coming_soon.png',
                           fit: BoxFit.cover),
                 ),
@@ -51,6 +51,7 @@ class WidgetProductCardState extends State<WidgetProductCard> {
                     this.widget.product.price)} đ'),
           ],
         )),
-        onTapUp: (tapDetail) => goToProductPage(this.widget.product.id, this.widget.product.name));
+        onTapUp: (tapDetail) =>
+            goToProductPage(this.widget.product.id, this.widget.product.name));
   }
 }

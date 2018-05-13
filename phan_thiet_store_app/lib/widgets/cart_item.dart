@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_advanced_networkimage/flutter_advanced_networkimage.dart';
-import 'package:flutter_advanced_networkimage/transition_to_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../models/cart.dart';
 import '../services/cart_service.dart';
@@ -80,9 +79,10 @@ class WidgetCartItemState extends State<WidgetCartItem> {
           child: new Row(children: <Widget>[
             new Container(
               child: this.widget.cartItem.imageUrl != null
-                  ? new TransitionToImage(new AdvancedNetworkImage(
-                      this.widget.cartItem.imageUrl,
-                      useDiskCache: true))
+                  ? new CachedNetworkImage(
+                      imageUrl: this.widget.cartItem.imageUrl,
+                      placeholder: new CircularProgressIndicator(),
+                      errorWidget: new Icon(Icons.error))
                   : new Image.asset('images/image_coming_soon.png',
                       fit: BoxFit.cover),
               padding: new EdgeInsets.all(5.0),

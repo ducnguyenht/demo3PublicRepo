@@ -1,10 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_advanced_networkimage/flutter_advanced_networkimage.dart';
-import 'package:flutter_advanced_networkimage/transition_to_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:html2md/html2md.dart' as html2md;
 
@@ -48,10 +44,11 @@ class PageProduct extends StatelessWidget {
                         new Flexible(
                             child: new Center(
                                 child: snapshot.data.imageUrl != null
-                                    ? new TransitionToImage(
-                                        new AdvancedNetworkImage(
-                                            snapshot.data.imageUrl,
-                                            useDiskCache: true))
+                                    ? new CachedNetworkImage(
+                                        imageUrl: snapshot.data.imageUrl,
+                                        placeholder:
+                                            new CircularProgressIndicator(),
+                                        errorWidget: new Icon(Icons.error))
                                     : new Image.asset(
                                         'images/image_coming_soon.png',
                                         fit: BoxFit.cover))),
@@ -80,7 +77,8 @@ class PageProduct extends StatelessWidget {
         floatingActionButton:
             new Builder(builder: (BuildContext scaffoldContext) {
           return new FloatingActionButton(
-              child: new Icon(Icons.add_shopping_cart, color: new Color(0xff000000)),
+              child: new Icon(Icons.add_shopping_cart,
+                  color: new Color(0xff000000)),
               tooltip: 'Thêm vào giỏ hàng',
               onPressed: () => buyNowPressed(scaffoldContext, productName));
         }));

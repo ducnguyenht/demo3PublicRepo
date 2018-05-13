@@ -29,6 +29,7 @@ class PageCheckoutState extends State<PageCheckOut> {
   static const String PREF_PHONE = "PT-APP-USER-PHONE";
   static const String PREF_EMAIL = "PT-APP-USER-EMAIL";
   static const String PREF_ADDRESS = "PT-APP-USER-ADDRESS";
+  static const String PREF_ORDER_HISTORY = "PT-APP-ORDER-HISTORY";
 
   Cart currentCart;
   String name;
@@ -84,11 +85,21 @@ class PageCheckoutState extends State<PageCheckOut> {
       if (apiCartCode == "") {
         showInSnackBar('Không thể tạo đơn đặt hàng.');
       } else {
-        Navigator.of(context).push(new MaterialPageRoute<Null>(
+        var cleanedApiCartCode = apiCartCode.replaceAll("\"", "");
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var orderHistory = prefs.getStringList(PREF_ORDER_HISTORY);
+        if (orderHistory == null) {
+          orderHistory = new List<String>();
+        }
+        orderHistory.add(cleanedApiCartCode);
+        await prefs.setStringList(PREF_ORDER_HISTORY, orderHistory);
+
+        Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute<Null>(
           builder: (BuildContext context) {
-            return new PageCheckoutCompleted(apiCartCode);
+            return new PageCheckoutCompleted(cleanedApiCartCode);
           },
-        ));
+        ), (Route route) => route.isFirst == true);
       }
     }
   }

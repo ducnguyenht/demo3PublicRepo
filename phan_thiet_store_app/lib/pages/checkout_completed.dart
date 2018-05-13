@@ -8,11 +8,7 @@ class PageCheckoutCompleted extends StatelessWidget {
   PageCheckoutCompleted(this.cartCode);
 
   backToHomePage(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute<Null>(
-      builder: (BuildContext context) {
-        return new PageHome();
-      },
-    ), (Route route) => route == null);
+    Navigator.of(context).pop();
   }
 
   @override
