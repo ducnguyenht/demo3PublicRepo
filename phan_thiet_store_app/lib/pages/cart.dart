@@ -81,7 +81,7 @@ class PageCartState extends State<PageCart> {
                               ),
                               new Container(height: 16.0),
                               new Text('Giỏ hàng hiện đang trống',
-                                  style: Theme.of(context).textTheme.display1)
+                                  style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center)
                             ],
                           )
                     : new Center(child: new CircularProgressIndicator())),
