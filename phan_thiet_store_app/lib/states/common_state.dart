@@ -54,6 +54,7 @@ abstract class CommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void navigateToHomePage() {
+    Navigator.pop(context);
     Navigator.of(context).pushReplacement(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
         return new PageHome();
@@ -62,10 +63,11 @@ abstract class CommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void navigateToCategoryPage(int catId, String catName) {
-    Navigator.of(context).pushReplacement(new MaterialPageRoute<Null>(
+    Navigator.pop(context);
+    Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
         return new PageCategory(catId, catName);
       },
-    ));
+    ), (Route route) => route.isFirst == true);
   }
 }
