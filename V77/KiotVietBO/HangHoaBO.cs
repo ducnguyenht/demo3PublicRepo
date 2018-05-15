@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +67,7 @@ namespace KiotVietBO
 
     public class ChiTietHangHoaBO
     {
+        [Key]
         public int id { get; set; }
         public int retailerId { get; set; }
         public string code { get; set; }
@@ -78,6 +80,7 @@ namespace KiotVietBO
         public bool hasVariants { get; set; }
         public int basePrice { get; set; }
         public string unit { get; set; }
+        public int masterProductId { get; set; }
         public int conversionValue { get; set; }
         public string description { get; set; }
         public DateTime modifiedDate { get; set; }
