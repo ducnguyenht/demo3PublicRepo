@@ -103,6 +103,7 @@ class ApiCartService implements AsyncCartService {
           headers: {"Content-type": "application/json", "Accept": "application/json"});
 
       var cartCode = response.body;
+      cartCode = cartCode.replaceAll("\"", "");
       return cartCode;
     }
     return "";

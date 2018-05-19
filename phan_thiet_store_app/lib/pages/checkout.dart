@@ -79,25 +79,24 @@ class PageCheckoutState extends State<PageCheckOut> {
       showInSnackBar('Vui lòng điền đủ thông tin trước khi đặt hàng.');
     } else {
       form.save();
+      await _saveUserPrefs();
       // Call api here
       var apiCartCode = await checkOutCart();
 
-      if (apiCartCode == "") {
+      if (apiCartCode == "false") {
         showInSnackBar('Không thể tạo đơn đặt hàng.');
       } else {
-        var cleanedApiCartCode = apiCartCode.replaceAll("\"", "");
-
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var orderHistory = prefs.getStringList(PREF_ORDER_HISTORY);
         if (orderHistory == null) {
           orderHistory = new List<String>();
         }
-        orderHistory.add(cleanedApiCartCode);
+        orderHistory.add(apiCartCode);
         await prefs.setStringList(PREF_ORDER_HISTORY, orderHistory);
 
         Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute<Null>(
           builder: (BuildContext context) {
-            return new PageCheckoutCompleted(cleanedApiCartCode);
+            return new PageCheckoutCompleted(apiCartCode);
           },
         ), (Route route) => route.isFirst == true);
       }
@@ -136,12 +135,16 @@ class PageCheckoutState extends State<PageCheckOut> {
     return ret;
   }
 
-  Future<bool> _willPopCallback() async {
+  Future _saveUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(PREF_NAME, this.name);
     await prefs.setString(PREF_PHONE, this.phone);
     await prefs.setString(PREF_EMAIL, this.email);
     await prefs.setString(PREF_ADDRESS, this.address);
+  }
+
+  Future<bool> _willPopCallback() async {
+    await _saveUserPrefs();
     return true;
   }
 
@@ -189,6 +192,20 @@ class PageCheckoutState extends State<PageCheckOut> {
                     }),
                 new TextFormField(
                     decoration: const InputDecoration(
+                        icon: const Icon(Icons.home),
+                        hintText: 'Địa chỉ nhận hàng',
+                        labelText: 'Địa chỉ *'),
+                    keyboardType: TextInputType.text,
+                    validator: _validateNotEmpty,
+                    initialValue: this.address,
+                    onFieldSubmitted: (String value) {
+                      this.address = value;
+                    },
+                    onSaved: (String value) {
+                      this.address = value;
+                    }),
+                new TextFormField(
+                    decoration: const InputDecoration(
                         icon: const Icon(Icons.mail),
                         hintText: 'Địa chỉ Email nhận thông báo đơn hàng',
                         labelText: 'Email'),
@@ -199,19 +216,6 @@ class PageCheckoutState extends State<PageCheckOut> {
                     },
                     onSaved: (String value) {
                       this.email = value;
-                    }),
-                new TextFormField(
-                    decoration: const InputDecoration(
-                        icon: const Icon(Icons.home),
-                        hintText: 'Địa chỉ nhận hàng',
-                        labelText: 'Địa chỉ'),
-                    keyboardType: TextInputType.text,
-                    initialValue: this.address,
-                    onFieldSubmitted: (String value) {
-                      this.address = value;
-                    },
-                    onSaved: (String value) {
-                      this.address = value;
                     }),
               ]),
               new CheckoutBox("Hàng hóa", getCartItemsWidgets()),
