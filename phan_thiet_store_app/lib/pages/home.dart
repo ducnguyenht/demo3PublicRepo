@@ -39,19 +39,17 @@ class PageHomeState extends CommonState<PageHome> {
 
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
-        child: new Scaffold(
-            key: _scaffoldKey,
-            appBar: searchBar.build(context),
-            drawer: new WidgetSideNav(
-                this.navigateToHomePage, this.navigateToCategoryPage),
-            body: popularBlocks.length > 0
-                ? new ListView.builder(
-                    itemBuilder: (context, index) => new WidgetHomeCategory(
-                        popularBlocks[index], this.navigateToCategoryPage),
-                    itemCount: popularBlocks.length)
-                : new Center(child: new CircularProgressIndicator())),
-        onWillPop: _requestPop);
+    return new Scaffold(
+        key: _scaffoldKey,
+        appBar: searchBar.build(context),
+        drawer: new WidgetSideNav(
+            this.navigateToHomePage, this.navigateToCategoryPage),
+        body: popularBlocks.length > 0
+            ? new ListView.builder(
+                itemBuilder: (context, index) => new WidgetHomeCategory(
+                    popularBlocks[index], this.navigateToCategoryPage),
+                itemCount: popularBlocks.length)
+            : new Center(child: new CircularProgressIndicator()));
   }
 
   bool waitForSnackBar = false;

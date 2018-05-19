@@ -24,6 +24,7 @@ abstract class AsyncProductService {
   Future<List<HomePopularProductsBlock>> getHomePopularProducts();
   Future<ProductDetail> getProductById(int id);
   Future<List<ProductSummary>> getProductsByCategoryId(int categoryId);
+  Future<List<ProductSummary>> searchProducts(String searchStr);
   Future<List<ProductSummary>> getLimitedProductsByCategoryId(
       int numberOfProducts, int categoryId);
 }
@@ -180,6 +181,28 @@ class ApiProductService extends AsyncProductService {
     final parsed = json.decode(body);
 
     fo.debugPrint('Got limited products by cat $categoryId');
+
+    var kiotProductLists = parsed['Data'];
+    List<ProductSummary> productList = kiotProductLists
+        .map<ProductSummary>((it) => new ProductSummary.fromJson(it))
+        .toList();
+
+    return productList;
+  }
+
+  @override
+  Future<List<ProductSummary>> searchProducts(String searchStr) async {
+    String encodedSearchStr = Uri.encodeQueryComponent(searchStr);
+
+    var networkSvc = new NetworkService();
+    var config = new Config.getConfig();
+    var authToken = await networkSvc.getAuthToken();
+
+    var response = await http.get(
+        config.getFullUrl("/api/branchs/${config.branchId}/masterproducts?format=json&KeyWord=$encodedSearchStr&IsActive=true"),
+        headers: {"Authorization": "Bearer $authToken"});
+    var body = response.body;
+    final parsed = json.decode(body);
 
     var kiotProductLists = parsed['Data'];
     List<ProductSummary> productList = kiotProductLists

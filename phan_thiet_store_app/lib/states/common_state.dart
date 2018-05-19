@@ -25,7 +25,7 @@ abstract class CommonState<T extends StatefulWidget> extends State<T> {
         hintText: "Tìm kiếm",
         inBar: false,
         setState: setState,
-        onSubmitted: print,
+        onSubmitted: navigateToSearchResultPage,
         buildDefaultAppBar: buildAppBar);
   }
 
@@ -37,10 +37,10 @@ abstract class CommonState<T extends StatefulWidget> extends State<T> {
             () => this.navigateToCartPage());
   }
 
-  void navigateToSearchResultPage(searchStr) {
+  void navigateToSearchResultPage(searchString) {
     Navigator.of(context).push(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
-        return new PageSearchResult(searchStr: searchStr);
+        return new PageSearchResult(searchStr: searchString);
       },
     ));
   }

@@ -30,16 +30,6 @@ class PageCategoryState extends CommonState<PageCategory> {
   @override
   Widget build(BuildContext context) {
     var productSvc = new ApiProductService();
-
-/*
-    return new Scaffold(
-        appBar: searchBar.build(context),
-        body:
-            new WidgetCategoryProducts(this.widget.name, this.widget.products),
-        drawer: new WidgetSideNav(
-            this.navigateToHomePage, this.navigateToCategoryPage));
-*/
-
     return new Scaffold(
         appBar: searchBar.build(context),
         drawer: new WidgetSideNav(
@@ -53,6 +43,7 @@ class PageCategoryState extends CommonState<PageCategory> {
                 ? new WidgetCategoryProducts(name, snapshot.data)
                 : new Center(child: new CircularProgressIndicator());
           },
-        ));
+        )
+    );
   }
 }
