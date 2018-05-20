@@ -58,7 +58,7 @@ class Config {
         "0944505039",
         "@vanlinh123",
         true,
-        "http://phukienphanthiet.com/umbraco/api/PkPTApi/PostDatHangMain"); // Anh Linh
+        "http://phukienphanthiet.com/umbraco/api/PkPTApi/PostDatHangMainResponse"); // Anh Linh
     return config;
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/animation.dart';
 
 import '../widgets/home_category.dart';
 import '../widgets/sidenav.dart';

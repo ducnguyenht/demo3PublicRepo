@@ -7,6 +7,7 @@ import 'dart:async';
 import './checkout_completed.dart';
 
 import '../models/cart.dart';
+import '../models/kiot_cart_result.dart';
 
 import '../services/cart_service.dart';
 
@@ -32,10 +33,10 @@ class PageCheckoutState extends State<PageCheckOut> {
   static const String PREF_ORDER_HISTORY = "PT-APP-ORDER-HISTORY";
 
   Cart currentCart;
-  String name;
-  String phone;
-  String email;
-  String address;
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController phoneController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController addressController = new TextEditingController();
 
   final formatter = new NumberFormat("#,###");
 
@@ -52,12 +53,10 @@ class PageCheckoutState extends State<PageCheckOut> {
     var savedEmail = prefs.getString(PREF_EMAIL) ?? "";
     var savedAddress = prefs.getString(PREF_ADDRESS) ?? "";
 
-    setState(() {
-      this.name = savedName;
-      this.phone = savedPhone;
-      this.email = savedEmail;
-      this.address = savedAddress;
-    });
+    nameController.text = savedName;
+    phoneController.text = savedPhone;
+    emailController.text = savedEmail;
+    addressController.text = savedAddress;
   }
 
   PageCheckoutState(this.currentCart);
@@ -81,33 +80,33 @@ class PageCheckoutState extends State<PageCheckOut> {
       form.save();
       await _saveUserPrefs();
       // Call api here
-      var apiCartCode = await checkOutCart();
+      var result = await checkOutCart();
 
-      if (apiCartCode == "false") {
-        showInSnackBar('Không thể tạo đơn đặt hàng.');
+      if (!result.isSuccess) {
+        showInSnackBar(result.message);
       } else {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var orderHistory = prefs.getStringList(PREF_ORDER_HISTORY);
         if (orderHistory == null) {
           orderHistory = new List<String>();
         }
-        orderHistory.add(apiCartCode);
+        orderHistory.add(result.cartCode);
         await prefs.setStringList(PREF_ORDER_HISTORY, orderHistory);
 
         Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute<Null>(
           builder: (BuildContext context) {
-            return new PageCheckoutCompleted(apiCartCode);
+            return new PageCheckoutCompleted(result.cartCode);
           },
         ), (Route route) => route.isFirst == true);
       }
     }
   }
 
-  Future<String> checkOutCart() async {
+  Future<KiotCartResult> checkOutCart() async {
     var cartSvc = new ApiCartService();
-    var cartCode =
-        await cartSvc.checkOutCurrentCart(name, phone, email, address);
-    return cartCode;
+    var result =
+        await cartSvc.checkOutCurrentCart(nameController.text, phoneController.text, emailController.text, addressController.text);
+    return result;
   }
 
   String _validateName(String value) {
@@ -137,10 +136,10 @@ class PageCheckoutState extends State<PageCheckOut> {
 
   Future _saveUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(PREF_NAME, this.name);
-    await prefs.setString(PREF_PHONE, this.phone);
-    await prefs.setString(PREF_EMAIL, this.email);
-    await prefs.setString(PREF_ADDRESS, this.address);
+    await prefs.setString(PREF_NAME, nameController.text);
+    await prefs.setString(PREF_PHONE, phoneController.text);
+    await prefs.setString(PREF_EMAIL, emailController.text);
+    await prefs.setString(PREF_ADDRESS, addressController.text);
   }
 
   Future<bool> _willPopCallback() async {
@@ -168,12 +167,12 @@ class PageCheckoutState extends State<PageCheckOut> {
                     labelText: 'Tên *',
                   ),
                   validator: _validateName,
-                  initialValue: this.name,
+                  controller: nameController,
                   onFieldSubmitted: (String value) {
-                    this.name = value;
+                    nameController.text = value;
                   },
                   onSaved: (String value) {
-                    this.name = value;
+                    nameController.text = value;
                   },
                 ),
                 new TextFormField(
@@ -182,13 +181,13 @@ class PageCheckoutState extends State<PageCheckOut> {
                         hintText: 'Số điện thoại để liên lạc với bạn?',
                         labelText: 'Điện thoại *'),
                     validator: _validateNotEmpty,
-                    initialValue: this.phone,
+                    controller: phoneController,
                     keyboardType: TextInputType.phone,
                     onFieldSubmitted: (String value) {
-                      this.phone = value;
+                      phoneController.text = value;
                     },
                     onSaved: (String value) {
-                      this.phone = value;
+                      phoneController.text = value;
                     }),
                 new TextFormField(
                     decoration: const InputDecoration(
@@ -197,25 +196,25 @@ class PageCheckoutState extends State<PageCheckOut> {
                         labelText: 'Địa chỉ *'),
                     keyboardType: TextInputType.text,
                     validator: _validateNotEmpty,
-                    initialValue: this.address,
+                    controller: addressController,
                     onFieldSubmitted: (String value) {
-                      this.address = value;
+                      addressController.text = value;
                     },
                     onSaved: (String value) {
-                      this.address = value;
+                      addressController.text = value;
                     }),
                 new TextFormField(
                     decoration: const InputDecoration(
                         icon: const Icon(Icons.mail),
                         hintText: 'Địa chỉ Email nhận thông báo đơn hàng',
                         labelText: 'Email'),
-                    initialValue: this.email,
+                    controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     onFieldSubmitted: (String value) {
-                      this.email = value;
+                      emailController.text = value;
                     },
                     onSaved: (String value) {
-                      this.email = value;
+                      emailController.text = value;
                     }),
               ]),
               new CheckoutBox("Hàng hóa", getCartItemsWidgets()),

@@ -5,6 +5,9 @@ import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/kiot_cart.dart';
+import '../models/kiot_cart_response.dart';
+import '../models/kiot_cart_result.dart';
+import '../models/kiot_error.dart';
 import '../models/cart.dart';
 import '../models/config.dart';
 
@@ -26,7 +29,7 @@ abstract class AsyncCartService {
   void increaseQuantity(String cartItemId);
   void decreaseQuantity(String cartItemId);
   Future recalculateCurrentCartAmount();
-  Future<String> checkOutCurrentCart(String name, String phone, String email, String address);
+  Future<KiotCartResult> checkOutCurrentCart(String name, String phone, String email, String address);
 }
 
 class ApiCartService implements AsyncCartService {
@@ -90,7 +93,7 @@ class ApiCartService implements AsyncCartService {
   }
 
   @override
-  Future<String> checkOutCurrentCart(String name, String phone, String email, String address) async {
+  Future<KiotCartResult> checkOutCurrentCart(String name, String phone, String email, String address) async {
     var config = new Config.getConfig();
     if (config.isSupportCheckout && currentCart != null) {
       var kiotCart = new KiotCart.fromCart(name, phone, email, address, currentCart);
@@ -102,11 +105,27 @@ class ApiCartService implements AsyncCartService {
           body: kiotCartJsonString,
           headers: {"Content-type": "application/json", "Accept": "application/json"});
 
-      var cartCode = response.body;
-      cartCode = cartCode.replaceAll("\"", "");
-      return cartCode;
+      var body = response.body;
+      var jsonBody = json.decode(body);
+      
+      var ret = new KiotCartResult();
+
+      if (response.statusCode != 200) {
+        var kiotError = new KiotError.fromJson(jsonBody);
+        ret.isSuccess = false;
+        ret.message = kiotError.responseStatus.message;
+      } else {
+        var kiotCartResponse = new KiotCartResponse.fromJson(jsonBody);;
+        ret.isSuccess = true;
+        ret.cartCode = kiotCartResponse.code;
+      }
+
+      return ret;
     }
-    return "";
+    var nullResult = new KiotCartResult();
+    nullResult.isSuccess = false;
+    nullResult.message = "Chưa có giỏ hàng";
+    return nullResult;
   }
 }
 
