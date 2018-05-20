@@ -88,7 +88,7 @@ class MockProductService extends ProductService {
           var productDesc = faker.food.cuisine();
 
           var product = new ProductDetail(
-              productId, productName, productPrice, categoryId, productDesc);
+              productId, productName, productPrice, categoryId, 0, productDesc);
 
           products.add(product);
 

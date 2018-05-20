@@ -115,6 +115,7 @@ class ApiCartService implements AsyncCartService {
         ret.isSuccess = false;
         ret.message = kiotError.responseStatus.message;
       } else {
+        currentCart = null;
         var kiotCartResponse = new KiotCartResponse.fromJson(jsonBody);;
         ret.isSuccess = true;
         ret.cartCode = kiotCartResponse.code;
