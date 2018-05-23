@@ -3,9 +3,11 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using Umbraco.Core;
 /// <summary>
 /// Summary description for NhomHangBLL
 /// </summary>
@@ -27,6 +29,7 @@ public class NhomHangBLL
             requestConfig.AddHeader(KiotVietConst.propNameRetailer, KiotVietConst.Retailer);
             requestConfig.AddHeader("Authorization", "Bearer " + KiotVietConst.kiot_token);
             MemoryCacheKiot.dsNhomHang = clientRequest.Execute<RootNhomHangBO>(requestConfig).Data;
+            MemoryCacheKiot.dsNhomHang.data = MemoryCacheKiot.dsNhomHang.data.DistinctBy(o => o.categoryId).ToList();
         }
         return MemoryCacheKiot.dsNhomHang;
     }
@@ -74,7 +77,6 @@ public class NhomHangBLL
         //var client = new RestClient("http://www.YOUR SITE.com/api/");
         //var request = new RestRequest("Products", Method.GET);
         var response = await clientRequest.ExecuteTaskAsync<RootNhomHangBO>(requestConfig);
-        var t = response.Data;
         //RootNhomHangBO dsNhomHang =await  clientRequest.ExecuteAsync<RootNhomHangBO>()(requestConfig).Data;
         return response.Data;
     }

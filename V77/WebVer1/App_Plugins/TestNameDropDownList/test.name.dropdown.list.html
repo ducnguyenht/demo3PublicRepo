@@ -1,0 +1,6 @@
+﻿<div ng-controller="TestNameDropDownList.TestNameDropDownListController">
+    <select id="testNameSelect"
+    data-ng-model="selectedTestName"
+    data-ng-options="testName as testName.branchName for testName in testNames track by testName.id"
+    ng-change="testNameChange()"></select>
+</div>

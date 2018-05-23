@@ -1,39 +1,51 @@
-﻿<!DOCTYPE html>
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="vn" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- this styles only adds some repairs on idevices  -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     @{
-        string seo1 = ""; string desc = ""; string urler = ""; string keyword = "";
-        var id = (Request.QueryString["pt"] == null) ? 0 : Convert.ToInt32(Request.QueryString["pt"]);
-        SEO seo = new SEOBLL().SEO(id);
-        if (Model.Content.Id.ToString() == "2057")
-        {
-            seo1 = "PHỤ KIỆN PHAN THIẾT";
-        }
-        else
-        {
-            if (id != 0)
-            {
-                if (seo1.Length > 32)
-                {
-                }
-                else
-                {
-                    seo1 = seo.Name + " - PHỤ KIỆN PHAN THIẾT";
-                }
-            }
-        }
-        if (seo != null)
-        {
-            if (!String.IsNullOrEmpty(seo.Description))
-            {
-                desc = Extension.RemoveAllHTMLTags(seo.Description).Length > 150 ? Extension.RemoveAllHTMLTags(seo.Description).Substring(0, 150) + " ..." : Extension.RemoveAllHTMLTags(seo.Description);
-            }
-            urler = "http://phukienphanthiet.com" + seo.Url;
-            keyword = "";// @Model.Keyword;
-        }
+		string seo1 = ""; string desc = ""; string urler = ""; string keyword = "";
+		var id = (Request.QueryString["pt"] == null) ? 0 : Convert.ToInt32(Request.QueryString["pt"]);
+		SEO seo = new SEOBLL().SEO(id);
+		if (seo != null && seo.Name != null)
+		{
+			if (!String.IsNullOrEmpty(seo.Description))
+			{
+				desc = Extension.RemoveAllHTMLTags(seo.Description).Length > 150 ? Extension.RemoveAllHTMLTags(seo.Description).Substring(0, 150) + " ..." : Extension.RemoveAllHTMLTags(seo.Description);
+			}
+			seo1 = seo.Name;
+			urler = "http://phukienphanthiet.com" + seo.Url;
+			keyword = "";// @Model.Keyword;
+		}
+		else
+		{
+			var content = Model.Content as Umbraco.Core.Models.IPublishedContent;
+			if (Model.Content.Id.ToString() == "2057")
+			{
+				seo1 = "PHỤ KIỆN PHAN THIẾT";
+				desc = content.GetProperty("moTa") != null ? content.GetProperty("moTa").DataValue.ToString() : "";
+				keyword = content.GetProperty("keyword") != null ? content.GetProperty("keyword").DataValue.ToString() : "";
+			}
+			else
+			{
+				if (seo1.Length > 32)
+				{
+					seo1 = Model.Content.Name;
+					desc = content.GetProperty("moTa") != null ? content.GetProperty("moTa").DataValue.ToString() : "";
+					keyword = content.GetProperty("keyword") != null ? content.GetProperty("keyword").DataValue.ToString() : "";
+
+				}
+				else
+				{
+					seo1 = Model.Content.Name + " - PHỤ KIỆN PHAN THIẾT";
+					desc = content.GetProperty("moTa") != null ? content.GetProperty("moTa").DataValue.ToString() : "";
+					keyword = content.GetProperty("keyword") != null ? content.GetProperty("keyword").DataValue.ToString() : "";
+				}
+			}
+			desc = Extension.RemoveAllHTMLTags(desc).Length > 150 ? Extension.RemoveAllHTMLTags(desc).Substring(0, 150) + " ..." : Extension.RemoveAllHTMLTags(desc);
+		}
     }
     <title>@Html.Raw(seo1)</title>
     <meta name="description" content="@desc">
@@ -80,7 +92,7 @@
     <!--popup cart-->
     <link rel="stylesheet" type="text/css" href="css/style/freeow/freeow.css">
     <link href="~/css/sm-core-css.css" rel="stylesheet" />
-<link href="~/css/sm-blue/sm-blue.css" rel="stylesheet" />
+    <link href="~/css/sm-blue/sm-blue.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="css/demo.css">
     <script type="text/javascript" src="js/jquery.freeow.min.js"></script>
     <script type="text/javascript" src="js/demo.js"></script>
@@ -126,10 +138,29 @@
                 },
                 error: function (data) { alert("error"); }
             });
+            $('[id^="addToCartButton"]').click(function () {
+                //var productId = $(this).attr('id').replace("addToCartButton", '')
+                var productId = this.id.match(/\d+/);
+                $.ajax({
+                    type: "GET",
+                    url: "/umbraco/surface/CartsSurface/AddToCart",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: { "pk": productId[0] },
+                    success: function (data) {
+                        var a = 'asdf';
+                        $('.count').html(data);
+                    },
+                    error: function (data) { alert("error"); }
+                });
+            });
         });
     </script>
 </head>
 <body style="background-image: url(Images/bg1.jpg);background-repeat: no-repeat;background-position: top center;">
+    @*@Html.Partial("MemberLogin")*@
+
+    @*@Html.Action("Index", "SampleRenderMvc")*@
     @*<form action="/" method="post" runat="server">*@
     <div id="st-container" class="st-container">
         <div class="st-pusher">
@@ -207,12 +238,12 @@
                                     });
                                     return ($(table));
                                 };
-                                $(document).on("click", "#dynamictb tr", function () {
-                                    var $name = $(this).children(":first").text();
-                                    $('#search').val($name);
-                                    $('#btnSearch').click();
-                                    $("#dynamictb").remove();
-                                });
+                                //$(document).on("click", "#dynamictb tr", function () {
+                                //    var $name = $(this).children(":first").text();
+                                //    $('#search').val($name);
+                                //    $('#btnSearch').click();
+                                //    $("#dynamictb").remove();
+                                //});
                                 $("#search").keyup(function () {
                                     $.ajax({
                                         type: "GET",
@@ -494,12 +525,12 @@
     <script src="~/js/jquery.smartmenus.min.js"></script>
     <!-- SmartMenus jQuery init -->
     <script type="text/javascript">
-    	$(function() {
-    		$('#main-menu').smartmenus({
-    			subMenusSubOffsetX: 1,
-    			subMenusSubOffsetY: -8
-    		});
-    	});
+        $(function () {
+            $('#main-menu').smartmenus({
+                subMenusSubOffsetX: 1,
+                subMenusSubOffsetY: -8
+            });
+        });
     </script>
     @*</form>*@
 </body>

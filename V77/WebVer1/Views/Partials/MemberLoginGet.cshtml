@@ -1,0 +1,17 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MemberLoginModel>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>@Html.ActionLink(@User.Identity.Name, "MemberLogout", "MemberLoginSurface")</p>
+}
+else
+{
+    using (Html.BeginUmbracoForm("MemberLogin", "MemberLoginSurface"))
+    {
+        @*@Html.EditorFor(x => Model)*@
+        <span>User :@Html.EditorFor(x => x.Username)</span><br />
+        <span> Pass: @Html.PasswordFor(m => m.Password)</span><br />
+        <span>  Remember me : @Html.CheckBoxFor(m => m.RememberMe)</span>
+        <input type="submit" />
+    }
+    <p>@TempData["Status"]</p>
+}  

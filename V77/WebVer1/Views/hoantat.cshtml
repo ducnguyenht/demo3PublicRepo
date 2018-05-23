@@ -2,35 +2,129 @@
 @{
 	Layout = "MasterPage.cshtml";
 }
+@{ 
+	var session = System.Web.HttpContext.Current.Session;
+    string maDH = "";
+    if (session["maDonHang"]!=null)
+    {
+       maDH = session["maDonHang"].ToString();
+    }
+   
+}
 <div class="main-wrap">
     <section class="row_section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 45px;">
-                    <div class="panel-middle panel-shadow">
-                        <blockquote>
-                            <H2>ĐẶT HÀNG THÀNH CÔNG ! </H2>
-                            <H3><i class="fa fa-check"></i> Thông tin đơn hàng đã được gửi tới địa chỉ mail của quý khách.</H3>
-                            <H3><i class="fa fa-check"></i> Bộ phận chăm sóc khách hàng sẽ liên hệ để xác nhận lại thông tin 1 lần nữa.</H3>
-                            <H3>Cảm ơn Quý Khách Hàng đã tin dùng sản phẩm của PHUKIENPHANTHIET.</H3>
-                        </blockquote>
-                        <div class="article-box single-post">
-                            Hệ thống đang chuyển sang trang chủ vui lòng đợi trong <span style="font-size:30px;color:Red;" id="time">20</span> giây
-                            <script type="text/javascript">
-                                var jgt = 20;
-                                document.getElementById('time').innerHTML = jgt;
-                                function stime() {
-                                    document.getElementById('time').innerHTML = jgt; jgt = jgt - 1;
-                                    if (jgt == 0) { clearInterval(timing); location = '/'; }
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="new-cart">
+                        <div class="stepcart" style="margin:40px 0px; overflow:hidden; clear:both">
+                            <div class="row">
+                                @{
+									var rootCartBO = new CartBLL().checkCuponDiscount();//new CartBLL().GetCartItems(HttpContext.Current.Session["dsIdHangHoa"] as List<string>);
+									var items = rootCartBO.carts;
+									var itemsInBasket = rootCartBO.totalQuantity;
+									if (itemsInBasket == 0 || rootCartBO.totalPrice < 100000)
+									{
+										Response.Redirect("/");
+									}
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                        <div class="cart-right">
+                                            <div class="tit">Đơn hàng:@maDH</div>
+                                            <div class="ctn-info">
+                                                @foreach (var item in items)
+                                                {
+                                                    var urlitem = "/danh-muc/san-pham.aspx?pt=" + item.id;
+                                                    <p>@item.name</p>
+                                                    <ul>
+                                                        <li>
+                                                            <span>Số lượng</span> <strong>
+                                                                @item.quantity
+                                                            </strong>
+                                                        </li>
+                                                        <li>
+                                                            <span>Thành tiền </span><strong class="total">@string.Format("{0:#,##0 đ}", item.totalAfterDiscount)</strong>
+                                                        </li>
+                                                    </ul>
+                                                }
+                                                <ul>
+                                                    <li>
+                                                        <span class="title-total">Tổng tiền</span><strong class="big-total">@string.Format("{0:#,##0 đ}", rootCartBO.totalAfterPriceDisCount)</strong>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">                                     
+										<div class="reg-form cart-left login_content">
+											   <div class="panel-middle panel-shadow">
+													<blockquote>
+														<H2>ĐẶT HÀNG THÀNH CÔNG ! </H2>
+														<H3><i class="fa fa-check"></i> Thông tin đơn hàng đã được gửi tới địa chỉ mail của quý khách.</H3>
+														<H3><i class="fa fa-check"></i> Bộ phận chăm sóc khách hàng sẽ liên hệ để xác nhận lại thông tin 1 lần nữa.</H3>
+														<H3>Cảm ơn Quý Khách Hàng đã tin dùng sản phẩm của PHUKIENPHANTHIET.</H3>
+													</blockquote>
+													<div class="article-box single-post">
+														Hệ thống đang chuyển sang trang chủ vui lòng đợi trong <span style="font-size:30px;color:Red;" id="time">20</span> giây
+														<script type="text/javascript">
+															var jgt = 20;
+															document.getElementById('time').innerHTML = jgt;
+															function stime() {
+																document.getElementById('time').innerHTML = jgt; jgt = jgt - 1;
+																if (jgt == 0) { clearInterval(timing); location = '/'; }
+															}
+															var timing = setInterval("stime();", 2000);
+														</script>
+														<blockquote><p><i>PHUKIENPHANTHIET</i></p></blockquote>
+													</div>
+													<div class="breaking-line"></div>
+											  </div>
+										</div>                                    
+                                    </div>
                                 }
-                                var timing = setInterval("stime();", 2000);
-                            </script>
-                            <blockquote><p><i>PHUKIENPHANTHIET</i></p></blockquote>
-                        </div>
-                        <div class="breaking-line"></div>
+                            </div>  
+                        </div>   
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</div>	
+</div>
+	
+@{ 
+	session["maDonHang"] = null;
+
+	session["dsIdOpLung"] = null;
+	session["dsIdHangHoa"] = null;
+	Dictionary<string, Cupon> cupon = session["dsCupon"] != null ? session["dsCupon"] as Dictionary<string, Cupon> : null;
+    if (cupon!=null)
+    {
+        var Cupon = cupon.Values.FirstOrDefault();
+        if (Cupon.suDung1Lan && Cupon.coHieuLuc)
+        {
+            var contentService = ApplicationContext.Current.Services.ContentService;
+            var content = contentService.GetById(2116);
+            var query = content.Children().Where(o => o.Name == Cupon.name).FirstOrDefault();
+            var coHieuLuc = query.GetValue<bool>("coHieuLuc");
+            if (coHieuLuc)
+            {
+                query.SetValue("coHieuLuc", false);
+                contentService.SaveAndPublishWithStatus(query);
+            }
+        }
+    }
+
+	session["dsCupon"] = null;
+	session["CuponMessage"] = null;
+}
+
+@*<div class="main-wrap">
+    <section class="row_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 45px;">
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</div>*@

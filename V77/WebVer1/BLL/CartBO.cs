@@ -28,7 +28,7 @@ public class CartBO
         get { return basePrice*quantity; }
     }
     public int totalAfterDiscount {
-        get { return basePrice * (100 - disCount) / 100; }
+        get { return quantity*basePrice * (100 - disCount) / 100; }
     }
 
 }

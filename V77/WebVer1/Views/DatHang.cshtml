@@ -7,7 +7,7 @@
         $("#buttonguest").click(function () {
             $.ajax({
                 type: "GET",
-                url: "/umbraco/surface/CartsSurface/DatHang",
+                url: "/umbraco/surface/CartsSurface/DatHangMain",
                 contentType: "application/json",
                 dataType: "json",
                 data: {
@@ -57,13 +57,13 @@
                         <div class="stepcart" style="margin:40px 0px; overflow:hidden; clear:both">
                             <div class="row">
                                 @{
-                                    var rootCartBO = new CartBLL().GetCartItems(HttpContext.Current.Session["dsIdHangHoa"] as List<string>);
-                                    var items = rootCartBO.carts;
-                                    var itemsInBasket = rootCartBO.totalQuantity;
-                                    if (itemsInBasket == 0 || rootCartBO.totalPrice < 100000)
-                                    {
-                                        Response.Redirect("/");
-                                    }
+									var rootCartBO = new CartBLL().checkCuponDiscount();//new CartBLL().GetCartItems(HttpContext.Current.Session["dsIdHangHoa"] as List<string>);
+									var items = rootCartBO.carts;
+									var itemsInBasket = rootCartBO.totalQuantity;
+									if (itemsInBasket == 0 || rootCartBO.totalPrice < 100000)
+									{
+										Response.Redirect("/");
+									}
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                                         <div class="cart-right">
                                             <div class="tit">Giỏ hàng</div>
@@ -79,13 +79,13 @@
                                                             </strong>
                                                         </li>
                                                         <li>
-                                                            <span>Thành tiền </span><strong class="total">@string.Format("{0:#,##0 đ}", item.total)</strong>
+                                                            <span>Thành tiền </span><strong class="total">@string.Format("{0:#,##0 đ}", item.totalAfterDiscount)</strong>
                                                         </li>
                                                     </ul>
                                                 }
                                                 <ul>
                                                     <li>
-                                                        <span class="title-total">Tổng tiền</span><strong class="big-total">@string.Format("{0:#,##0 đ}", rootCartBO.totalPrice)</strong>
+                                                        <span class="title-total">Tổng tiền</span><strong class="big-total">@string.Format("{0:#,##0 đ}", rootCartBO.totalAfterPriceDisCount)</strong>
                                                     </li>
                                                 </ul>
                                             </div>

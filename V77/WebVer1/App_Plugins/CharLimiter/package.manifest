@@ -1,0 +1,29 @@
+﻿﻿{
+	propertyEditors:
+	[
+		{
+			alias: "CharLimiter",
+			name: "Character Limiter",
+			editor:
+			{
+				view:"~/App_Plugins/CharLimiter/charlimiter.editor.html"
+			},
+			prevalues:
+			{
+				fields:
+				[
+					{
+						label: "Number of characters",
+						description: "Characters remaining",
+						key:"limit",
+						view:"number"
+					}
+				]
+			}
+		}
+	],
+	javascript:
+	[
+		"~/App_Plugins/CharLimiter/charlimiter.controller.js"
+	]
+}

@@ -72,7 +72,7 @@
                         }</script>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                    <h1>@chiTietSanPham.name</h1>
+                    <h1>@chiTietSanPham.fullName</h1>
                     <p><strong>Ngày đăng :</strong> @Html.Raw(chiTietSanPham.modifiedDate.ToString("dd/MM/yyyy"))</p>
                     @foreach (var item in chiTietSanPham.inventories)
                     {
@@ -85,10 +85,43 @@
                             <p><strong>@item.branchName :</strong> @(item.onHand > 0 ? "Còn hàng (Không hỗ trợ đặt hàng online)" : "Hết hàng")</p>
                         }
                     }
-                    @if (chiTietSanPham.attributes != null && chiTietSanPham.attributes.Count > 0)
-                    {
-                        <p><strong>@(chiTietSanPham.attributes[0].attributeName) : </strong>@(chiTietSanPham.attributes[0].attributeValue)</p>
-                    }
+                    @{
+						var dsHangCungLoai = new HangHoaBLL().DsHangHoaCungLoai(chiTietSanPham);
+						<p>
+						@if (chiTietSanPham.attributes != null && chiTietSanPham.attributes.Count > 0)
+						{
+							<strong>@(chiTietSanPham.attributes[0].attributeName) : </strong>
+						}
+							@foreach (var item in dsHangCungLoai)
+							{
+								if (item.attributes != null && item.attributes.Count > 0) {
+									if (dsHangCungLoai.IndexOf(item) == dsHangCungLoai.Count - 1)
+									{
+										if (item.id==chiTietSanPham.id)
+										{
+												<b>@(item.attributes[0].attributeValue)  </b>	
+										}
+										else
+										{
+											<a href="/danh-muc/san-pham.aspx?pt=@item.id">@(item.attributes[0].attributeValue) </a>
+										}
+									}
+									else
+									{
+										if (item.id==chiTietSanPham.id)
+										{
+												<b>@(item.attributes[0].attributeValue)  , </b>	
+										}
+										else
+										{
+											<a href="/danh-muc/san-pham.aspx?pt=@item.id">@(item.attributes[0].attributeValue) ,</a>
+										}
+									}
+									
+								}
+							}	
+						</p>
+					}
                     <div class="share">
                         <div class="addthis_native_toolbox"></div>
                     </div>

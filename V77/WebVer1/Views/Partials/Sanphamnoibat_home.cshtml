@@ -1,9 +1,11 @@
 ﻿@try
 {
     var excluedIdCateory = new List<int>() { 300685, 300707 };
-    var pr = MemoryCacheKiot.dsHangHoa.data.Where(o => !excluedIdCateory.Contains(o.categoryId)).OrderByDescending(o => o.modifiedDate).Take(10).ToList();
-
-    foreach (var item in pr)
+    var lstTemp = new List<KiotVietBO.ChiTietHangHoaBO>();
+    var pr = MemoryCacheKiot.dsHangHoa.data.DistinctBy(o => o.id).Where(o => !excluedIdCateory.Contains(o.categoryId)).OrderByDescending(o => o.modifiedDate).Take(30).ToList();
+    lstTemp.AddRange(pr);
+    lstTemp=  lstTemp.DistinctBy(o => o.id).Take(10).ToList();
+    foreach (var item in lstTemp)
     {
         var idsp = @item.id;
         var idd = "addToCartButtonA" + @item.id;
@@ -34,21 +36,21 @@
                 </a>
                 <ul class="function">
                     <li>
-                        <script type="text/javascript">
+                        @*<script type="text/javascript">
     $().ready(function () {
         $('#@idd').click(function () {
             $.ajax({
-                type: "GET",
+            type: "GET",
                 url: "/umbraco/surface/CartsSurface/AddToCart",
                 contentType: "application/json",
                 dataType: "json",
                 data: { "pk": "@idsp" },
                 success: function (data) { $('.count').html(data);},
                 error: function (data) {alert("error");}
-            });
         });
     });
-                        </script>
+});
+                        </script>*@
                         @{
                             var t = item.inventories.Where(o => o.branchId == 13933).FirstOrDefault();
                             if (t != null && t.onHand > 0)

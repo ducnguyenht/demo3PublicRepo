@@ -24,6 +24,7 @@ public class HangHoaBLL
                 var dsHangHoaTheoTrangHienTai = DanhSachHangHoaALL((i*100).ToString(),"100");
                 MemoryCacheKiot.dsHangHoa.data.AddRange(dsHangHoaTheoTrangHienTai.data);
             }
+            MemoryCacheKiot.dsHangHoa.data = MemoryCacheKiot.dsHangHoa.data.DistinctBy(o => o.id).ToList();
         }
         return MemoryCacheKiot.dsHangHoa;
     }
@@ -91,6 +92,26 @@ public class HangHoaBLL
         {
             var dsHangHoaOpLungBaoDa = MemoryCacheKiot.dsHangHoa.data.Where(o => o.categoryId == item.categoryId).OrderByDescending(o=>o.modifiedDate).Take(2).ToList();
             ret.AddRange(dsHangHoaOpLungBaoDa);
+        }
+        return ret;
+    }
+    public List<ChiTietHangHoaBO> DsHangHoaCungLoai(ChiTietHangHoaBO hangHoa)
+    {
+        List<ChiTietHangHoaBO> ret = new List<ChiTietHangHoaBO>();
+        var hangHoaMaster = new ChiTietHangHoaBO();
+        //1.Neu hang hoa la child thi masterProductId != 0
+        if (hangHoa.masterProductId!=0)
+        {
+            //1.1 Tim hang hoa master
+            hangHoaMaster = MemoryCacheKiot.dsHangHoa.data.Where(o => o.id == hangHoa.masterProductId).FirstOrDefault();
+            //1.2 Tim ds hang hoa con
+            ret = MemoryCacheKiot.dsHangHoa.data.Where(o => o.masterProductId == hangHoa.masterProductId).ToList();         
+            ret.Add(hangHoaMaster);            
+        }//2.Hang hoa la master
+        else
+        {//2.1 Tim ds hang hoa con
+            ret = MemoryCacheKiot.dsHangHoa.data.Where(o => o.masterProductId == hangHoa.id).ToList();
+            ret.Add(hangHoa);
         }
         return ret;
     }

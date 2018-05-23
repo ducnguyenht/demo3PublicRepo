@@ -67,7 +67,6 @@ namespace KiotVietBO
 
     public class ChiTietHangHoaBO
     {
-        [Key]
         public int id { get; set; }
         public int retailerId { get; set; }
         public string code { get; set; }

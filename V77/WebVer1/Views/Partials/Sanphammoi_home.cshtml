@@ -18,7 +18,7 @@
                                     var chiTietHangHoas = new List<ChiTietHangHoaBO>();
                                     foreach (var itemChild in item.children)
                                     {
-                                        var pr = MemoryCacheKiot.dsHangHoa.data.Where(o => o.categoryId == itemChild.categoryId);
+                                        var pr = MemoryCacheKiot.dsHangHoa.data.Where(o => o.categoryId == itemChild.categoryId).Where(o=>o.ConHang>0);
                                         chiTietHangHoas.AddRange(pr);
                                     }
                                     Random rnd = new Random();
@@ -54,21 +54,6 @@
                                                 </a>
                                                 <ul class="function">
                                                     <li>
-                                                        <script type="text/javascript">
-                                    $().ready(function () {
-                                        $('#@idd').click(function () {
-                                            $.ajax({
-                                                type: "GET",
-                                                url: "/umbraco/surface/CartsSurface/AddToCart",
-                                                contentType: "application/json",
-                                                dataType: "json",
-                                                data: { "pk": "@idsp" },
-                                                success: function (data) { $('.count').html(data); },
-                                                error: function (data) { alert("error"); }
-                                            });
-                                        });
-                                    });
-                                                        </script>
                                                         @{
                                                             var t = item1.inventories.Where(o => o.branchId == 13933).FirstOrDefault();
                                                             if (t != null && t.onHand > 0)
