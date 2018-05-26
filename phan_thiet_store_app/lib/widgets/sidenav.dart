@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/category_service.dart';
 import '../models/category.dart';
+
+import '../pages/order_history.dart';
 
 class WidgetSideNav extends StatefulWidget {
   final Function displayHomePage;
@@ -48,6 +51,19 @@ class WidgetSideNavState extends State<WidgetSideNav> {
     super.initState();
   }
 
+  static const String PREF_ORDER_HISTORY = "PT-APP-ORDER-HISTORY";
+
+  void navigateToOrderHistory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var orderHistory = prefs.getStringList(PREF_ORDER_HISTORY);
+
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+      builder: (BuildContext context) {
+        return new PageOrderHistory(orderHistory);
+      },
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     var apiCategorySvc = new ApiCategoryService();
@@ -80,6 +96,10 @@ class WidgetSideNavState extends State<WidgetSideNav> {
         },
       ),
       new Divider(),
+      new ListTile(
+        title: new Text('Lịch sử đặt hàng'),
+        onTap: navigateToOrderHistory,
+      ),
       new ListTile(
         title: new Text('Trợ giúp'),
         onTap: () {},

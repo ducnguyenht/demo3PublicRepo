@@ -15,13 +15,28 @@ class PageCheckoutCompleted extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(title: new Text("Hoàn tất đặt hàng")),
-        body: new Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              new Text("Đã hoàn tất đặt hàng với mã: $cartCode"),
-              new RaisedButton(
-                  child: new Text("Trở về trang chủ"),
-                  onPressed: () => backToHomePage(context))
-            ]));
+        body:
+        new Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.sentiment_satisfied,
+              size: 96.0,
+              color: Colors.grey,
+            ),
+            new Container(height: 16.0),
+            new Text('Đã hoàn tất đặt hàng với mã: $cartCode',
+                style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center),
+            new Container(height: 16.0),
+            new RaisedButton(
+                color: Theme.of(context).accentColor,
+                textTheme: ButtonTextTheme.primary,
+                child: new Text("Trở về trang chủ"),
+                onPressed: () => backToHomePage(context))
+          ],
+        )
+    );
   }
 }
