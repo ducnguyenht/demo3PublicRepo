@@ -5,6 +5,7 @@ import '../services/category_service.dart';
 import '../models/category.dart';
 
 import '../pages/order_history.dart';
+import '../pages/contact.dart';
 
 class WidgetSideNav extends StatefulWidget {
   final Function displayHomePage;
@@ -64,6 +65,14 @@ class WidgetSideNavState extends State<WidgetSideNav> {
     ));
   }
 
+  void navigateToContact() {
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+      builder: (BuildContext context) {
+        return new PageContact();
+      },
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     var apiCategorySvc = new ApiCategoryService();
@@ -101,12 +110,8 @@ class WidgetSideNavState extends State<WidgetSideNav> {
         onTap: navigateToOrderHistory,
       ),
       new ListTile(
-        title: new Text('Trợ giúp'),
-        onTap: () {},
-      ),
-      new ListTile(
         title: new Text('Liên hệ'),
-        onTap: () {},
+        onTap: navigateToContact,
       )
     ]));
   }

@@ -18,11 +18,13 @@ class WidgetHomeCategory extends StatefulWidget {
 }
 
 class WidgetHomeCategoryState extends State<WidgetHomeCategory> {
+
   void navigateToCategoryPage(int categoryId, String categoryName) {
-    Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) => new PageCategory(categoryId, categoryName)));
+    Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute<Null>(
+      builder: (BuildContext context) {
+        return new PageCategory(categoryId, categoryName);
+      },
+    ), (Route route) => route.isFirst == true);
   }
 
   List<Widget> getProductCard() {
@@ -50,7 +52,7 @@ class WidgetHomeCategoryState extends State<WidgetHomeCategory> {
               new Expanded(
                   child: new Align(
                       child: new FlatButton(
-                          onPressed: () => this.widget.navigateToCategoryPage(
+                          onPressed: () => this.navigateToCategoryPage(
                               this.widget.productBlock.categoryId,
                               this.widget.productBlock.name),
                           child: new Text('Xem tất cả',
