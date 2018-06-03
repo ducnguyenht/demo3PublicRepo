@@ -78,17 +78,11 @@ class WidgetSideNavState extends State<WidgetSideNav> {
     var apiCategorySvc = new ApiCategoryService();
     return new Drawer(
         child: new ListView(children: <Widget>[
-      new DrawerHeader(
-          child: new Column(
-        children: <Widget>[
-          new Expanded(
-              child: new Text(
-            'Phụ kiện Phan Thiết',
-            style: Theme.of(context).textTheme.title,
-          ))
-        ],
-        crossAxisAlignment: CrossAxisAlignment.start,
-      )),
+      new UserAccountsDrawerHeader(
+          accountName: new Text("Phụ kiện Phan Thiết", style: Theme.of(context).textTheme.title,),
+          accountEmail: null,
+          currentAccountPicture: new CircleAvatar(
+              backgroundImage: new AssetImage("images/avatar.jpg"))),
       new ListTile(
         title: new Text('Trang chủ'),
         onTap: () => widget.displayHomePage(),
