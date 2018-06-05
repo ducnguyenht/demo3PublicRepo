@@ -1,7 +1,6 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@inherits WebVer1.Models.CustomInjectDemo
 @{
-    var pr1 = new ChiNhanhBLL().DanhSachChiNhanh().data;
-    var t = MemoryCacheKiot.dsChiNhanh;
+    var pr1 = chiNhanhService.DanhSachChiNhanh();
     foreach (var item in pr1)
     {
         if (item.branchName != "Kho")
