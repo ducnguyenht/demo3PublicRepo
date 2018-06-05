@@ -1,10 +1,10 @@
-﻿@{ 
-    var pr = new HangHoaBLL().DanhSachOpLungBaoDa();
+﻿@inherits WebVer1.Models.CustomInjectDemo
+@{ 
+    var pr = hangHoaService.DanhSachOpLungBaoDa();
     foreach (var item in pr)
     {
         var urlget = item.images != null ? item.images[0] : "Images/noimageb.png";
         <div class="col3 item">
-            <!--product-->
             <div class="product">
                 <a href="/danh-muc/san-pham?pt=@item.id" title="@item.fullName">
                     <div class="image">
