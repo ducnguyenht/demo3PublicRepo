@@ -1,11 +1,12 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@inherits  WebVer1.Models.CustomInjectDemo
 <section class="breadcrumbs clearfix">
     <a href="/" title="Trang chủ">Trang chủ</a> @Html.Raw("&nbsp;&nbsp;&gt;&nbsp;&nbsp;")
     @{
         var idStr = Request["pt"] as string;
         var idInt = Convert.ToInt32(idStr);
-        var category = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == idInt).FirstOrDefault();
-        var hanghoa = MemoryCacheKiot.dsHangHoa.data.Where(o => o.id == idInt).FirstOrDefault();
+		var test = chiNhanhService.DanhSachChiNhanh();
+        var category =  nhomHangService.TimNhomHangTheoId(idInt);     
+        var hanghoa = hangHoaService.ChiTietHangHoa(idInt);    
         if (category != null)
         {
             switch (category.level)
@@ -14,13 +15,13 @@
                     @category.categoryName
                     break;
                 case 1:
-                    var categoryParent = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == category.parentId).FirstOrDefault();
+                    var categoryParent = nhomHangService.TimNhomHangTheoId(category.parentId);     
                     <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a> @(" > ")
                     @category.categoryName
                     break;
                 case 2:
-                    categoryParent = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == category.parentId).FirstOrDefault();
-                    var categoryRoot = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == categoryParent.parentId).FirstOrDefault();
+                    categoryParent = nhomHangService.TimNhomHangTheoId(category.parentId);     
+                    var categoryRoot = nhomHangService.TimNhomHangTheoId(categoryParent.parentId);     
                     <a href="/danh-muc?pt=@categoryRoot.categoryId" title="@categoryRoot.categoryName">@categoryRoot.categoryName</a>
                     @(" > ")
                     <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a>
@@ -33,7 +34,7 @@
         {
             if (hanghoa != null)
             {
-                category = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == hanghoa.categoryId).FirstOrDefault();
+                category = nhomHangService.TimNhomHangTheoId(hanghoa.categoryId);     
                 if (category != null)
                 {
                     switch (category.level)
@@ -42,13 +43,13 @@
                             @category.categoryName
                             break;
                         case 1:
-                            var categoryParent = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == category.parentId).FirstOrDefault();
+                            var categoryParent = nhomHangService.TimNhomHangTheoId(category.parentId);     
                             <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a> @(" > ")
                             @category.categoryName
                             break;
                         case 2:
-                            categoryParent = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == category.parentId).FirstOrDefault();
-                            var categoryRoot = new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == categoryParent.parentId).FirstOrDefault();
+                            categoryParent = nhomHangService.TimNhomHangTheoId(category.parentId);     
+                            var categoryRoot = nhomHangService.TimNhomHangTheoId(categoryParent.parentId);     
                             <a href="/danh-muc?pt=@categoryRoot.categoryId" title="@categoryRoot.categoryName">@categoryRoot.categoryName</a>
                             @(" > ")
                             <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a>
