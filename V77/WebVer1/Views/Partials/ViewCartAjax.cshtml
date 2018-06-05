@@ -1,5 +1,6 @@
-﻿@{
-	var rootCartBO = new CartBLL().checkCuponDiscount();//new CartBLL().GetCartItems(HttpContext.Current.Session["dsIdHangHoa"] as List<string>);
+﻿@inherits WebVer1.Models.CustomInjectDemo
+@{
+	var rootCartBO = cartService.checkCuponDiscount();
 	float sumprice = 0;
 	var items = rootCartBO.carts;
 	var itemsInBasket = rootCartBO.totalQuantity;
@@ -47,6 +48,9 @@
 					contentType: "application/json",
 					data: { "cupon": pk },
 					dataType: "json",
+					beforeSend: function () { $('#loadingImg').show(); },
+                    complete: function () { $('#loadingImg').hide(); },
+
 					success: function (data) {
 						$.get('/giohangload', function (json) {
 							//$('.count').html(JSON.parse(res.count));
@@ -219,6 +223,8 @@
 					    
 					}
 				}
+				<img style="display: none;" id="loadingImg" src="/media/1012/load.gif" />
+
 			</div>
 		</div>
 	</li>
