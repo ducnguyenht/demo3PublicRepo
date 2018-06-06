@@ -67,12 +67,7 @@
             {
                 foreach (var page in selection.OrderBy("Level"))
                 {
-                    if (page.Level == 1)
-                    {
-
-                    }
-                    else
-                    {
+                    if (page.Level != 1){
                         <a href="@page.Url" title="@page.Name">@page.Name</a>@Html.Raw("&nbsp;&nbsp;&gt;&nbsp;&nbsp;")
                     }
                 }
@@ -80,5 +75,4 @@
             }
         }
     }
-
 </section>
