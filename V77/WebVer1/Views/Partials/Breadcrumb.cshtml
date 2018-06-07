@@ -4,8 +4,7 @@
     @{
         var idStr = Request["pt"] as string;
         var idInt = Convert.ToInt32(idStr);
-		var test = chiNhanhService.DanhSachChiNhanh();
-        var category =  nhomHangService.TimNhomHangTheoId(idInt);     
+        var category =  nhomHangService.ChiTietNhomHangPlane(idInt);     
         var hanghoa = hangHoaService.ChiTietHangHoa(idInt);    
         if (category != null)
         {
@@ -15,13 +14,13 @@
                     @category.categoryName
                     break;
                 case 1:
-                    var categoryParent = nhomHangService.TimNhomHangTheoId(category.parentId);     
+                    var categoryParent = nhomHangService.ChiTietNhomHangPlane(category.parentId);     
                     <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a> @(" > ")
                     @category.categoryName
                     break;
                 case 2:
-                    categoryParent = nhomHangService.TimNhomHangTheoId(category.parentId);     
-                    var categoryRoot = nhomHangService.TimNhomHangTheoId(categoryParent.parentId);     
+                    categoryParent = nhomHangService.ChiTietNhomHangPlane(category.parentId);     
+                    var categoryRoot = nhomHangService.ChiTietNhomHangPlane(categoryParent.parentId);     
                     <a href="/danh-muc?pt=@categoryRoot.categoryId" title="@categoryRoot.categoryName">@categoryRoot.categoryName</a>
                     @(" > ")
                     <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a>
@@ -34,7 +33,7 @@
         {
             if (hanghoa != null)
             {
-                category = nhomHangService.TimNhomHangTheoId(hanghoa.categoryId);     
+                category = nhomHangService.ChiTietNhomHangPlane(hanghoa.categoryId);     
                 if (category != null)
                 {
                     switch (category.level)
@@ -43,13 +42,13 @@
                             @category.categoryName
                             break;
                         case 1:
-                            var categoryParent = nhomHangService.TimNhomHangTheoId(category.parentId);     
+                            var categoryParent = nhomHangService.ChiTietNhomHangPlane(category.parentId);     
                             <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a> @(" > ")
                             @category.categoryName
                             break;
                         case 2:
-                            categoryParent = nhomHangService.TimNhomHangTheoId(category.parentId);     
-                            var categoryRoot = nhomHangService.TimNhomHangTheoId(categoryParent.parentId);     
+                            categoryParent = nhomHangService.ChiTietNhomHangPlane(category.parentId);     
+                            var categoryRoot = nhomHangService.ChiTietNhomHangPlane(categoryParent.parentId);     
                             <a href="/danh-muc?pt=@categoryRoot.categoryId" title="@categoryRoot.categoryName">@categoryRoot.categoryName</a>
                             @(" > ")
                             <a href="/danh-muc?pt=@categoryParent.categoryId" title="@categoryParent.categoryName">@categoryParent.categoryName</a>
