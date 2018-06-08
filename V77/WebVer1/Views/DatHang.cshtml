@@ -1,10 +1,10 @@
-﻿@*@inherits Umbraco.Web.Mvc.UmbracoTemplatePage*@
-@inherits WebVer1.Models.CustomInjectDemo
+﻿@inherits WebVer1.Models.CustomInjectDemo
 @{
     Layout = "MasterPage.cshtml";
 }
 <script type="text/javascript">
     $().ready(function () {
+        $('#loadingImg').hide();
         $("#buttonguest").click(function () {
             $.ajax({
                 type: "GET",
@@ -18,6 +18,13 @@
                     "address": $('#contactFormAdress').val(),
                     "note": $('#contactFormMessage').val()
                 },
+                beforeSend: function () { 
+                    $('#buttonguest').bind('click', false);
+                    $('#buttonguest').click(function () {return false;});
+                    //$('#buttonguest').hide();
+                    $('#loadingImg').show();
+                },
+                complete: function () { $('#loadingImg').hide(); },
                 success: function (data) {
                     if (data==="Ok") {
                         location.href = "/hoantat";
@@ -59,7 +66,6 @@
                             <div class="row">
                                 @{
 									var rootCartBO = cartService.checkCuponDiscount();
-									//var rootCartBO = new CartBLL().checkCuponDiscount();//new CartBLL().GetCartItems(HttpContext.Current.Session["dsIdHangHoa"] as List<string>);
 									var items = rootCartBO.carts;
 									var itemsInBasket = rootCartBO.totalQuantity;
 									if (itemsInBasket == 0 || rootCartBO.totalPrice < 100000)
@@ -131,6 +137,9 @@
                                                         <div class="form-right col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                                             <textarea rows="4" cols="40" name="contactFormMessage" id="contactFormMessage"></textarea>
                                                         </div>
+                                                    </div>
+                                                    <div class="row-form clearfix">
+                                                         <img id="loadingImg" src="~/media/1012/load.gif" />
                                                     </div>
                                                     <div class="row-form clearfix loadingg">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
