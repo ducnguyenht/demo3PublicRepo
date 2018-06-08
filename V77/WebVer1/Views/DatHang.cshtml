@@ -1,4 +1,5 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@*@inherits Umbraco.Web.Mvc.UmbracoTemplatePage*@
+@inherits WebVer1.Models.CustomInjectDemo
 @{
     Layout = "MasterPage.cshtml";
 }
@@ -57,7 +58,8 @@
                         <div class="stepcart" style="margin:40px 0px; overflow:hidden; clear:both">
                             <div class="row">
                                 @{
-									var rootCartBO = new CartBLL().checkCuponDiscount();//new CartBLL().GetCartItems(HttpContext.Current.Session["dsIdHangHoa"] as List<string>);
+									var rootCartBO = cartService.checkCuponDiscount();
+									//var rootCartBO = new CartBLL().checkCuponDiscount();//new CartBLL().GetCartItems(HttpContext.Current.Session["dsIdHangHoa"] as List<string>);
 									var items = rootCartBO.carts;
 									var itemsInBasket = rootCartBO.totalQuantity;
 									if (itemsInBasket == 0 || rootCartBO.totalPrice < 100000)
