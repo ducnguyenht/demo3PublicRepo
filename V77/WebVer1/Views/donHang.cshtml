@@ -1,6 +1,5 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@inherits WebVer1.Models.CustomInjectDemo
 @using Newtonsoft.Json.Linq;
-@using WebVer1.BLL;
 @{
 	Layout = "MasterPage.cshtml";
 }
@@ -18,7 +17,6 @@
 	});
 </script>
 @{
-	var urlpage = Model.Content.Url;
 	var items = "";
 	var rq = Request["q"] == "" || Request["q"] == null ? "" : Request["q"];
 	if (Session["items"] == null || (Session["items"] != Request["q"] && rq != ""))
@@ -64,11 +62,11 @@
 											<div class="stepcart" style="overflow:hidden; clear:both">
 												<div class="row">
 													@if (checkPhoneNumber && !string.IsNullOrEmpty(items))
-													{//neu la so dien thoai
+													{    
 														if (items.Count() >= 10)
 														{
 															dynamic ghnDetail = null;
-															var result = new DatHangBLL().TimKiemDonHang(items,out ghnDetail);
+															var result = datHangService.TimKiemDonHang(items,out ghnDetail);  
 															data = JObject.Parse(result);
 															if (data.Data != null && data.Data.Count > 0)
 															{
@@ -84,7 +82,7 @@
 																			<div class="ctn-info">
 																				@foreach (var orderDetail in donHang.OrderDetails)
 																				{
-																					var hangHoa = new HangHoaBLL().ChiTietHangHoa(orderDetail.ProductId.ToString());
+																					var hangHoa = hangHoaService.ChiTietHangHoa((int)orderDetail.ProductId); 
 
 																					<p>@Html.Raw(hangHoa.name)</p>
 
@@ -111,12 +109,12 @@
 																			<div class="tit" style="background:#fd0000 !important">
 																				@{
 																				    ghnDetail = null;
-																					result = new DatHangBLL().TimKiemDonHang(donHang.Code.ToString(),out ghnDetail);
+																					result = datHangService.TimKiemDonHang(donHang.Code.ToString(),out ghnDetail);  
 																					if (ghnDetail != null)
 																					{
 																						string trangThaiGiaoHangEn=ghnDetail.data.CurrentStatus.ToString();
 																						string trangThaiGiaoHangVi="";
-																						switch (trangThaiGiaoHangEn)//System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(trangThaiGiaoHangEn)
+																						switch (trangThaiGiaoHangEn)
 																						{
 																							case "Cancel":
 																								trangThaiGiaoHangVi="Hủy đơn hàng.";
@@ -188,11 +186,11 @@
 														}
 													}
 													else if (checkPhoneNumber == false && !string.IsNullOrEmpty(items))
-													{//neu la ma don hang
+													{    
 														if (items.Count() >= 8)
 														{
 															dynamic ghnDetail = null;
-															var result = new DatHangBLL().TimKiemDonHang(items,out ghnDetail);
+															var result = datHangService.TimKiemDonHang(items,out ghnDetail);  
 															data = JObject.Parse(result);
 															if (data.Data != null && data.Data.Count > 0)
 															{
@@ -207,7 +205,7 @@
 																		<div class="ctn-info">
 																			@foreach (var orderDetail in donHang.OrderDetails)
 																			{
-																				var hangHoa = new HangHoaBLL().ChiTietHangHoa(orderDetail.ProductId.ToString());
+																				var hangHoa = hangHoaService.ChiTietHangHoa((int)orderDetail.ProductId);//.ToString() 
 
 																				<p>@Html.Raw(hangHoa.name)</p>
 
@@ -236,7 +234,7 @@
 																			{
 																				string trangThaiGiaoHangEn=ghnDetail.data.CurrentStatus.ToString();
 																				string trangThaiGiaoHangVi="";
-																				switch (trangThaiGiaoHangEn)//System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(trangThaiGiaoHangEn)
+																				switch (trangThaiGiaoHangEn)
 																				{
 																					case "Cancel":
 																						trangThaiGiaoHangVi="Hủy đơn hàng.";
@@ -275,14 +273,6 @@
 																			{
 																				<span>Đơn hàng đang chờ xử lý.</span>
 																			}
-																			@*@if (donHang.StatusValue == "Phiếu tạm")
-																			{
-																				<span>Đang giao hàng</span>
-																			}
-																			else
-																			{
-																				<span>@donHang.StatusValue</span>
-																			}*@
 																		</div>
 																	</div>
 																</div>
