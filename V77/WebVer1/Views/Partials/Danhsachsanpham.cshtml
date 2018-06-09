@@ -9,13 +9,13 @@
 		currentPage = 1;
 	}
 	currentPage--;
-	var dsNhomHang = nhomHangService.DSNhomHangTree();//MemoryCacheKiot.dsNhomHang.data;
+	var dsNhomHang = nhomHangService.DSNhomHangTree();
 	var categoryIdInt = Convert.ToInt32(categoryId);
-	var nhomHangWithLevel = nhomHangService.ChiTietNhomHangPlane(categoryIdInt);//new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == categoryIdInt).FirstOrDefault();
+	var nhomHangWithLevel = nhomHangService.ChiTietNhomHangPlane(categoryIdInt);     
 	switch (nhomHangWithLevel.level)
 	{
 		case 0:
-			var nhomHangLv0 = nhomHangService.ChiTietNhomHangTree(categoryIdInt);//dsNhomHang.Where(o => o.categoryId == categoryIdInt).FirstOrDefault();
+			var nhomHangLv0 = nhomHangService.ChiTietNhomHangTree(categoryIdInt);    
 			if (nhomHangLv0.children != null && nhomHangLv0.children.Count > 0)
 			{
 				foreach (var nhomHangLv1 in nhomHangLv0.children)
@@ -36,7 +36,7 @@
 										@{
 											if (!nhomHangLv1.hasChild)
 											{
-												var dsHangHoaChild = hangHoaService.DanhSachHangHoa(nhomHangLv1.categoryId.ToString(), "0", null, "8");//new HangHoaBLL().DanhSachHangHoa(nhomHangLv1.categoryId.ToString(), "0", null, "8");
+												var dsHangHoaChild = hangHoaService.DanhSachHangHoa(nhomHangLv1.categoryId.ToString(), "0", null, "8");    
 												if (dsHangHoaChild.data != null && dsHangHoaChild.data.Count() != 0)
 												{
 													foreach (var item in dsHangHoaChild.data)
@@ -95,11 +95,11 @@
 											}
 											else
 											{
-												var item = nhomHangService.ChiTietNhomHangPlane(nhomHangLv1.categoryId);//new NhomHangBLL().DanhNhomHangPlane().Where(o => o.categoryId == nhomHangLv1.categoryId).FirstOrDefault();
+												var item = nhomHangService.ChiTietNhomHangPlane(nhomHangLv1.categoryId);     
 												var chiTietHangHoas = new List<ChiTietHangHoaBO>();
 												foreach (var itemChild in item.children)
 												{
-													var pr = hangHoaService.DSHangHoaTheoCategory(itemChild.categoryId);//MemoryCacheKiot.dsHangHoa.data.Where(o => o.categoryId == itemChild.categoryId);
+													var pr = hangHoaService.DSHangHoaTheoCategory(itemChild.categoryId);    
 													chiTietHangHoas.AddRange(pr);
 												}
 												Random rnd = new Random();
@@ -156,9 +156,7 @@
 														</div>
 													</div>
 												}
-
 											}
-
 										}
 									</div>
 								</div>
@@ -171,7 +169,7 @@
 		case 1:
 			if (!nhomHangWithLevel.hasChild)
 			{
-				var rootHangHoa = hangHoaService.DanhSachHangHoa(categoryId, currentPage.ToString(), sx);//new HangHoaBLL().DanhSachHangHoa(categoryId, currentPage.ToString(), sx);
+				var rootHangHoa = hangHoaService.DanhSachHangHoa(categoryId, currentPage.ToString(), sx);   
 				var pr = rootHangHoa.data;
 				if (rootHangHoa.total != 0)
 				{
@@ -356,7 +354,7 @@
 										</h2>
 										<div class="row">
 											@{
-												var dsHangHoaChild = hangHoaService.DanhSachHangHoa(chiTietNhomHangCon.categoryId.ToString(), "0", null, "8");// new HangHoaBLL().DanhSachHangHoa(chiTietNhomHangCon.categoryId.ToString(), "0", null, "8");
+												var dsHangHoaChild = hangHoaService.DanhSachHangHoa(chiTietNhomHangCon.categoryId.ToString(), "0", null, "8");     
 												if (dsHangHoaChild.data != null && dsHangHoaChild.data.Count() != 0)
 												{
 													foreach (var item in dsHangHoaChild.data)
@@ -423,7 +421,7 @@
 			}
 			break;
 		case 2:
-			var rootHangHoa1 = hangHoaService.DanhSachHangHoa(categoryId, currentPage.ToString(), sx);//new HangHoaBLL().DanhSachHangHoa(categoryId, currentPage.ToString(), sx);
+			var rootHangHoa1 = hangHoaService.DanhSachHangHoa(categoryId, currentPage.ToString(), sx);   
 			var pr1 = rootHangHoa1.data;
 			if (rootHangHoa1.total != 0)
 			{
