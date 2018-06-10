@@ -58,6 +58,14 @@ class WidgetSideNavState extends State<WidgetSideNav> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var orderHistory = prefs.getStringList(PREF_ORDER_HISTORY);
 
+    //if (orderHistory == null || orderHistory.length == 0) {
+    //  orderHistory = new List<String>();
+    //  orderHistory.add("1");
+    //  orderHistory.add("2");
+    //  orderHistory.add("3");
+    //  await prefs.setStringList(PREF_ORDER_HISTORY, orderHistory);
+    //}
+
     Navigator.of(context).push(new MaterialPageRoute<Null>(
       builder: (BuildContext context) {
         return new PageOrderHistory(orderHistory);
